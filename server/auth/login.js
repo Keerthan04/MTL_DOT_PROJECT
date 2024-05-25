@@ -13,7 +13,7 @@ async function login(req,res){
         }
         const user = await db.check_userid(user_id);//check if user exist
         console.log(user);
-        if(!user){
+        if(user ===  null){
             res.status(400).send({message: "Wrong user_id or user_id doesnt exist"});
         }
         else{
