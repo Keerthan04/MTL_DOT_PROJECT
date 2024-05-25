@@ -1,0 +1,151 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ebe8e8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login {
+  background-color: rgb(249, 247, 247);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  height: 60vh;
+  width: 60vh;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
+}
+
+img {
+  width: 4rem;
+  height: 4rem;
+}
+
+h2 {
+  margin: 0;
+  color: #333;
+  font-size: 2rem;
+}
+
+#dot {
+  color: #1b84e7;
+}
+
+#mmnl {
+  color: #968ba9;
+}
+
+h3 {
+  color: #968ba9;
+  font-size: 1.5rem;
+  margin-top: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 200px;
+  font-size: 14px;
+  background-color: #f0f0f0;
+}
+
+input[type="submit"] {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 3px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+  .login {
+    width: 80vw;
+    height: auto;
+    padding: 15px;
+  }
+
+  img {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    height: auto;
+    padding: 10px;
+  }
+
+  .login {
+    width: 100vw;
+    height: auto;
+    padding: 10px;
+    box-shadow: none;
+  }
+
+  img {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+  }
+
+  input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+
