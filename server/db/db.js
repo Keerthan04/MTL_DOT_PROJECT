@@ -66,6 +66,37 @@ async function check_password(user_id){
     }
 }
 
+//make the time diff calculation at the frontend only as based on that the reason_of_delay has to be poped up so 
+async function scheduling_entry(req,res){
+    try{
+        const pool = await sql.connect(config);
+        const user_id = req.user_id;//got directly from the req object
+        const {pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,pub} = req.body;
+        console.log(difference_time);
+        console.log(reason_for_delay);
+        if(!pub_date || !ed_name || !schedule_time || !actual_time || !difference_time || !no_of_pages || !reason_for_delay || !unit || !pub){
+            return res.status(400).json({message:"Please fill all the fields"});
+        }
+        //sending reason for delay as " "(empty) if no reason for delay(as time diff is "0")
+        //if no diff time both the reason as "" and diff time 0 has to be sent and make if delay required of the reason of delay so that not empty it is
+        const delay_required = difference_time != "0" ? true : false; //if delay then as "0" else a string so 
+        //if there is a delay then
+        //diff_time is "0" in req obj and reason is " " VVIP
+        if(delay_required){
+            const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,pub) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}',${no_of_pages},'${reason_for_delay}','${unit}','${pub}');`);
+            console.log(result);
+            res.status(200).send({message: "Scheduling entry saved"});
+        }
+        else{
+            const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,pub) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00',${no_of_pages},null,'${unit}','${pub}');`);
+            console.log(result);
+            res.status(200).send({message: "Scheduling entry saved"});
+        }
+    }catch(error){
+        console.log(error);
+        throw error;
+    }
+}
 async function docusers(email) {
     const client = await pool.connect();
     console.log(email);
@@ -553,4 +584,4 @@ async function docAppointmentStatus(req,res){
         client.release();
     }
 }
-module.exports = { docusers,docpassword,doctor_id,patient_id,patusers,patpassword,getpatientData, addpatientData, dashboardSend,availableDoctors,appointmentSlots,bookAppointment,getquestions,recommend,getdoctorData,docdashboardSend,getdocpatientData,docPrescribe,docTest,docAppointmentStatus,showDiseases,check_userid,check_password};
+module.exports = { docusers,docpassword,doctor_id,patient_id,patusers,patpassword,getpatientData, addpatientData, dashboardSend,availableDoctors,appointmentSlots,bookAppointment,getquestions,recommend,getdoctorData,docdashboardSend,getdocpatientData,docPrescribe,docTest,docAppointmentStatus,showDiseases,check_userid,check_password,scheduling_entry};
