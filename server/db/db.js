@@ -36,7 +36,8 @@ async function check_userid(user_id){
     try{
         const pool = await sql.connect(config);
         const result = await pool.request().query(`select user_id from Login where user_id = '${user_id}'`);
-        if(result.recordsets.length === 0){
+        console.log(result);
+        if(result.recordsets[0].length === 0){//result.recordsets[0] will be the main thing
             return null;
         }
         else{

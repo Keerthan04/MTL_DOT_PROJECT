@@ -24,6 +24,9 @@ body {
   margin-top: 10px;
 }
 
+.error{
+  color: red;
+}
 img {
   width: 4rem;
   height: 4rem;
@@ -69,6 +72,7 @@ input[type="password"] {
   width: 200px;
   font-size: 14px;
   background-color: #f0f0f0;
+  color: #000;
 }
 
 input[type="submit"] {

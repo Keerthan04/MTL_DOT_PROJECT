@@ -32,4 +32,7 @@ app.listen(PORT, () => {
 //1.error to check and same error to be put to frontend
 //2.time diff and all in frontend only and also to check all the things and adding to body of the req to be handled
 //3. some checks of db like triggers same date no and all in backend and all shd be done and its error showing and all
+//frontend ka
+//4.home page access only if login then only shd be done that also see
+//5. the home page ka is done but cookie or anything else shd be done to be better 
 module.exports = app;
