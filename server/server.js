@@ -35,4 +35,7 @@ app.listen(PORT, () => {
 //frontend ka
 //4.home page access only if login then only shd be done that also see
 //5. the home page ka is done but cookie or anything else shd be done to be better 
+//6. machine stops logic shd be cheked
+//7. the backend full checking of each req body ka part remaining
+//8. the production the printing part shd be made proper like the trigger and all the time ka functionalities shd be checked
 module.exports = app;
