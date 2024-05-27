@@ -38,4 +38,5 @@ app.listen(PORT, () => {
 //6. machine stops logic shd be cheked
 //7. the backend full checking of each req body ka part remaining
 //8. the production the printing part shd be made proper like the trigger and all the time ka functionalities shd be checked
+//9. the report thing shd be done yet
 module.exports = app;
