@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import logo from './tmg-logo.jpg';
+import logo from  '../src/images/tmg-logo.jpg';
 import { useNavigate } from 'react-router-dom';
 import Home from './Home'; // Import Home component
 
@@ -36,21 +36,25 @@ function Login() {
   };
 
   return (
-    <div className="login">
-      <img src={logo} alt="school" id="img" />
-      <h2><span id="dot">DOT</span><span id='mmnl'>-MMNL</span></h2>
-      <h3>Login</h3>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-        </label>
-        <label>
-          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-      {error && <label className="error">{error}</label>}
+    <>
+    <div className="body">
+      <div className="login">
+        <img src={logo} alt="school" id="img" />
+        <h2><span id="dot">DOT</span><span id='mmnl'>-MMNL</span></h2>
+        <h3>Login</h3>
+        <form onSubmit={handleSubmit}>
+          <label>
+            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          </label>
+          <label>
+            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        {error && <label className="error">{error}</label>}
+      </div>
     </div>
+  </>
   );
 }
 
