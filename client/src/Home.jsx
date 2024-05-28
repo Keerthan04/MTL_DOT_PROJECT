@@ -8,9 +8,10 @@ function Home() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const location = useLocation(); // Use useLocation to access passed state
-
+  const username = location.state?.username;
   useEffect(() => {
-    const token = location.state?.token; // Access token from location state
+    const token = location.state?.token;
+     // Access token from location state
     if (!token) {
       setError("404 not loged in");
       return;
@@ -49,7 +50,7 @@ function Home() {
           </h2>
         </div>
         <div className="head-right">
-          <h4>Hello</h4>
+          <h4>Hello <span className="user">{username}</span></h4>
           <button>Logout</button>
         </div>
       </header>
@@ -63,11 +64,11 @@ function Home() {
               <div className="entrycontent">
                 <CardOne name="Scheduling" />
                 <CardOne name="Editorial" />
-                <CardOne name="Prepress" />
+                <CardOne name="Prepress"  />
                 <CardOne name="RIP" />
-                <CardOne name="CTP" />
-                <CardOne name="Machstop" />
-                <CardOne name="Production" />
+                <CardOne name="CTP"  />
+                <CardOne name="Machine stop" />
+                <CardOne name="Production"/>
               </div>
             </div>
             <div className="report">
@@ -88,7 +89,7 @@ function Home() {
         </div>
       </div>
       <footer>
-        <h3>Footer</h3>
+        <h3>Copyright 2019 © All Rights Reserved. The Manipal Group</h3>
       </footer>
     </div>
   );

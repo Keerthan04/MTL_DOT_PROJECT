@@ -3,41 +3,42 @@ import axios from 'axios';
 import './App.css';
 import logo from  '../src/images/tmg-logo.jpg';
 import { useNavigate } from 'react-router-dom';
-import Home from './Home'; // Import Home component
-
+import Home from './Home';
+import SignInOne from './components/login';
+// Import Home component
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [token, setToken] = useState(null); // State to store token
-  const navigate = useNavigate();
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [error, setError] = useState('');
+  // const [token, setToken] = useState(null); // State to store token
+  // const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setError('');
-    axios.post('http://localhost:3000/auth/login', {
-      user_id: username,
-      password: password
-    })
-    .then((res) => {
-      if (res.status === 200) {
-        const token = res.data.token;
-        setToken(token); // Store the token in state
-        navigate('/home', { state: { token } }); // Pass token as state in navigate
-      }
-    })
-    .catch((err) => {
-      if (err.response) {
-        setError(err.response.data.message);
-      } else {
-        setError('An error occurred. Please try again.');
-      }
-    });
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   setError('');
+  //   axios.post('http://localhost:3000/auth/login', {
+  //     user_id: username,
+  //     password: password
+  //   })
+  //   .then((res) => {
+  //     if (res.status === 200) {
+  //       const token = res.data.token;
+  //       setToken(token); // Store the token in state
+  //       navigate('/home', { state: { token } }); // Pass token as state in navigate
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     if (err.response) {
+  //       setError(err.response.data.message);
+  //     } else {
+  //       setError('An error occurred. Please try again.');
+  //     }
+  //   });
+  // };
 
   return (
     <>
-    <div className="body">
+    {/* <div className="body">
       <div className="login">
         <img src={logo} alt="school" id="img" />
         <h2><span id="dot">DOT</span><span id='mmnl'>-MMNL</span></h2>
@@ -53,7 +54,8 @@ function Login() {
         </form>
         {error && <label className="error">{error}</label>}
       </div>
-    </div>
+    </div> */}
+    <SignInOne></SignInOne>
   </>
   );
 }

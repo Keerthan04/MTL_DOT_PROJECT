@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .body {
   display: flex;
   flex-direction: column;
@@ -7,9 +10,13 @@
 }
 #dot {
   color: #1b84e7;
+  font-weight: bold;
+  font-size: 25px;
 }
 #mmnl {
   color: #968ba9;
+  font-weight: bold;
+  font-size: 25px;
 }
 header {
   display: flex;
@@ -21,13 +28,18 @@ header {
 .head-left {
   display: flex;
   align-items: center;
+  gap:20px;
 }
-
+.user{
+  color:#007bff;
+  font-weight: bold;
+}
 .head-right {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 button {
   background-color: #007bff;
   border: none;
