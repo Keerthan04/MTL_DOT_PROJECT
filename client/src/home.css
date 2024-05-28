@@ -64,7 +64,7 @@ button:hover {
   flex-grow: 1;
   padding: 20px;
 }
-.content {
+.contents {
   display: flex;
   flex-direction: column;
   gap: 20px;

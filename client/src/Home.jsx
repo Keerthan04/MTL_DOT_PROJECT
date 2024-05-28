@@ -7,10 +7,12 @@ import CardOne from "./components/card";
 function Home() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
+  const [token,settoken]= useState("");
   const location = useLocation(); // Use useLocation to access passed state
   const username = location.state?.username;
   useEffect(() => {
     const token = location.state?.token;
+    settoken(token);
      // Access token from location state
     if (!token) {
       setError("404 not loged in");
@@ -56,14 +58,14 @@ function Home() {
       </header>
       <div className="main">
         <div className="below">
-          <div className="content">
+          <div className="contents">
             <div className="entry">
               <div className="headername">
                 <h4>ENTRY</h4>
               </div>
               <div className="entrycontent">
                 <CardOne name="Scheduling" />
-                <CardOne name="Editorial" />
+                <CardOne name="Editorial" Token={token} Username ={username}/>{/*since for each route we need the token is sent as props only */}
                 <CardOne name="Prepress"  />
                 <CardOne name="RIP" />
                 <CardOne name="CTP"  />
@@ -89,7 +91,7 @@ function Home() {
         </div>
       </div>
       <footer>
-        <h3>Copyright 2019 © All Rights Reserved. The Manipal Group</h3>
+        <h3>Copyright 2019 © All Rights Reserved. The Manipal Group</h3>
       </footer>
     </div>
   );

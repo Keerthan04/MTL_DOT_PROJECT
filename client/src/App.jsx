@@ -1,9 +1,4 @@
-import { useState } from 'react';
-import axios from 'axios';
 import './App.css';
-import logo from  '../src/images/tmg-logo.jpg';
-import { useNavigate } from 'react-router-dom';
-import Home from './Home';
 import SignInOne from './components/login';
 // Import Home component
 function Login() {
