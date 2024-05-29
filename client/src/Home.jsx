@@ -64,13 +64,13 @@ function Home() {
                 <h4>ENTRY</h4>
               </div>
               <div className="entrycontent">
-                <CardOne name="Scheduling" />
+                <CardOne name="Scheduling" Token={token} Username ={username}/>
                 <CardOne name="Editorial" Token={token} Username ={username}/>{/*since for each route we need the token is sent as props only */}
-                <CardOne name="Prepress"  />
-                <CardOne name="RIP" />
-                <CardOne name="CTP"  />
-                <CardOne name="Machine stop" />
-                <CardOne name="Production"/>
+                <CardOne name="Prepress" Token={token} Username ={username} />
+                <CardOne name="RIP" Token={token} Username ={username}/>
+                <CardOne name="CTP" Token={token} Username ={username} />
+                <CardOne name="Machine stop" Token={token} Username ={username} />
+                <CardOne name="Production" Token={token} Username ={username}/>
               </div>
             </div>
             <div className="report">

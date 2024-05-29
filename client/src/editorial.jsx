@@ -6,10 +6,13 @@ import { useLocation } from "react-router-dom";
 import "./home.css";
 import Logo from '../src/images/tmg-logo.jpg';
 import './editorial.css';
+import Dropdown from "./components/dropdownbutton";
 
 function Editorial() {
+
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
+  const [submit,setsubmit] = useState("");
   const [entryShowDropdown, setEntryShowDropdown] = useState(false);
   const [reportShowDropdown, setReportShowDropdown] = useState(false);
 
@@ -61,10 +64,6 @@ function Editorial() {
       });
   }, [token]);
 
-  if (error) {
-    return <div style={{ color: "white" }}>{error}</div>;
-  }
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormValues({
@@ -85,7 +84,7 @@ function Editorial() {
       },
     })
       .then((res) => {
-        setError('');
+        setsubmit(res.data.message);
         setData(res.data);
       })
       .catch((err) => {
@@ -103,7 +102,7 @@ function Editorial() {
         <header>
           <div className="head-left">
             <img src={Logo} alt="Logo" />
-            <h2><span id="dot">DOT</span><span id='mmnl'>-MMNL</span></h2>
+            <h2><span id="dot">DOT</span><span id='mmnl'>-MTL</span></h2>
           </div>
           <div className="head-right">
             <h4>Hello <span className="user">{username}</span></h4>
@@ -116,13 +115,13 @@ function Editorial() {
               <button onClick={handleEntryDropdownToggle}>Entry</button>
               {entryShowDropdown && (
                 <div className="dropdown">
-                  <button>Scheduling</button>
-                  <button>Editorial</button>
-                  <button>RIP</button>
-                  <button>CTP</button>
-                  <button>Prepress</button>
-                  <button>Machine Stop</button>
-                  <button>Production</button>
+                  <Dropdown name="Scheduling" Token={token} Username={username}/>{/* for the dropdown se navigate*/}
+                  <Dropdown name="Editorial" Token={token} Username={username}/>
+                  <Dropdown name="CTP" Token={token} Username={username}/>
+                  <Dropdown name="Prepress" Token={token} Username={username}/>
+                  <Dropdown name="Machine Stop" Token={token} Username={username}/>
+                  <Dropdown name="Production" Token={token} Username={username}/>
+                  <Dropdown name="Scheduling" Token={token} Username={username}/>
                 </div>
               )}
             </div>
@@ -149,7 +148,19 @@ function Editorial() {
                   <div className='detail'>
                     <p>Publication Date:</p>
                     <label>
-                      <input type="date" name="pub_datee" value={formValues.pub_date} onChange={handleInputChange} required />
+                      <input type="date" name="pub_date" value={formValues.pub_date} onChange={handleInputChange} required />
+                    </label>
+                  </div>
+                  <div className='detail'>
+                    <p>Unit:</p>
+                    <label>
+                      <input type="text" name="unit" value={formValues.unit} onChange={handleInputChange} required />
+                    </label>
+                  </div>
+                  <div className='detail'>
+                    <p>Publication:</p>
+                    <label>
+                      <input type="text" name="pub" value={formValues.publ} onChange={handleInputChange} required />
                     </label>
                   </div>
                   <div className='detail'>
@@ -170,20 +181,9 @@ function Editorial() {
                       <input type="time" step="1" name="actual_time" value={formValues.actual_time} onChange={handleInputChange} required />
                     </label>
                   </div>
-                  <div className='detail'>
-                    <p>Unit:</p>
-                    <label>
-                      <input type="text" name="unit" value={formValues.unit} onChange={handleInputChange} required />
-                    </label>
-                  </div>
-                  <div className='detail'>
-                    <p>Publication:</p>
-                    <label>
-                      <input type="text" name="pub" value={formValues.publ} onChange={handleInputChange} required />
-                    </label>
-                  </div>
+                  
                   <button type="submit">Submit</button>
-                  {error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>}
+                  {(error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>) || (submit && <div className="text-green-500 text-sm mt-2 text-center">{submit}</div>)}
                 </form>
               </div>
             </div>
