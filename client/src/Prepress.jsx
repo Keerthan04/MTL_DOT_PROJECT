@@ -7,7 +7,7 @@ import './editorial.css';
 import Dropdown from "./components/dropdownbutton";
 import ErrorOne from "./components/Error";
 
-function Scheduling() {
+function Prepress() {
 
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -19,6 +19,7 @@ function Scheduling() {
   const [differenceTime, setDifferenceTime] = useState('');
   const [showReasonForDelay, setShowReasonForDelay] = useState(false);
   const [login,setlogin] = useState(true);
+
   const location = useLocation();
   const username = location.state?.Username;
   const token = location.state?.Token;
@@ -32,8 +33,7 @@ function Scheduling() {
     difference_time: '0',
     reason_for_delay: ' ',
     unit: '',
-    pub: '',
-    no_of_pages: 0
+    pub: ''
   });
 
   const handleEntryDropdownToggle = () => {
@@ -81,7 +81,7 @@ function Scheduling() {
 
   useEffect(() => {
     if (!token) {
-      setError("404 not logged in"); 
+      setError("404 not logged in");
       setlogin(false); 
       return;
     }
@@ -104,9 +104,6 @@ function Scheduling() {
       });
   }, [token]);
 
-  if(!login){
-    return <ErrorOne />;
-  }
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormValues({
@@ -114,7 +111,9 @@ function Scheduling() {
       [name]: value
     });
   };
-
+  if(!login){
+    return <ErrorOne />;
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     const dataToSend = {
@@ -123,7 +122,7 @@ function Scheduling() {
       actual_time: actualTime
     };
 
-    axios.post('http://localhost:3000/home/entry/scheduling', dataToSend, {
+    axios.post('http://localhost:3000/home/entry/prepress', dataToSend, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -185,7 +184,7 @@ function Scheduling() {
         </div>
         <div className="below">
           <div className="content">
-            <h2>Scheduling</h2>
+            <h2>Prepress</h2>
             <div className="form">
               <form onSubmit={handleSubmit}>
                 <div className='detail'>
@@ -210,12 +209,6 @@ function Scheduling() {
                   <p>Edition Name:</p>
                   <label>
                     <input type="text" name="ed_name" value={formValues.ed_name} onChange={handleInputChange} required />
-                  </label>
-                </div>
-                <div className='detail'>
-                  <p>Number of Pages:</p>
-                  <label>
-                    <input type="number" name="no_of_pages" value={formValues.no_of_pages} min="1" onChange={handleInputChange} required />
                   </label>
                 </div>
                 <div className='detail'>
@@ -253,13 +246,13 @@ function Scheduling() {
         </div>
       </div>
       <footer>
-        <p>Copyright 2019 © All Rights Reserved. The Manipal Group</p>
+        <p>Copyright 2024 © All Rights Reserved. The Manipal Group</p>
       </footer>
     </div>
   );
 }
 
-export default Scheduling;
+export default Prepress;
 
 
 

@@ -7,6 +7,7 @@ import "./home.css";
 import Logo from '../src/images/tmg-logo.jpg';
 import './editorial.css';
 import Dropdown from "./components/dropdownbutton";
+import ErrorOne from "./components/Error";
 
 function Editorial() {
 
@@ -15,7 +16,11 @@ function Editorial() {
   const [submit,setsubmit] = useState("");
   const [entryShowDropdown, setEntryShowDropdown] = useState(false);
   const [reportShowDropdown, setReportShowDropdown] = useState(false);
-
+  const [scheduledTime, setScheduledTime] = useState('');
+  const [actualTime, setActualTime] = useState('');
+  const [differenceTime, setDifferenceTime] = useState('');
+  const [showReasonForDelay, setShowReasonForDelay] = useState(false);
+  const [login,setlogin] = useState(true);
   // Form state
   const [formValues, setFormValues] = useState({
     pub_date: '',
@@ -39,10 +44,44 @@ function Editorial() {
   const handleReportDropdownToggle = () => {
     setReportShowDropdown(!reportShowDropdown);
   };
+  const handleScheduledTimeChange = (e) => {
+    setScheduledTime(e.target.value);
+    calculateDifferenceTime(e.target.value, actualTime);
+  };
 
+  const handleActualTimeChange = (e) => {
+    setActualTime(e.target.value);
+    calculateDifferenceTime(scheduledTime, e.target.value);
+  };
+
+  const calculateDifferenceTime = (scheduled, actual) => {
+    if (scheduled && actual) {
+      const scheduledDate = new Date(`1970-01-01T${scheduled}`);
+      const actualDate = new Date(`1970-01-01T${actual}`);
+      const diffMs = actualDate - scheduledDate;
+      const diffHrs = Math.floor(diffMs / 3600000);
+      console.log(diffMs);
+      const diffMins = Math.floor((diffMs % 3600000) / 60000);
+      console.log(diffMins);
+      const diffSecs = Math.floor((diffMs % 60000) / 1000);
+      console.log(diffSecs);
+
+      const diffTime = `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}:${String(diffSecs).padStart(2, '0')}`;
+      console.log(diffTime);
+      setDifferenceTime(diffTime);
+      setFormValues({ ...formValues, difference_time: diffTime });
+
+      if (diffMs > 0) {
+        setShowReasonForDelay(true);
+      } else {
+        setShowReasonForDelay(false);
+      }
+    }
+  };
   useEffect(() => {
     if (!token) {
       setError("404 not logged in");
+      setlogin(false); 
       return;
     }
 
@@ -63,7 +102,9 @@ function Editorial() {
         }
       });
   }, [token]);
-
+  if(!login){
+    return <ErrorOne />;
+  }
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormValues({
@@ -160,7 +201,7 @@ function Editorial() {
                   <div className='detail'>
                     <p>Publication:</p>
                     <label>
-                      <input type="text" name="pub" value={formValues.publ} onChange={handleInputChange} required />
+                      <input type="text" name="pub" value={formValues.pub} onChange={handleInputChange} required />
                     </label>
                   </div>
                   <div className='detail'>
@@ -169,18 +210,32 @@ function Editorial() {
                       <input type="text" name="ed_name" value={formValues.ed_name} onChange={handleInputChange} required />
                     </label>
                   </div>
-                  <div className='detail'>
+                    <div className='detail'>
                     <p>Schedule Time:</p>
                     <label>
-                      <input type="time" step="1" name="schedule_time" value={formValues.schedule_time} onChange={handleInputChange} required />
+                      <input type="time" step="1" value={scheduledTime} onChange={handleScheduledTimeChange} required />
                     </label>
                   </div>
                   <div className='detail'>
                     <p>Actual Time:</p>
                     <label>
-                      <input type="time" step="1" name="actual_time" value={formValues.actual_time} onChange={handleInputChange} required />
+                      <input type="time" step="1" value={actualTime} onChange={handleActualTimeChange} required />
                     </label>
                   </div>
+                  <div className='detail'>
+                    <p>Difference Time:</p>
+                    <label>
+                      <input type="text" name="difference_time" value={differenceTime} readOnly />
+                    </label>
+                  </div>
+                  {showReasonForDelay && (
+                    <div className='detail'>
+                      <p>Reason for Delay:</p>
+                      <label>
+                        <input type="text" name="reason_for_delay" value={formValues.reason_for_delay} onChange={handleInputChange} required />
+                      </label>
+                    </div>
+                  )}
                   
                   <button type="submit">Submit</button>
                   {(error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>) || (submit && <div className="text-green-500 text-sm mt-2 text-center">{submit}</div>)}

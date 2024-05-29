@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom"; // Import useLocation
 import "./home.css";
 import logo from  '../src/images/tmg-logo.jpg';
 import CardOne from "./components/card";
+import ErrorOne from "./components/Error";
 function Home() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -38,7 +39,7 @@ function Home() {
   }, [location.state?.token]);
 
   if (error) {
-    return <div style={{ color: "black" }}>{error}</div>;
+    return <ErrorOne/>;
   }
 
   return (
