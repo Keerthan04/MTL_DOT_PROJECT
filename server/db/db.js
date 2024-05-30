@@ -80,7 +80,7 @@ async function scheduling_entry(req,res){
         }
         //sending reason for delay as " "(empty) if no reason for delay(as time diff is "0")
         //if no diff time both the reason as "" and diff time 0 has to be sent and make if delay required of the reason of delay so that not empty it is
-        const delay_required = difference_time != "0" ? true : false; //if delay then as "0" else a string so 
+        const delay_required = difference_time != "00:00:00" ? true : false; //if delay then as "0" else a string so 
         //if there is a delay then
         //diff_time is "0" in req obj and reason is " " VVIP
         if(delay_required){
@@ -111,7 +111,7 @@ async function editorial_entry(req,res){
         }
         //sending reason for delay as " "(empty) if no reason for delay(as time diff is "0")
         //if no diff time both the reason as "" and diff time 0 has to be sent and make if delay required of the reason of delay so that not empty it is
-        const delay_required = difference_time != "0" ? true : false; //if delay then as "0" else a string so 
+        const delay_required = difference_time != "00:00:00" ? true : false; //if delay then as "0" else a string so 
         //if there is a delay then
         //diff_time is "0" in req obj and reason is " " VVIP
         if(delay_required){
@@ -142,7 +142,8 @@ async function prepress_entry(req,res){
         }
         //sending reason for delay as " "(empty) if no reason for delay(as time diff is "0")
         //if no diff time both the reason as "" and diff time 0 has to be sent and make if delay required of the reason of delay so that not empty it is
-        const delay_required = difference_time != "0" ? true : false; //if delay then as "0" else a string so 
+        const delay_required = difference_time != "00:00:00" ? true : false; //if delay then as "0" else a string so 
+        console.log(delay_required);
         //if there is a delay then
         //diff_time is "0" in req obj and reason is " " VVIP
         if(delay_required){
@@ -193,7 +194,7 @@ async function ctp_entry(req,res){
         //sending reason for delay as " "(empty) if no reason for delay(as time diff is "0")
         //if no diff time both the reason as "" and diff time 0 has to be sent and make if delay required of the reason of delay so that not empty it is
         //and the frontend checking for the no of pages entry check is equal to color+black and also no of plates calci
-        const delay_required = difference_time != "0" ? true : false; //if delay then as "0" else a string so 
+        const delay_required = difference_time != "00:00:00" ? true : false; //if delay then as "0" else a string so 
         //if there is a delay then
         //diff_time is "0" in req obj and reason is " " VVIP
         //the pages and all is number
@@ -217,27 +218,27 @@ async function production_entry(req,res){
     try{
         const pool = await sql.connect(config);
         const user_id = req.user_id;//got directly from the req object
-        const {pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies} = req.body;
+        const {pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies,Towers} = req.body;
         console.log(difference_time);
         console.log(reason_for_delay);
-        if(!pub_date || !ed_name || !schedule_time || !actual_time || !difference_time || !reason_for_delay || !unit || !pub || !machine_used || !print_order || !page_size || !print_start_time || !print_stop_time || !gross_copies){
+        if(!pub_date || !ed_name || !schedule_time || !actual_time || !difference_time || !reason_for_delay || !unit || !pub || !machine_used || !print_order || !page_size || !print_start_time || !print_stop_time || !gross_copies || !Towers){
             return res.status(400).json({message:"Please fill all the fields"});
         }
         //sending reason for delay as " "(empty) if no reason for delay(as time diff is "0")
         //if no diff time both the reason as "" and diff time 0 has to be sent and make if delay required of the reason of delay so that not empty it is
         //and the frontend checking for the no of pages entry check is equal to color+black and also no of plates calci
-        const delay_required = difference_time != "0" ? true : false; //if delay then as "0" else a string so 
+        const delay_required = difference_time != "00:00:00" ? true : false; //if delay then as "0" else a string so 
         //if there is a delay then
-        //diff_time is "0" in req obj and reason is " " VVIP
+        //diff_time is "00:00:00" in req obj and reason is " " VVIP as diff time is now calculated so
         //the pages and all is number,page size is varchar
         //print order and gross copies is number
         if(delay_required){
-            const result = await pool.request().query(`insert into Production (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}','${machine_used}',${print_order},'${page_size}','${print_start_time}','${print_stop_time}',${gross_copies});`);
+            const result = await pool.request().query(`insert into Production (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies,Towers) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}','${machine_used}',${print_order},'${page_size}','${print_start_time}','${print_stop_time}',${gross_copies},'${Towers}');`);
             console.log(result);
             res.status(200).send({message: "Production entry saved"});
         }
         else{
-            const result = await pool.request().query(`insert into Production (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}','${machine_used}',${print_order},'${page_size}','${print_start_time}','${print_stop_time}',${gross_copies});`);
+            const result = await pool.request().query(`insert into Production (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies,Towers) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}','${machine_used}',${print_order},'${page_size}','${print_start_time}','${print_stop_time}',${gross_copies},'${Towers}');`);
             console.log(result);
             res.status(200).send({message: "Production entry saved"});
         }

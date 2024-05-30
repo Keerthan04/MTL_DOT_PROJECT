@@ -208,6 +208,9 @@
     background-color: whitesmoke;
     color:black;
   }
+  label{
+    display: flex;
+  }
   /* Responsive styles */
   @media (max-width: 768px) {
     header {

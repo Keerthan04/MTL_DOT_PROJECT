@@ -1,4 +1,4 @@
-//shd make the logic of diff time and reason for delay coming and then if error is there it shd show so that one shd be seen and validation of each of them has to be checked
+//logic for the number of plates ka calci and cheking for same and all
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -9,7 +9,7 @@ import './editorial.css';
 import Dropdown from "./components/dropdownbutton";
 import ErrorOne from "./components/Error";
 
-function Editorial() {
+function Ctp() {
 
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -30,7 +30,11 @@ function Editorial() {
     difference_time: '0',
     reason_for_delay: ' ',
     unit: '',
-    pub: ''
+    pub: '',
+    total_no_of_pages: 0,
+    black_and_white_pages: 0,
+    color_pages: 0,
+    no_of_plates: 0
   });
 
   const location = useLocation();
@@ -121,7 +125,7 @@ function Editorial() {
       actual_time: actualTime
     };
     console.log(dataToSend);
-    axios.post('http://localhost:3000/home/entry/editorial', dataToSend, {
+    axios.post('http://localhost:3000/home/entry/ctp', dataToSend, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -162,7 +166,7 @@ function Editorial() {
                   <Dropdown name="Editorial" Token={token} Username={username}/>
                   <Dropdown name="CTP" Token={token} Username={username}/>
                   <Dropdown name="Prepress" Token={token} Username={username}/>
-                  <Dropdown name="Machinestop" Token={token} Username={username}/>
+                  <Dropdown name="Machine Stop" Token={token} Username={username}/>
                   <Dropdown name="Production" Token={token} Username={username}/>
                 </div>
               )}
@@ -184,7 +188,7 @@ function Editorial() {
           </div>
           <div className="below">
             <div className="content">
-              <h2>Editorial Report</h2>
+              <h2>CTP Report</h2>
               <div className="form">
                 <form onSubmit={handleSubmit}>
                   <div className='detail'>
@@ -237,6 +241,31 @@ function Editorial() {
                       </label>
                     </div>
                   )}
+                  <div className='detail'>
+                  <p>Total Number of Pages:</p>
+                  <label>
+                    <input type="number" name="total_no_of_pages" value={formValues.total_no_of_pages}  onChange={handleInputChange} placeholder="Total Number of Pages" min="1" required />
+                  </label>
+                  </div>
+                  <div className='detail'>
+                    <p>Number of Black and White Pages:</p>
+                    <label>
+                      <input type="number" name="black_and_white_pages" value={formValues.black_and_white_pages} onChange={handleInputChange} placeholder="Black and White Pages" min="1" required />
+                    </label>
+                  </div>
+                  <div className='detail'>
+                    <p>Number of Coloured Pages:</p>
+                    <label>
+                      <input type="number" name="color_pages" value={formValues.color_pages} onChange={handleInputChange} placeholder="Number of Coloured Pages" min="1" required />
+                    </label>
+                  </div>
+                  <div className='detail'>
+                    <p>Number of Plates:</p>
+                    <label>
+                      <input type="number" name="no_of_plates" value={formValues.no_of_plates} onChange={handleInputChange} placeholder="Number of Plates" min="1" required />
+                    </label>
+                  </div>
+                  
                   <button type="submit">Submit</button>
                   {(error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>) || (submit && <div className="text-green-500 text-sm mt-2 text-center">{submit}</div>)}
                 </form>
@@ -245,11 +274,11 @@ function Editorial() {
           </div>
         </div>
         <footer>
-          <p>Copyright 2019 © All Rights Reserved. The Manipal Group</p>
+          <p>Copyright 2024 © All Rights Reserved. The Manipal Group</p>
         </footer>
       </div>
     </>
   );
 }
 
-export default Editorial;
+export default Ctp;

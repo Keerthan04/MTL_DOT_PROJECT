@@ -121,7 +121,7 @@ function Prepress() {
       schedule_time: scheduledTime,
       actual_time: actualTime
     };
-
+    console.log(dataToSend);
     axios.post('http://localhost:3000/home/entry/prepress', dataToSend, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -162,7 +162,7 @@ function Prepress() {
                 <Dropdown name="Editorial" Token={token} Username={username} />
                 <Dropdown name="CTP" Token={token} Username={username} />
                 <Dropdown name="Prepress" Token={token} Username={username} />
-                <Dropdown name="Machine Stop" Token={token} Username={username} />
+                <Dropdown name="Machinestop" Token={token} Username={username} />
                 <Dropdown name="Production" Token={token} Username={username} />
               </div>
             )}

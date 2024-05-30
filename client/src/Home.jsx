@@ -70,7 +70,7 @@ function Home() {
                 <CardOne name="Prepress" Token={token} Username ={username} />
                 <CardOne name="RIP" Token={token} Username ={username}/>
                 <CardOne name="CTP" Token={token} Username ={username} />
-                <CardOne name="Machine stop" Token={token} Username ={username} />
+                <CardOne name="Machinestop" Token={token} Username ={username} />
                 <CardOne name="Production" Token={token} Username ={username}/>
               </div>
             </div>
@@ -92,7 +92,7 @@ function Home() {
         </div>
       </div>
       <footer>
-        <h3>Copyright 2019 © All Rights Reserved. The Manipal Group</h3>
+        <h3>Copyright 2024 © All Rights Reserved. The Manipal Group</h3>
       </footer>
     </div>
   );
