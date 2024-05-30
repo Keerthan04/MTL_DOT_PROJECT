@@ -177,7 +177,6 @@ function Ctp() {
                 <div className="dropdown">
                   <button>Scheduling</button>
                   <button>Editorial</button>
-                  <button>RIP</button>
                   <button>CTP</button>
                   <button>Prepress</button>
                   <button>Machine Stop</button>
@@ -188,7 +187,7 @@ function Ctp() {
           </div>
           <div className="below">
             <div className="content">
-              <h2>CTP Report</h2>
+              <h2>CTP Entry</h2>
               <div className="form">
                 <form onSubmit={handleSubmit}>
                   <div className='detail'>

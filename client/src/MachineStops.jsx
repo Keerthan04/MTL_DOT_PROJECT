@@ -157,7 +157,6 @@ function MachineStops() {
                 <div className="dropdown">
                   <button>Scheduling</button>
                   <button>Editorial</button>
-                  <button>RIP</button>
                   <button>CTP</button>
                   <button>Prepress</button>
                   <button>Machine Stop</button>

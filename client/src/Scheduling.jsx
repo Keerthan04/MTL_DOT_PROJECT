@@ -174,7 +174,6 @@ function Scheduling() {
               <div className="dropdown">
                 <button>Scheduling</button>
                 <button>Editorial</button>
-                <button>RIP</button>
                 <button>CTP</button>
                 <button>Prepress</button>
                 <button>Machine Stop</button>
@@ -185,7 +184,7 @@ function Scheduling() {
         </div>
         <div className="below">
           <div className="content">
-            <h2>Scheduling</h2>
+            <h2>Scheduling Entry</h2>
             <div className="form">
               <form onSubmit={handleSubmit}>
                 <div className='detail'>

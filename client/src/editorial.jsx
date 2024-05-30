@@ -173,7 +173,6 @@ function Editorial() {
                 <div className="dropdown">
                   <button>Scheduling</button>
                   <button>Editorial</button>
-                  <button>RIP</button>
                   <button>CTP</button>
                   <button>Prepress</button>
                   <button>Machine Stop</button>
@@ -184,7 +183,7 @@ function Editorial() {
           </div>
           <div className="below">
             <div className="content">
-              <h2>Editorial Report</h2>
+              <h2>Editorial Entry</h2>
               <div className="form">
                 <form onSubmit={handleSubmit}>
                   <div className='detail'>
