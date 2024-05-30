@@ -42,4 +42,5 @@ app.listen(PORT, () => {
 //10.the error if fk error and all the violated part and all comes shown as well as if error then stops server so that has to be made proper
 //11.the thing that once entry done and saved next entry and all when u type everythinf shd go or any other like a button to be click on new entry and do again
 //12. the header change a bit and the home page a bit beautification shd be done or the home thing to do
+//13. the database part of master tables and machine and all shd be seen 
 module.exports = app;
