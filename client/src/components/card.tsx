@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-function CardOne({name,Token,Username}) {
+function CardOne({name,Token,Username,RoutePath}) {
   const navigate = useNavigate();
 
   const navigateTo = () => {
-    const navString = `/home/${name}`;
-    console.log(navString);
-    navigate(navString,{ state: {Token,Username} });//the token is put to the navigate wala so that we can access it in it and sent a request to home so that only then can access it
+    // const navString = `/home/${name}`;
+    // console.log(navString);
+    navigate(RoutePath,{ state: {Token,Username} });//the token is put to the navigate wala so that we can access it in it and sent a request to home so that only then can access it
   };
   return (
     <div className="relative h-[180px] w-[180px] rounded-md shadow-lg hover:transform hover:scale-105 transition-transform duration-300 hover:bg-blue-500">
