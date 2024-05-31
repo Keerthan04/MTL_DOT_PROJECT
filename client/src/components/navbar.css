@@ -1,99 +1,183 @@
+/* General navbar styles */
+.navbar-container {
+  flex-wrap: wrap;
+  justify-content: start;
+  flex-direction: column;
+  z-index: 50;
+  width: 100%;
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #444;
+  padding: 0.5rem 0;
+}
+
 .navbar {
-    display: flex;
-    justify-content: space-between;
+  max-width: 85rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-title {
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.user {
+  color: #007bff;
+}
+
+.navbar-toggle {
+  display: none;
+}
+
+.navbar-toggle-btn {
+  display: block;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.toggle-icon {
+  display: none;
+}
+
+.open-icon {
+  display: block;
+}
+
+.close-icon {
+  display: none;
+}
+
+.navbar-toggle-btn .open-icon {
+  display: block;
+}
+
+.navbar-toggle-btn .close-icon {
+  display: none;
+}
+
+/* Navbar menu styles */
+.navbar-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.navbar-link {
+  padding: 0.75rem 0.25rem;
+  font-weight: 500;
+  color: #999;
+  text-decoration: none;
+}
+
+.navbar-link.active {
+  color: #007bff;
+}
+
+.navbar-link:hover {
+  color: #ccc;
+}
+
+/* Dropdown styles */
+.nav-button {
+  position: relative;
+  padding: 0.75rem 0.25rem;
+  font-weight: 500;
+  color: #999;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-button.active {
+  color: #007bff;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0;
+  z-index: 10;
+}
+
+.nav-button:hover .dropdown,
+.nav-button.active .dropdown {
+  display: block;
+}
+
+.dropdown button,
+.dropdown a {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  color: #999;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown button:hover,
+.dropdown a:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+/* Login button styles */
+.navbar-link.login {
+  color: #007bff;
+  display: flex;
+  align-items: center;
+}
+
+.login-icon {
+  margin-right: 0.5rem;
+}
+
+/* Responsive styles */
+@media (min-width: 640px) {
+  .navbar-container {
+    flex-wrap: nowrap;
+  }
+
+  .navbar-menu {
+    flex-direction: row;
     align-items: center;
-    background-color: #f8f9fa;
-    padding: 10px 20px;
-    border-bottom: 2px solid #ccc;
   }
-  
-  .navbar-left {
-    display: flex;
+
+  .navbar-links {
+    flex-direction: row;
     align-items: center;
   }
-  
-  .navbar-logo {
-    height: 40px;
-    margin-right: 10px;
+
+  .navbar-toggle {
+    display: block;
   }
-  
-  .navbar-title {
-    font-size: 1.5rem;
-    font-weight: bold;
+
+  .navbar-menu {
+    display: none;
   }
-  
-  #dot {
-    color: #ff0000;
-  }
-  
-  #mmnl {
-    color: #000;
-  }
-  
-  .navbar-middle {
+
+  .navbar-menu.active {
     display: flex;
-    gap: 20px;
-    
   }
-  
-  .navbar-item {
-    position: relative;
-  }
-  
-  .navbar-item button {
-    background: none;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 5px 10px;
-    color:#000;
-  }
-  
-  .dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    width: fit-content;
-  }
-  
-  .dropdown button,
-  .dropdown div {
-  
-    background: #fff;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-  }
-  
-  .navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .user {
-    font-weight: bold;
-    color: #007bff;
-  }
-  
-  .navbar-right button {
-    background: #007bff;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .navbar-right button:hover {
-    background: #0056b3;
-  }
-  
+}
