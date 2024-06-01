@@ -13,6 +13,7 @@ import MachineStops from './MachineStops.jsx';
 import SchedulingReport from './reports/SchedulingReport.jsx';
 import Test from './Test.jsx';
 import EditorialReport from './reports/EditorialReport.jsx';
+import CTPreport from './reports/CTPreport.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/home/entry/Machinestop" element={<MachineStops/>}/>
         <Route path="/home/report/Scheduling" element={<SchedulingReport />}/>
         <Route path="/home/report/Editorial" element={<EditorialReport />}/>
+        <Route path="/home/report/CTP" element={<CTPreport />}/>
         <Route path="/test" element={<Test/>}/>
       </Routes>
     </BrowserRouter>
