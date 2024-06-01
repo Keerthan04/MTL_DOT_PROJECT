@@ -82,7 +82,7 @@ function Home() {
                 <CardOne name="Editorial" Token={token} Username ={username} RoutePath="/home/report/Editorial" />
                 <CardOne name="Prepress" Token={token} Username ={username} RoutePath="/home/report/Prepress"/>
                 <CardOne name="CTP" Token={token} Username ={username} RoutePath="/home/report/CTP"/>
-                <CardOne name="Machstop" Token={token} Username ={username} RoutePath="/home/report/Machinestop"/>
+                <CardOne name="Machinestop" Token={token} Username ={username} RoutePath="/home/report/Machinestop"/>
                 <CardOne name="Production" Token={token} Username ={username} RoutePath="/home/report/Production"/>
               </div>
             </div>

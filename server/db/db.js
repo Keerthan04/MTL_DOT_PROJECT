@@ -308,7 +308,7 @@ async function scheduling_report(req, res) {
         console.log(result.recordset);
 
         if (result.recordset.length > 0) {
-            res.status(200).send({ message: "Production report fetched", records: result.recordset });
+            res.status(200).send({ message: "Scheduling report fetched", records: result.recordset });
         } else {
             res.status(200).send({ message: "No records found" });
         }
@@ -318,4 +318,53 @@ async function scheduling_report(req, res) {
     }
 }
 
-module.exports = {check_userid,check_password,scheduling_entry,editorial_entry,prepress_entry,machinestops_entry,ctp_entry,production_entry,scheduling_report};
+async function editorial_report(req, res) {
+    try {
+        const pool = await sql.connect(config);
+        const user_id = req.user_id; // Got directly from the req object
+        const { unit, publication, edition, Publish_from_date, Publish_to_date } = req.body;
+
+        if (!unit || !publication || !edition || !Publish_from_date || !Publish_to_date) {
+            return res.status(400).json({ message: "Please fill all the fields" });
+        }
+
+        // Parameterized query to prevent SQL injection
+        const query = `
+            SELECT 
+                CONVERT(varchar, pub_date, 23) AS pub_date,
+                ed_name,
+                CONVERT(varchar, schedule_time, 8) AS schedule_time,
+                CONVERT(varchar, actual_time, 8) AS actual_time,
+                CONVERT(varchar, difference_time, 8) AS difference_time,
+                reason_for_delay,
+                unit,
+                pub
+            FROM Scheduling
+            WHERE unit = @unit
+                AND pub = @publication
+                AND ed_name = @edition
+                AND pub_date BETWEEN @Publish_from_date AND @Publish_to_date
+        `;
+
+        const request = pool.request();
+        request.input('unit', sql.VarChar, unit);
+        request.input('publication', sql.VarChar, publication);
+        request.input('edition', sql.VarChar, edition);
+        request.input('Publish_from_date', sql.Date, Publish_from_date);
+        request.input('Publish_to_date', sql.Date, Publish_to_date);
+
+        const result = await request.query(query);
+        console.log(result.recordset);
+
+        if (result.recordset.length > 0) {
+            res.status(200).send({ message: "Editorial report fetched", records: result.recordset });
+        } else {
+            res.status(200).send({ message: "No records found" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Internal Server Error" });
+    }
+}
+
+module.exports = {check_userid,check_password,scheduling_entry,editorial_entry,prepress_entry,machinestops_entry,ctp_entry,production_entry,scheduling_report,editorial_report};

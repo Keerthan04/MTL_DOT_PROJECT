@@ -199,7 +199,7 @@ function Production() {
             <div className="inner">
               <button onClick={handleEntryDropdownToggle}>Entry</button>
               {entryShowDropdown && (
-                <div className="dropdown">
+                <div className="dropdowns">
                   <Dropdown
                     name="Scheduling"
                     Token={token}
@@ -229,7 +229,7 @@ function Production() {
             <div className="inner">
               <button onClick={handleReportDropdownToggle}>Report</button>
               {reportShowDropdown && (
-                <div className="dropdown">
+                <div className="dropdowns">
                   <button>Scheduling</button>
                   <button>Editorial</button>
                   <button>CTP</button>

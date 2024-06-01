@@ -24,6 +24,9 @@ header {
   background-color: white;
   color: black;
   padding: 10px 20px;
+  border-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #333;
 }
 .head-left {
   display: flex;

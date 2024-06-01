@@ -174,7 +174,7 @@ footer {
   width: 100%;
 }
 
-.dropdown {
+.dropdowns {
   position: absolute;
   top: 100%;
   left: 0;
@@ -186,7 +186,7 @@ footer {
   width: 100%;
 }
 
-.dropdown button {
+.dropdowns button {
   width: 100%;
   background-color: #fff;
   color: #007bff;
@@ -198,12 +198,12 @@ footer {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.dropdown button:hover {
+.dropdowns button:hover {
   background-color: #2a89f0;
   color: #fff;
 }
 
-.dropdown button:last-child {
+.dropdowns button:last-child {
   border-bottom: none;
 }
 
@@ -250,6 +250,9 @@ tbody tr:hover {
 th {
   background-color: #01356e;
   color: white;
+}
+tr{
+  color: #000;
 }
 
 /* Responsive styles */

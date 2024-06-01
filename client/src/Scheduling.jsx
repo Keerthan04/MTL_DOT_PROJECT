@@ -38,6 +38,7 @@ function Scheduling() {
 
   const handleEntryDropdownToggle = () => {
     setEntryShowDropdown(!entryShowDropdown);
+    console.log(entryShowDropdown);
   };
 
   const handleReportDropdownToggle = () => {
@@ -158,7 +159,7 @@ function Scheduling() {
           <div className="inner">
             <button onClick={handleEntryDropdownToggle}>Entry</button>
             {entryShowDropdown && (
-              <div className="dropdown">
+              <div className="dropdowns">
                 <Dropdown name="Scheduling" Token={token} Username={username} />
                 <Dropdown name="Editorial" Token={token} Username={username} />
                 <Dropdown name="CTP" Token={token} Username={username} />
@@ -171,7 +172,7 @@ function Scheduling() {
           <div className="inner">
             <button onClick={handleReportDropdownToggle}>Report</button>
             {reportShowDropdown && (
-              <div className="dropdown">
+              <div className="dropdowns">
                 <button>Scheduling</button>
                 <button>Editorial</button>
                 <button>CTP</button>

@@ -1,30 +1,27 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import "./home.css";
-import Logo from "../src/images/tmg-logo.jpg";
-import "./editorial.css";
-import Dropdown from "./components/dropdownbutton";
-import ErrorOne from "./components/Error";
+import "../home.css";
+import Logo from "../images/tmg-logo.jpg";
+import "./report.css";
+import Dropdown from "../components/dropdownbutton";
+import ErrorOne from "../components/Error";
 
-function MachineStops() {
+function EditorialReport() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
-  const [submit, setsubmit] = useState("");
+  const [submit, setSubmit] = useState("");
   const [entryShowDropdown, setEntryShowDropdown] = useState(false);
   const [reportShowDropdown, setReportShowDropdown] = useState(false);
-
-  const [login, setlogin] = useState(true);
+  const [login, setLogin] = useState(true);
 
   // Form state
   const [formValues, setFormValues] = useState({
-    pub_date: "",
-    ed_name: "",
     unit: "",
-    pub: "",
-    reason_for_stoppage: "",
-    stop_from_time: "",
-    stop_end_time: ""
+    publication: "",
+    edition: "",
+    Publish_from_date: "",
+    Publish_to_date: "",
   });
 
   const location = useLocation();
@@ -42,7 +39,7 @@ function MachineStops() {
   useEffect(() => {
     if (!token) {
       setError("404 not logged in");
-      setlogin(false);
+      setLogin(false);
       return;
     }
 
@@ -81,16 +78,18 @@ function MachineStops() {
     const dataToSend = {
       ...formValues,
     };
+    console.log(token);
     console.log(dataToSend);
     axios
-      .post("http://localhost:3000/home/entry/machinestops", dataToSend, {
+      .post("http://localhost:3000/home/report/editorial", dataToSend, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        setsubmit(res.data.message);
-        setData(res.data);
+        setSubmit(res.data.message);
+        setData(res.data.records);
+        setError("");
       })
       .catch((err) => {
         if (err.response) {
@@ -98,6 +97,7 @@ function MachineStops() {
         } else {
           setError("An error occurred. Please try again.");
         }
+        setData(null);
       });
   };
 
@@ -130,7 +130,6 @@ function MachineStops() {
                     Token={token}
                     Username={username}
                   />
-                  {/* for the dropdown se navigate*/}
                   <Dropdown
                     name="Editorial"
                     Token={token}
@@ -139,7 +138,7 @@ function MachineStops() {
                   <Dropdown name="CTP" Token={token} Username={username} />
                   <Dropdown name="Prepress" Token={token} Username={username} />
                   <Dropdown
-                    name="Machine Stop"
+                    name="Machinestop"
                     Token={token}
                     Username={username}
                   />
@@ -167,21 +166,9 @@ function MachineStops() {
           </div>
           <div className="below">
             <div className="content">
-              <h2>Machine Stop Entry</h2>
+              <h2>Editorial Report</h2>
               <div className="form">
                 <form onSubmit={handleSubmit}>
-                  <div className="detail">
-                    <p>Publication Date:</p>
-                    <label>
-                      <input
-                        type="date"
-                        name="pub_date"
-                        value={formValues.pub_date}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </label>
-                  </div>
                   <div className="detail">
                     <p>Unit:</p>
                     <label>
@@ -199,8 +186,8 @@ function MachineStops() {
                     <label>
                       <input
                         type="text"
-                        name="pub"
-                        value={formValues.pub}
+                        name="publication"
+                        value={formValues.publication}
                         onChange={handleInputChange}
                         required
                       />
@@ -211,29 +198,35 @@ function MachineStops() {
                     <label>
                       <input
                         type="text"
-                        name="ed_name"
-                        value={formValues.ed_name}
+                        name="edition"
+                        value={formValues.edition}
                         onChange={handleInputChange}
                         required
                       />
                     </label>
                   </div>
-                  <div className='detail'>
-                    <p>Reason for Stoppage:</p>
+                  <div className="detail">
+                    <p>Publication From Date:</p>
                     <label>
-                      <input type="text" name="reason_for_stoppage" value={formValues.reason_for_stoppage} onChange={handleInputChange} placeholder="Reason for stoppage" required/>
+                      <input
+                        type="date"
+                        name="Publish_from_date"
+                        value={formValues.Publish_from_date}
+                        onChange={handleInputChange}
+                        required
+                      />
                     </label>
                   </div>
-                  <div className='detail'>
-                    <p>Stop From Time:</p>
+                  <div className="detail">
+                    <p>Publication To Date:</p>
                     <label>
-                      <input type="time" step="1" name="stop_from_time" value={formValues.stop_from_time} onChange={handleInputChange} placeholder="Stop from time" required/>
-                    </label>
-                  </div>
-                  <div className='detail'>
-                    <p>Stop End Time:</p>
-                    <label>
-                      <input type="time" step="1" name="stop_end_time" value={formValues.stop_end_time} onChange={handleInputChange}  placeholder="Stop end time" required/>
+                      <input
+                        type="date"
+                        name="Publish_to_date"
+                        value={formValues.Publish_to_date}
+                        onChange={handleInputChange}
+                        required
+                      />
                     </label>
                   </div>
                   <button type="submit">Submit</button>
@@ -250,6 +243,38 @@ function MachineStops() {
                 </form>
               </div>
             </div>
+            {data && data.length > 0 && (
+              <div className="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Publication Date</th>
+                      <th>Edition Name</th>
+                      <th>Schedule Time</th>
+                      <th>Actual Time</th>
+                      <th>Difference Time</th>
+                      <th>Reason for Delay</th>
+                      <th>Unit</th>
+                      <th>Publication</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.map((record, index) => (
+                      <tr key={index}>
+                        <td>{record.pub_date}</td>
+                        <td>{record.ed_name}</td>
+                        <td>{record.schedule_time}</td>
+                        <td>{record.actual_time}</td>
+                        <td>{record.difference_time}</td>
+                        <td>{record.reason_for_delay}</td>
+                        <td>{record.unit}</td>
+                        <td>{record.pub}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
         <footer>
@@ -260,4 +285,4 @@ function MachineStops() {
   );
 }
 
-export default MachineStops;
+export default EditorialReport;

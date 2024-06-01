@@ -44,4 +44,5 @@ app.listen(PORT, () => {
 //12. the header change a bit and the home page a bit beautification shd be done or the home thing to do
 //13. the database part of master tables and machine and all shd be seen
 //14. the retrival shd be checked of small letters and
+//do the toggling from the dropdown main and report section as dropdown in all 
 module.exports = app;
