@@ -160,12 +160,12 @@ function Scheduling() {
             <button onClick={handleEntryDropdownToggle}>Entry</button>
             {entryShowDropdown && (
               <div className="dropdowns">
-                <Dropdown name="Scheduling" Token={token} Username={username} />
-                <Dropdown name="Editorial" Token={token} Username={username} />
-                <Dropdown name="CTP" Token={token} Username={username} />
-                <Dropdown name="Prepress" Token={token} Username={username} />
-                <Dropdown name="Machinestop" Token={token} Username={username} />
-                <Dropdown name="Production" Token={token} Username={username} />
+                <Dropdown name="Scheduling" Token={token} Username ={username} RoutePath="/home/entry/Scheduling" />
+                <Dropdown name="Editorial" Token={token} Username ={username} RoutePath="/home/entry/Editorial" />
+                <Dropdown name="CTP" Token={token} Username ={username} RoutePath="/home/entry/CTP" />
+                <Dropdown name="Prepress" Token={token} Username ={username} RoutePath="/home/entry/Prepress" />
+                <Dropdown name="Machine stop" Token={token} Username ={username} RoutePath="/home/entry/Machinestop" />
+                <Dropdown name="Production" Token={token} Username ={username} RoutePath="/home/entry/Production" />
               </div>
             )}
           </div>
@@ -173,12 +173,12 @@ function Scheduling() {
             <button onClick={handleReportDropdownToggle}>Report</button>
             {reportShowDropdown && (
               <div className="dropdowns">
-                <button>Scheduling</button>
-                <button>Editorial</button>
-                <button>CTP</button>
-                <button>Prepress</button>
-                <button>Machine Stop</button>
-                <button>Production</button>
+                <Dropdown name="Scheduling" Token={token} Username ={username} RoutePath="/home/report/Scheduling" />
+                <Dropdown name="Editorial" Token={token} Username ={username} RoutePath="/home/report/Editorial" />
+                <Dropdown name="CTP" Token={token} Username ={username} RoutePath="/home/report/CTP" />
+                <Dropdown name="Prepress" Token={token} Username ={username} RoutePath="/home/report/Prepress" />
+                <Dropdown name="Machine stop" Token={token} Username ={username} RoutePath="/home/report/Machinestop" />
+                <Dropdown name="Production" Token={token} Username ={username} RoutePath="/home/report/Production" />
               </div>
             )}
           </div>

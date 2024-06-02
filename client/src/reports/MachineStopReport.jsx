@@ -8,7 +8,7 @@ import Dropdown from "../components/dropdownbutton";
 import ErrorOne from "../components/Error";
 import ModalComponent from "./ModalComponent";
 
-function CTPReport() {
+function MachineStopReport() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [submit, setSubmit] = useState("");
@@ -82,7 +82,7 @@ function CTPReport() {
     };
 
     axios
-      .post("http://localhost:3000/home/report/ctp", dataToSend, {
+      .post("http://localhost:3000/home/report/machinestops", dataToSend, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -107,16 +107,11 @@ function CTPReport() {
   const reportHeaders = [
     "Publication Date",
     "Edition Name",
-    "Schedule Time",
-    "Actual Time",
-    "Difference Time",
-    "Reason for Delay",
     "Unit",
     "Publication",
-    "Total no of Pages",
-    "B&W pages",
-    "Color pages",
-    "No. of plates",
+    "Reason for stoppage",
+    "Stop from time",
+    "Stop end time"
   ];
 
   return (
@@ -168,7 +163,7 @@ function CTPReport() {
           </div>
           <div className="below">
             <div className="content">
-              <h2>CTP Report</h2>
+              <h2>Machine Stop Report</h2>
               <div className="form">
                 <form onSubmit={handleSubmit}>
                 <div className="detail">
@@ -249,7 +244,7 @@ function CTPReport() {
               isOpen={isModalOpen}
               onRequestClose={() => setIsModalOpen(false)}
               data={data}
-              reportName="CTP Report"
+              reportName="Machine Stops Report"
               headers={reportHeaders}
             />
           </div>
@@ -259,4 +254,4 @@ function CTPReport() {
   );
 }
 
-export default CTPReport;
+export default MachineStopReport;

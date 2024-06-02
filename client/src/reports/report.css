@@ -259,7 +259,10 @@ th {
 tr{
   color: #000;
 }
-
+.modalbut{
+  display: flex;
+  gap:4px;
+}
 /* Responsive styles */
 @media (max-width: 768px) {
   header {
