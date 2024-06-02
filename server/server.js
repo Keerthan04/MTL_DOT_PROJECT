@@ -49,5 +49,5 @@ app.listen(PORT, () => {
 //16.the pdf for production and all looks not neat so to come to next line and all how?(splits to chunks ask ok or the pub date also to come)
 
 //main 
-//17. the styling of navbar,the heading of entry and report in bold,the logout functionality,the final report and the dropdowns,the type of report showing confirm and do on editorial and scheduling,the error showing and other routes error showing and also if can cookies and code optimization and testing proper features,home screen better and diff idea or better pictures adding
+//17. the styling of navbar,the heading of entry and report in bold,the logout functionality,the final report and the dropdowns,the type of report showing confirm and do on editorial and scheduling,the error showing and other routes error showing and also if can cookies and code optimization and testing proper features,home screen better and diff idea or better pictures adding,login page making nice
 module.exports = app;
