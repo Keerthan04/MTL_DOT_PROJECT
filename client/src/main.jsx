@@ -18,27 +18,30 @@ import PrepressReport from './reports/PrepressReport.jsx';
 import ErrorOne from './components/Error.jsx';
 import MachineStopReport from './reports/MachineStopReport.jsx';
 import ProductionReport from './reports/ProductionReport.jsx';
+import { AuthProvider } from './components/AuthContext.jsx';
+import PrivateRoute from './components/PrivateRoute.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
+    <AuthProvider>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} /> {/* Assuming you have a Home component */}
-        <Route path="/home/entry/Editorial" element={<Editorial />} />
-        <Route path="/home/entry/Scheduling" element={<Scheduling />}/>
-        <Route path="/home/entry/Prepress" element={<Prepress/>}/>
-        <Route path="/home/entry/CTP" element={<Ctp/>}/>
-        <Route path="/home/entry/Production" element={<Production/>}/>
-        <Route path="/home/entry/Machinestop" element={<MachineStops/>}/>
-        <Route path="/home/report/Scheduling" element={<SchedulingReport />}/>
-        <Route path="/home/report/Editorial" element={<EditorialReport />}/>
-        <Route path="/home/report/CTP" element={<CTPreport />}/>
-        <Route path="/home/report/Prepress" element={<PrepressReport/>}/>
-        <Route path="/home/report/Machinestop" element={<MachineStopReport/>}/>
-        <Route path="/home/report/Production" element={<ProductionReport/>}/>
-        <Route path="/test" element={<Test/>}/>
-        <Route path="*" element={<ErrorOne/>}/> {/*shd make here the error one as page has been moved and to login or back thing */}
+      <Route path="/" element={<Login />} />
+          <Route path="/home" element={<PrivateRoute element={Home} />} />
+          <Route path="/home/entry/Editorial" element={<PrivateRoute element={Editorial} />} />
+          <Route path="/home/entry/Scheduling" element={<PrivateRoute element={Scheduling} />} />
+          <Route path="/home/entry/Prepress" element={<PrivateRoute element={Prepress} />} />
+          <Route path="/home/entry/CTP" element={<PrivateRoute element={Ctp} />} />
+          <Route path="/home/entry/Production" element={<PrivateRoute element={Production} />} />
+          <Route path="/home/entry/Machinestop" element={<PrivateRoute element={MachineStops} />} />
+          <Route path="/home/report/Scheduling" element={<PrivateRoute element={SchedulingReport} />} />
+          <Route path="/home/report/Editorial" element={<PrivateRoute element={EditorialReport} />} />
+          <Route path="/home/report/CTP" element={<PrivateRoute element={CTPreport} />} />
+          <Route path="/home/report/Prepress" element={<PrivateRoute element={PrepressReport} />} />
+          <Route path="/home/report/Machinestop" element={<PrivateRoute element={MachineStopReport} />} />
+          <Route path="/home/report/Production" element={<PrivateRoute element={ProductionReport} />} />
+          <Route path="*" element={<ErrorOne />} /> {/*shd make here the error one as page has been moved and to login or back thing */}
       </Routes>
+    </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -5,15 +5,15 @@ import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import logo from '../images/tmg-logo.jpg';
 import photo from '../images/mtl_logo.jpg';
-
+import { useAuth } from './AuthContext';
 function SignInOne() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [error, setError] = useState('');
-  const [token, setToken] = useState(null);
+  // const [token, setToken] = useState(null);
   const navigate = useNavigate();
-
+  const { login } = useAuth();
   const handleSubmit = (event) => {
     event.preventDefault();
     setError('');
@@ -24,7 +24,8 @@ function SignInOne() {
     .then((res) => {
       if (res.status === 200) {
         const token = res.data.token;
-        setToken(token);
+        // setToken(token);
+        login(token);
         navigate('/home', { state: { token, username }});
       }
     })

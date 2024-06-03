@@ -11,7 +11,7 @@ function ErrorOne() {
       <div>
         <p className="text-sm font-semibold text-black">404 error</p>
         <h1 className="mt-3 text-2xl font-semibold text-gray-800 md:text-3xl">
-          Please Login To Access the Page
+          The Page doesnt exist or has been moved please do login First
         </h1>
         <div className="mt-6 flex items-center space-x-3">
           <button

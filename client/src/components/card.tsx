@@ -6,7 +6,7 @@ function CardOne({name,Token,Username,RoutePath}) {
   const navigateTo = () => {
     // const navString = `/home/${name}`;
     // console.log(navString);
-    navigate(RoutePath,{ state: {Token,Username} });//the token is put to the navigate wala so that we can access it in it and sent a request to home so that only then can access it
+    navigate(RoutePath,{ state: {Username} });//the token is put to the navigate wala so that we can access it in it and sent a request to home so that only then can access it
   };
   return (
     <div className="relative h-[180px] w-[180px] rounded-md shadow-lg hover:transform hover:scale-105 transition-transform duration-300 hover:bg-blue-500">

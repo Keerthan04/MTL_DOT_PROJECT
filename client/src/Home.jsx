@@ -5,15 +5,19 @@ import "./home.css";
 import logo from  '../src/images/tmg-logo.jpg';
 import CardOne from "./components/card";
 import ErrorOne from "./components/Error";
+import LogoutButton from "./components/LogoutButoon";
+import { useAuth } from "./components/AuthContext";
 function Home() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
-  const [token,settoken]= useState("");
+  // const [token,settoken]= useState("");
   const location = useLocation(); // Use useLocation to access passed state
   const username = location.state?.username;
+  const { token } = useAuth();
   useEffect(() => {
-    const token = location.state?.token;
-    settoken(token);
+    
+    console.log(token);
+    // settoken(token);
      // Access token from location state
     if (!token) {
       setError("404 not loged in");
@@ -36,7 +40,7 @@ function Home() {
           setError("An error occurred. Please try again.");
         }
       });
-  }, [location.state?.token]);
+  }, [token]);
 
   if (error) {
     return <ErrorOne/>;
@@ -54,6 +58,7 @@ function Home() {
         </div>
         <div className="head-right">
           <h4>Hello <span className="user">{username}</span></h4>
+          <LogoutButton/>
           <button>Logout</button>
         </div>
       </header>

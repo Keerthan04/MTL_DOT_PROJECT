@@ -6,7 +6,8 @@ import Logo from '../src/images/tmg-logo.jpg';
 import './editorial.css';
 import Dropdown from "./components/dropdownbutton";
 import ErrorOne from "./components/Error";
-
+import { useAuth } from "./components/AuthContext";
+import LogoutButton from "./components/LogoutButoon";
 function Prepress() {
 
   const [data, setData] = useState(null);
@@ -18,12 +19,12 @@ function Prepress() {
   const [actualTime, setActualTime] = useState('');
   const [differenceTime, setDifferenceTime] = useState('');
   const [showReasonForDelay, setShowReasonForDelay] = useState(false);
-  const [login,setlogin] = useState(true);
+  //const [login,setlogin] = useState(true);
 
   const location = useLocation();
   const username = location.state?.Username;
-  const token = location.state?.Token;
-
+  //const token = location.state?.Token;
+  const { token } = useAuth();
   //shd be same of the backend requirement
   const [formValues, setFormValues] = useState({
     pub_date: '',
@@ -82,7 +83,7 @@ function Prepress() {
   useEffect(() => {
     if (!token) {
       setError("404 not logged in");
-      setlogin(false); 
+      //setlogin(false); 
       return;
     }
 
@@ -111,9 +112,9 @@ function Prepress() {
       [name]: value
     });
   };
-  if(!login){
-    return <ErrorOne />;
-  }
+  // if(!login){
+  //   return <ErrorOne />;
+  // }
   const handleSubmit = (event) => {
     event.preventDefault();
     const dataToSend = {
@@ -149,7 +150,8 @@ function Prepress() {
         </div>
         <div className="head-right">
           <h4>Hello <span className="user">{username}</span></h4>
-          <button>Logout</button>
+          <LogoutButton/>
+          {/* <button>logout</button> */}
         </div>
       </header>
       <div className="main">

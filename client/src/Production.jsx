@@ -6,7 +6,8 @@ import Logo from "../src/images/tmg-logo.jpg";
 import "./editorial.css";
 import Dropdown from "./components/dropdownbutton";
 import ErrorOne from "./components/Error";
-
+import { useAuth } from "./components/AuthContext";
+import LogoutButton from "./components/LogoutButoon";
 function Production() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -17,7 +18,7 @@ function Production() {
   const [actualTime, setActualTime] = useState("");
   const [differenceTime, setDifferenceTime] = useState("");
   const [showReasonForDelay, setShowReasonForDelay] = useState(false);
-  const [login, setlogin] = useState(true);
+  //const [login, setlogin] = useState(true);
   const [selectedMachine, setSelectedMachine] = useState("");
   const [selectedTowers, setSelectedTowers] = useState([]);
 
@@ -42,8 +43,8 @@ function Production() {
 
   const location = useLocation();
   const username = location.state?.Username;
-  const token = location.state?.Token;
-
+  //const token = location.state?.Token;
+  const { token } = useAuth();
   const handleEntryDropdownToggle = () => {
     setEntryShowDropdown(!entryShowDropdown);
   };
@@ -113,7 +114,7 @@ function Production() {
   useEffect(() => {
     if (!token) {
       setError("404 not logged in");
-      setlogin(false);
+      //setlogin(false);
       return;
     }
 
@@ -135,9 +136,9 @@ function Production() {
       });
   }, [token]);
 
-  if (!login) {
-    return <ErrorOne />;
-  }
+  // if (!login) {
+  //   return <ErrorOne />;
+  // }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -191,7 +192,8 @@ function Production() {
             <h4>
               Hello <span className="user">{username}</span>
             </h4>
-            <button>Logout</button>
+            <LogoutButton/>
+            {/* <button>logout</button> */}
           </div>
         </header>
         <div className="main">

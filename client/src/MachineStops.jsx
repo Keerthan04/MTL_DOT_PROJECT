@@ -6,7 +6,8 @@ import Logo from "../src/images/tmg-logo.jpg";
 import "./editorial.css";
 import Dropdown from "./components/dropdownbutton";
 import ErrorOne from "./components/Error";
-
+import { useAuth } from "./components/AuthContext";
+import LogoutButton from "./components/LogoutButoon";
 function MachineStops() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -14,7 +15,7 @@ function MachineStops() {
   const [entryShowDropdown, setEntryShowDropdown] = useState(false);
   const [reportShowDropdown, setReportShowDropdown] = useState(false);
 
-  const [login, setlogin] = useState(true);
+  //const [login, setlogin] = useState(true);
 
   // Form state
   const [formValues, setFormValues] = useState({
@@ -29,8 +30,8 @@ function MachineStops() {
 
   const location = useLocation();
   const username = location.state?.Username;
-  const token = location.state?.Token;
-
+  //const token = location.state?.Token;
+  const { token } = useAuth();
   const handleEntryDropdownToggle = () => {
     setEntryShowDropdown(!entryShowDropdown);
   };
@@ -42,7 +43,7 @@ function MachineStops() {
   useEffect(() => {
     if (!token) {
       setError("404 not logged in");
-      setlogin(false);
+      //setlogin(false);
       return;
     }
 
@@ -64,9 +65,9 @@ function MachineStops() {
       });
   }, [token]);
 
-  if (!login) {
-    return <ErrorOne />;
-  }
+  // if (!login) {
+  //   return <ErrorOne />;
+  // }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -116,7 +117,8 @@ function MachineStops() {
             <h4>
               Hello <span className="user">{username}</span>
             </h4>
-            <button>Logout</button>
+            <LogoutButton/>
+            {/* <button onClick={() => setlogin(false)}>Logout</button> */}
           </div>
         </header>
         <div className="main">
