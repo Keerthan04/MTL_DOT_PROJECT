@@ -5,7 +5,7 @@ import "./home.css";
 import Logo from '../src/images/tmg-logo.jpg';
 import './editorial.css';
 import Dropdown from "./components/dropdownbutton";
-import ErrorOne from "./components/Error";
+//import ErrorOne from "./components/Error";
 import { useAuth } from "./components/AuthContext";
 import LogoutButton from "./components/LogoutButoon";
 function Scheduling() {

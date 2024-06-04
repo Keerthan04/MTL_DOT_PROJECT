@@ -50,4 +50,6 @@ app.listen(PORT, () => {
 
 //main 
 //17. the styling of navbar,the heading of entry and report in bold,the logout functionality,the final report and the dropdowns,the type of report showing confirm and do on editorial and scheduling,the error showing and other routes error showing and also if can cookies and code optimization and testing proper features,home screen better and diff idea or better pictures adding,login page making nice
+
+//the time see,the logout ask confirm,the navbar,the black and all in input of some,diff time make proper and time if am and all make proper
 module.exports = app;

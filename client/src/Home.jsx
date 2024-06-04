@@ -59,7 +59,6 @@ function Home() {
         <div className="head-right">
           <h4>Hello <span className="user">{username}</span></h4>
           <LogoutButton/>
-          <button>Logout</button>
         </div>
       </header>
       <div className="main">

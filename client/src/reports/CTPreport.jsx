@@ -5,8 +5,10 @@ import "../home.css";
 import Logo from "../images/tmg-logo.jpg";
 import "./report.css";
 import Dropdown from "../components/dropdownbutton";
-import ErrorOne from "../components/Error";
+//import ErrorOne from "../components/Error";
 import ModalComponent from "./ModalComponent";
+import { useAuth } from "../components/AuthContext";
+import LogoutButton from "../components/LogoutButoon";
 
 function CTPReport() {
   const [data, setData] = useState(null);
@@ -14,7 +16,7 @@ function CTPReport() {
   const [submit, setSubmit] = useState("");
   const [entryShowDropdown, setEntryShowDropdown] = useState(false);
   const [reportShowDropdown, setReportShowDropdown] = useState(false);
-  const [login, setLogin] = useState(true);
+  //const [login, setLogin] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Form state
@@ -28,8 +30,8 @@ function CTPReport() {
 
   const location = useLocation();
   const username = location.state?.Username;
-  const token = location.state?.Token;
-
+  //const token = location.state?.Token;
+  const { token } = useAuth();
   const handleEntryDropdownToggle = () => {
     setEntryShowDropdown(!entryShowDropdown);
   };
@@ -41,7 +43,7 @@ function CTPReport() {
   useEffect(() => {
     if (!token) {
       setError("404 not logged in");
-      setLogin(false);
+      //setLogin(false);
       return;
     }
 
@@ -63,9 +65,9 @@ function CTPReport() {
       });
   }, [token]);
 
-  if (!login) {
-    return <ErrorOne />;
-  }
+  // if (!login) {
+  //   return <ErrorOne />;
+  // }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -134,7 +136,8 @@ function CTPReport() {
             <h4>
               Hello <span className="user">{username}</span>
             </h4>
-            <button>Logout</button>
+            <LogoutButton/>
+            {/*<button>Logout</button>*/}
           </div>
         </header>
         <div className="main">

@@ -5,15 +5,16 @@ import "../home.css";
 import Logo from "../images/tmg-logo.jpg";
 import "./report.css";
 import Dropdown from "../components/dropdownbutton";
-import ErrorOne from "../components/Error";
-
+//import ErrorOne from "../components/Error";
+import { useAuth } from "../components/AuthContext";
+import LogoutButton from "../components/LogoutButoon";
 function SchedulingReport() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [submit, setSubmit] = useState("");
   const [entryShowDropdown, setEntryShowDropdown] = useState(false);
   const [reportShowDropdown, setReportShowDropdown] = useState(false);
-  const [login, setLogin] = useState(true);
+  //const [login, setLogin] = useState(true);
 
   // Form state
   const [formValues, setFormValues] = useState({
@@ -26,8 +27,8 @@ function SchedulingReport() {
 
   const location = useLocation();
   const username = location.state?.Username;
-  const token = location.state?.Token;
-
+  //const token = location.state?.Token;
+  const { token } = useAuth();
   const handleEntryDropdownToggle = () => {
     setEntryShowDropdown(!entryShowDropdown);
   };
@@ -39,7 +40,7 @@ function SchedulingReport() {
   useEffect(() => {
     if (!token) {
       setError("404 not logged in");
-      setLogin(false);
+      //setLogin(false);
       return;
     }
 
@@ -61,9 +62,9 @@ function SchedulingReport() {
       });
   }, [token]);
 
-  if (!login) {
-    return <ErrorOne />;
-  }
+  // if (!login) {
+  //   return <ErrorOne />;
+  // }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -116,7 +117,8 @@ function SchedulingReport() {
             <h4>
               Hello <span className="user">{username}</span>
             </h4>
-            <button>Logout</button>
+            <LogoutButton/>
+            {/* <button>logout</button> */}
           </div>
         </header>
         <div className="main">
