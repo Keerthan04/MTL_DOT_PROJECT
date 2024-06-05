@@ -252,6 +252,12 @@ th {
   background-color: #01356e;
   color: white;
 }
+.submit-reset{
+  display: flex;
+  gap:5px;
+  justify-content: center;
+  align-items: end;
+}
 
 /* Responsive styles */
 @media (max-width: 768px) {

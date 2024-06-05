@@ -8,8 +8,7 @@ import Dropdown from "../components/dropdownbutton";
 //import ErrorOne from "../components/Error";
 import { useAuth } from "../components/AuthContext";
 import LogoutButton from "../components/LogoutButoon";
-
-
+import ModalComponent from "./ModalComponent";
 function EditorialReport() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -17,15 +16,16 @@ function EditorialReport() {
   const [entryShowDropdown, setEntryShowDropdown] = useState(false);
   const [reportShowDropdown, setReportShowDropdown] = useState(false);
   //const [login, setLogin] = useState(true);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // Form state
-  const [formValues, setFormValues] = useState({
+  const initialFormValues ={
     unit: "",
     publication: "",
     edition: "",
     Publish_from_date: "",
     Publish_to_date: "",
-  });
+  }
+  const [formValues, setFormValues] = useState(initialFormValues);
 
   const location = useLocation();
   const username = location.state?.Username;
@@ -93,6 +93,7 @@ function EditorialReport() {
         setSubmit(res.data.message);
         setData(res.data.records);
         setError("");
+        setIsModalOpen(true); 
       })
       .catch((err) => {
         if (err.response) {
@@ -103,7 +104,21 @@ function EditorialReport() {
         setData(null);
       });
   };
-
+  const reportHeaders = [
+    "Publication Date",
+    "Edition Name",
+    "Schedule Time",
+    "Actual Time",
+    "Difference Time",
+    "Reason for Delay",
+    "Unit",
+    "Publication"
+  ];
+  const handleReset = () => {
+    setFormValues(initialFormValues);
+    setSubmit('');
+    setError('');
+  };
   return (
     <>
       <div className="body">
@@ -120,7 +135,7 @@ function EditorialReport() {
               Hello <span className="user">{username}</span>
             </h4>
             <LogoutButton/>
-            {/* <button onClick={handleLogout}>Logout</button> */}
+            {/* <button>logout</button> */}
           </div>
         </header>
         <div className="main">
@@ -217,7 +232,10 @@ function EditorialReport() {
                       />
                     </label>
                   </div>
-                  <button type="submit">Submit</button>
+                  <div className="submit-reset">
+                    <button type="submit">Submit</button>
+                    <button type="reset" onClick={handleReset}>Reset</button>
+                  </div>
                   {(error && (
                     <div className="text-red-500 text-sm mt-2 text-center">
                       {error}
@@ -231,38 +249,13 @@ function EditorialReport() {
                 </form>
               </div>
             </div>
-            {data && data.length > 0 && (
-              <div className="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Publication Date</th>
-                      <th>Edition Name</th>
-                      <th>Schedule Time</th>
-                      <th>Actual Time</th>
-                      <th>Difference Time</th>
-                      <th>Reason for Delay</th>
-                      <th>Unit</th>
-                      <th>Publication</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.map((record, index) => (
-                      <tr key={index}>
-                        <td>{record.pub_date}</td>
-                        <td>{record.ed_name}</td>
-                        <td>{record.schedule_time}</td>
-                        <td>{record.actual_time}</td>
-                        <td>{record.difference_time}</td>
-                        <td>{record.reason_for_delay}</td>
-                        <td>{record.unit}</td>
-                        <td>{record.pub}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+            <ModalComponent
+              isOpen={isModalOpen}
+              onRequestClose={() => setIsModalOpen(false)}
+              data={data}
+              reportName="Editorial Report"
+              headers={reportHeaders}
+            />
           </div>
         </div>
         <footer>

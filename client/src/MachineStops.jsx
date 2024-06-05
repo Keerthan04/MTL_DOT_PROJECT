@@ -18,7 +18,7 @@ function MachineStops() {
   //const [login, setlogin] = useState(true);
 
   // Form state
-  const [formValues, setFormValues] = useState({
+  const initialFormValues={
     pub_date: "",
     ed_name: "",
     unit: "",
@@ -26,7 +26,8 @@ function MachineStops() {
     reason_for_stoppage: "",
     stop_from_time: "",
     stop_end_time: ""
-  });
+  }
+  const [formValues, setFormValues] = useState(initialFormValues);
 
   const location = useLocation();
   const username = location.state?.Username;
@@ -101,7 +102,15 @@ function MachineStops() {
         }
       });
   };
-
+  const handleReset = () => {
+    setFormValues(initialFormValues);
+    setScheduledTime('');
+    setActualTime('');
+    setDifferenceTime('');
+    setShowReasonForDelay(false);
+    setsubmit('');
+    setError('');
+  };
   return (
     <>
       <div className="body">
@@ -221,7 +230,10 @@ function MachineStops() {
                       <input type="time" step="1" name="stop_end_time" value={formValues.stop_end_time} onChange={handleInputChange}  placeholder="Stop end time" required/>
                     </label>
                   </div>
-                  <button type="submit">Submit</button>
+                  <div className="submit-reset">
+                    <button type="submit">Submit</button>
+                    <button type="reset" onClick={handleReset}>Reset</button>
+                  </div>
                   {(error && (
                     <div className="text-red-500 text-sm mt-2 text-center">
                       {error}

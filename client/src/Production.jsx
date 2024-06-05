@@ -23,7 +23,7 @@ function Production() {
   const [selectedTowers, setSelectedTowers] = useState([]);
 
   // Form state
-  const [formValues, setFormValues] = useState({
+  const initialFormValues ={
     pub_date: "",
     ed_name: "",
     schedule_time: "",
@@ -39,7 +39,8 @@ function Production() {
     print_start_time: "",
     print_stop_time: "",
     gross_copies: 0,
-  });
+  }
+  const [formValues, setFormValues] = useState(initialFormValues);
 
   const location = useLocation();
   const username = location.state?.Username;
@@ -90,16 +91,22 @@ function Production() {
 
   const calculateDifferenceTime = (scheduled, actual) => {
     if (scheduled && actual) {
-      const scheduledDate = new Date(`1970-01-01T${scheduled}`);
-      const actualDate = new Date(`1970-01-01T${actual}`);
+      const scheduledDate = new Date(scheduled);
+      const actualDate = new Date(actual);
       const diffMs = actualDate - scheduledDate;
+
+      if (diffMs < 0) {
+        setDifferenceTime("00:00:00");
+        setShowReasonForDelay(false);
+        setFormValues({ ...formValues, difference_time: "00:00:00" });
+        return;
+      }
+
       const diffHrs = Math.floor(diffMs / 3600000);
       const diffMins = Math.floor((diffMs % 3600000) / 60000);
       const diffSecs = Math.floor((diffMs % 60000) / 1000);
 
-      const diffTime = `${String(diffHrs).padStart(2, "0")}:${String(
-        diffMins
-      ).padStart(2, "0")}:${String(diffSecs).padStart(2, "0")}`;
+      const diffTime = `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}:${String(diffSecs).padStart(2, '0')}`;
       setDifferenceTime(diffTime);
       setFormValues({ ...formValues, difference_time: diffTime });
 
@@ -176,7 +183,15 @@ function Production() {
         }
       });
   };
-
+  const handleReset = () => {
+    setFormValues(initialFormValues);
+    setScheduledTime('');
+    setActualTime('');
+    setDifferenceTime('');
+    setShowReasonForDelay(false);
+    setsubmit('');
+    setError('');
+  };
   return (
     <>
       <div className="body">
@@ -282,7 +297,7 @@ function Production() {
                     <p>Schedule Time:</p>
                     <label>
                       <input
-                        type="time"
+                        type="datetime-local"
                         step="1"
                         value={scheduledTime}
                         onChange={handleScheduledTimeChange}
@@ -294,7 +309,7 @@ function Production() {
                     <p>Actual Time:</p>
                     <label>
                       <input
-                        type="time"
+                        type="datetime-local"
                         step="1"
                         value={actualTime}
                         onChange={handleActualTimeChange}
@@ -430,7 +445,10 @@ function Production() {
                       />
                     </label>
                   </div>
-                  <button type="submit">Submit</button>
+                  <div className="submit-reset">
+                    <button type="submit">Submit</button>
+                    <button type="reset" onClick={handleReset}>Reset</button>
+                  </div>
                   {(error && (
                     <div className="text-red-500 text-sm mt-2 text-center">
                       {error}

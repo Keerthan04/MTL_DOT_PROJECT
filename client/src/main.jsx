@@ -39,6 +39,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/home/report/Prepress" element={<PrivateRoute element={PrepressReport} />} />
           <Route path="/home/report/Machinestop" element={<PrivateRoute element={MachineStopReport} />} />
           <Route path="/home/report/Production" element={<PrivateRoute element={ProductionReport} />} />
+          <Route path='/test' element={<Test/>}/>
           <Route path="*" element={<ErrorOne />} /> {/*shd make here the error one as page has been moved and to login or back thing */}
       </Routes>
     </AuthProvider>

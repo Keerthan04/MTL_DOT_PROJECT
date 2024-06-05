@@ -20,13 +20,14 @@ function PrepressReport() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { token } = useAuth();
   // Form state
-  const [formValues, setFormValues] = useState({
+  const initialFormValues ={
     unit: "",
     publication: "",
     edition: "",
     Publish_from_date: "",
     Publish_to_date: "",
-  });
+  }
+  const [formValues, setFormValues] = useState(initialFormValues);
 
   const location = useLocation();
   const username = location.state?.Username;
@@ -116,7 +117,11 @@ function PrepressReport() {
     "Unit",
     "Publication"
   ];
-
+  const handleReset = () => {
+    setFormValues(initialFormValues);
+    setSubmit('');
+    setError('');
+  };
   return (
     <>
       <div className="body">
@@ -230,7 +235,10 @@ function PrepressReport() {
                       />
                     </label>
                   </div>
-                  <button type="submit">Submit</button>
+                  <div className="submit-reset">
+                    <button type="submit">Submit</button>
+                    <button type="reset" onClick={handleReset}>Reset</button>
+                  </div>
                   {(error && (
                     <div className="text-red-500 text-sm mt-2 text-center">
                       {error}

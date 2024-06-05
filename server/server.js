@@ -52,4 +52,9 @@ app.listen(PORT, () => {
 //17. the styling of navbar,the heading of entry and report in bold,the logout functionality,the final report and the dropdowns,the type of report showing confirm and do on editorial and scheduling,the error showing and other routes error showing and also if can cookies and code optimization and testing proper features,home screen better and diff idea or better pictures adding,login page making nice
 
 //the time see,the logout ask confirm,the navbar,the black and all in input of some,diff time make proper and time if am and all make proper
+
+//machine stop db and others of reset and time ka shd be checked
+//the new tables added and making dropdown for it to be done
+//the final report and excel conversion and all ctp ka plates actual and all to be done also and order of dropdown and navbar
+//main click to go to home also 
 module.exports = app;

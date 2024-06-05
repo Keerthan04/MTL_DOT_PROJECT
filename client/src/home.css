@@ -43,7 +43,7 @@ header {
   gap: 10px;
 }
 
-button {
+/* button {
   background-color: #007bff;
   border: none;
   border-radius: 5px;
@@ -54,7 +54,7 @@ button {
 }
 button:hover {
   background-color: #0056b3;
-}
+} */
 .main {
   flex-grow: 1;
   background-color: #f0f0f0;

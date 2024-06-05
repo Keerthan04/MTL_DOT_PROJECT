@@ -26,7 +26,7 @@ function Prepress() {
   //const token = location.state?.Token;
   const { token } = useAuth();
   //shd be same of the backend requirement
-  const [formValues, setFormValues] = useState({
+  const initialFormValues ={
     pub_date: '',
     ed_name: '',
     schedule_time: '',
@@ -35,7 +35,8 @@ function Prepress() {
     reason_for_delay: ' ',
     unit: '',
     pub: ''
-  });
+  }
+  const [formValues, setFormValues] = useState(initialFormValues);
 
   const handleEntryDropdownToggle = () => {
     setEntryShowDropdown(!entryShowDropdown);
@@ -57,18 +58,22 @@ function Prepress() {
 
   const calculateDifferenceTime = (scheduled, actual) => {
     if (scheduled && actual) {
-      const scheduledDate = new Date(`1970-01-01T${scheduled}`);
-      const actualDate = new Date(`1970-01-01T${actual}`);
+      const scheduledDate = new Date(scheduled);
+      const actualDate = new Date(actual);
       const diffMs = actualDate - scheduledDate;
+
+      if (diffMs < 0) {
+        setDifferenceTime("00:00:00");
+        setShowReasonForDelay(false);
+        setFormValues({ ...formValues, difference_time: "00:00:00" });
+        return;
+      }
+
       const diffHrs = Math.floor(diffMs / 3600000);
-      console.log(diffMs);
       const diffMins = Math.floor((diffMs % 3600000) / 60000);
-      console.log(diffMins);
       const diffSecs = Math.floor((diffMs % 60000) / 1000);
-      console.log(diffSecs);
 
       const diffTime = `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}:${String(diffSecs).padStart(2, '0')}`;
-      console.log(diffTime);
       setDifferenceTime(diffTime);
       setFormValues({ ...formValues, difference_time: diffTime });
 
@@ -140,7 +145,15 @@ function Prepress() {
         }
       });
   };
-
+  const handleReset = () => {
+    setFormValues(initialFormValues);
+    setScheduledTime('');
+    setActualTime('');
+    setDifferenceTime('');
+    setShowReasonForDelay(false);
+    setSubmit('');
+    setError('');
+  };
   return (
     <div className="body">
       <header>
@@ -215,13 +228,13 @@ function Prepress() {
                 <div className='detail'>
                   <p>Schedule Time:</p>
                   <label>
-                    <input type="time" step="1" value={scheduledTime} onChange={handleScheduledTimeChange} required />
+                    <input type="datetime-local" step="1" value={scheduledTime} onChange={handleScheduledTimeChange} required />
                   </label>
                 </div>
                 <div className='detail'>
                   <p>Actual Time:</p>
                   <label>
-                    <input type="time" step="1" value={actualTime} onChange={handleActualTimeChange} required />
+                    <input type="datetime-local" step="1" value={actualTime} onChange={handleActualTimeChange} required />
                   </label>
                 </div>
                 <div className='detail'>
@@ -238,7 +251,10 @@ function Prepress() {
                     </label>
                   </div>
                 )}
-                <button type="submit">Submit</button>
+                <div className="submit-reset">
+                    <button type="submit">Submit</button>
+                    <button type="reset" onClick={handleReset}>Reset</button>
+                </div>
                 {error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>}
                 {submit && <div className="text-green-500 text-sm mt-2 text-center">{submit}</div>}
               </form>

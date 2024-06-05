@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import "./home.css";
 import Logo from '../src/images/tmg-logo.jpg';
 import './editorial.css';
 import Dropdown from "./components/dropdownbutton";
-//import ErrorOne from "./components/Error";
 import { useAuth } from "./components/AuthContext";
 import LogoutButton from "./components/LogoutButoon";
+import Navbar from "./components/Navbar";
 function Scheduling() {
-
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [submit, setSubmit] = useState("");
@@ -19,13 +17,11 @@ function Scheduling() {
   const [actualTime, setActualTime] = useState('');
   const [differenceTime, setDifferenceTime] = useState('');
   const [showReasonForDelay, setShowReasonForDelay] = useState(false);
-  // const [login,setlogin] = useState(true);
   const location = useLocation();
   const username = location.state?.Username;
-  // const token = location.state?.Token;
   const { token } = useAuth();
-  //shd be same of the backend requirement
-  const [formValues, setFormValues] = useState({
+
+  const initialFormValues = {
     pub_date: '',
     ed_name: '',
     schedule_time: '',
@@ -35,11 +31,12 @@ function Scheduling() {
     unit: '',
     pub: '',
     no_of_pages: 0
-  });
+  };
+
+  const [formValues, setFormValues] = useState(initialFormValues);
 
   const handleEntryDropdownToggle = () => {
     setEntryShowDropdown(!entryShowDropdown);
-    console.log(entryShowDropdown);
   };
 
   const handleReportDropdownToggle = () => {
@@ -58,18 +55,22 @@ function Scheduling() {
 
   const calculateDifferenceTime = (scheduled, actual) => {
     if (scheduled && actual) {
-      const scheduledDate = new Date(`1970-01-01T${scheduled}`);
-      const actualDate = new Date(`1970-01-01T${actual}`);
+      const scheduledDate = new Date(scheduled);
+      const actualDate = new Date(actual);
       const diffMs = actualDate - scheduledDate;
+
+      if (diffMs < 0) {
+        setDifferenceTime("00:00:00");
+        setShowReasonForDelay(false);
+        setFormValues({ ...formValues, difference_time: "00:00:00" });
+        return;
+      }
+
       const diffHrs = Math.floor(diffMs / 3600000);
-      console.log(diffMs);
       const diffMins = Math.floor((diffMs % 3600000) / 60000);
-      console.log(diffMins);
       const diffSecs = Math.floor((diffMs % 60000) / 1000);
-      console.log(diffSecs);
 
       const diffTime = `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}:${String(diffSecs).padStart(2, '0')}`;
-      console.log(diffTime);
       setDifferenceTime(diffTime);
       setFormValues({ ...formValues, difference_time: diffTime });
 
@@ -84,7 +85,6 @@ function Scheduling() {
   useEffect(() => {
     if (!token) {
       setError("404 not logged in"); 
-      // setlogin(false); 
       return;
     }
 
@@ -106,9 +106,6 @@ function Scheduling() {
       });
   }, [token]);
 
-  // if(!login){
-  //   return <ErrorOne />;
-  // }
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormValues({
@@ -124,7 +121,7 @@ function Scheduling() {
       schedule_time: scheduledTime,
       actual_time: actualTime
     };
-
+    console.log(dataToSend);
     axios.post('http://localhost:3000/home/entry/scheduling', dataToSend, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -143,31 +140,41 @@ function Scheduling() {
       });
   };
 
+  const handleReset = () => {
+    setFormValues(initialFormValues);
+    setScheduledTime('');
+    setActualTime('');
+    setDifferenceTime('');
+    setShowReasonForDelay(false);
+    setSubmit('');
+    setError('');
+  };
+
   return (
     <div className="body">
-      <header>
+      <Navbar username={username} token={token} />
+{/* --      <header>
         <div className="head-left">
           <img src={Logo} alt="Logo" />
           <h2><span id="dot">DOT</span><span id='mmnl'>-MTL</span></h2>
         </div>
         <div className="head-right">
           <h4>Hello <span className="user">{username}</span></h4>
-          <LogoutButton/>
-          {/*<button>Logout</button> */}
+          <LogoutButton />
         </div>
-      </header>
+      </header> */}
       <div className="main">
         <div className="above">
           <div className="inner">
             <button onClick={handleEntryDropdownToggle}>Entry</button>
             {entryShowDropdown && (
               <div className="dropdowns">
-                <Dropdown name="Scheduling" Token={token} Username ={username} RoutePath="/home/entry/Scheduling" />
-                <Dropdown name="Editorial" Token={token} Username ={username} RoutePath="/home/entry/Editorial" />
-                <Dropdown name="CTP" Token={token} Username ={username} RoutePath="/home/entry/CTP" />
-                <Dropdown name="Prepress" Token={token} Username ={username} RoutePath="/home/entry/Prepress" />
-                <Dropdown name="Machine stop" Token={token} Username ={username} RoutePath="/home/entry/Machinestop" />
-                <Dropdown name="Production" Token={token} Username ={username} RoutePath="/home/entry/Production" />
+                <Dropdown name="Scheduling" Token={token} Username={username} RoutePath="/home/entry/Scheduling" />
+                <Dropdown name="Editorial" Token={token} Username={username} RoutePath="/home/entry/Editorial" />
+                <Dropdown name="CTP" Token={token} Username={username} RoutePath="/home/entry/CTP" />
+                <Dropdown name="Prepress" Token={token} Username={username} RoutePath="/home/entry/Prepress" />
+                <Dropdown name="Machine stop" Token={token} Username={username} RoutePath="/home/entry/Machinestop" />
+                <Dropdown name="Production" Token={token} Username={username} RoutePath="/home/entry/Production" />
               </div>
             )}
           </div>
@@ -175,12 +182,12 @@ function Scheduling() {
             <button onClick={handleReportDropdownToggle}>Report</button>
             {reportShowDropdown && (
               <div className="dropdowns">
-                <Dropdown name="Scheduling" Token={token} Username ={username} RoutePath="/home/report/Scheduling" />
-                <Dropdown name="Editorial" Token={token} Username ={username} RoutePath="/home/report/Editorial" />
-                <Dropdown name="CTP" Token={token} Username ={username} RoutePath="/home/report/CTP" />
-                <Dropdown name="Prepress" Token={token} Username ={username} RoutePath="/home/report/Prepress" />
-                <Dropdown name="Machine stop" Token={token} Username ={username} RoutePath="/home/report/Machinestop" />
-                <Dropdown name="Production" Token={token} Username ={username} RoutePath="/home/report/Production" />
+                <Dropdown name="Scheduling" Token={token} Username={username} RoutePath="/home/report/Scheduling" />
+                <Dropdown name="Editorial" Token={token} Username={username} RoutePath="/home/report/Editorial" />
+                <Dropdown name="CTP" Token={token} Username={username} RoutePath="/home/report/CTP" />
+                <Dropdown name="Prepress" Token={token} Username={username} RoutePath="/home/report/Prepress" />
+                <Dropdown name="Machine stop" Token={token} Username={username} RoutePath="/home/report/Machinestop" />
+                <Dropdown name="Production" Token={token} Username={username} RoutePath="/home/report/Production" />
               </div>
             )}
           </div>
@@ -189,7 +196,7 @@ function Scheduling() {
           <div className="content">
             <h2>Scheduling Entry</h2>
             <div className="form">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} onReset={handleReset}>
                 <div className='detail'>
                   <p>Publication Date:</p>
                   <label>
@@ -223,13 +230,13 @@ function Scheduling() {
                 <div className='detail'>
                   <p>Schedule Time:</p>
                   <label>
-                    <input type="time" step="1" value={scheduledTime} onChange={handleScheduledTimeChange} required />
+                    <input type="datetime-local" step="1" value={scheduledTime} onChange={handleScheduledTimeChange} required />
                   </label>
                 </div>
                 <div className='detail'>
                   <p>Actual Time:</p>
                   <label>
-                    <input type="time" step="1" value={actualTime} onChange={handleActualTimeChange} required />
+                    <input type="datetime-local" step="1" value={actualTime} onChange={handleActualTimeChange} required />
                   </label>
                 </div>
                 <div className='detail'>
@@ -246,7 +253,10 @@ function Scheduling() {
                     </label>
                   </div>
                 )}
-                <button type="submit">Submit</button>
+                <div className="submit-reset">
+                  <button type="submit">Submit</button>
+                  <button type="reset" onClick={handleReset}>Reset</button>
+                </div>
                 {error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>}
                 {submit && <div className="text-green-500 text-sm mt-2 text-center">{submit}</div>}
               </form>
@@ -255,7 +265,7 @@ function Scheduling() {
         </div>
       </div>
       <footer>
-        <p>Copyright 2019 © All Rights Reserved. The Manipal Group</p>
+        <p>Copyright 2024 © All Rights Reserved. The Manipal Group</p>
       </footer>
     </div>
   );
