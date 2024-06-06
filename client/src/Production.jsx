@@ -8,6 +8,7 @@ import Dropdown from "./components/dropdownbutton";
 import ErrorOne from "./components/Error";
 import { useAuth } from "./components/AuthContext";
 import LogoutButton from "./components/LogoutButoon";
+import NewNav from "./components/newNav";
 function Production() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -195,51 +196,8 @@ function Production() {
   return (
     <>
       <div className="body">
-        <header>
-          <div className="head-left">
-            <img src={Logo} alt="Logo" />
-            <h2>
-              <span id="dot">DOT</span>
-              <span id="mmnl">-MTL</span>
-            </h2>
-          </div>
-          <div className="head-right">
-            <h4>
-              Hello <span className="user">{username}</span>
-            </h4>
-            <LogoutButton/>
-            {/* <button>logout</button> */}
-          </div>
-        </header>
-        <div className="main">
-          <div className="above">
-            <div className="inner">
-              <button onClick={handleEntryDropdownToggle}>Entry</button>
-              {entryShowDropdown && (
-                <div className="dropdowns">
-                  <Dropdown name="Scheduling" Token={token} Username ={username} RoutePath="/home/entry/Scheduling" />
-                  <Dropdown name="Editorial" Token={token} Username ={username} RoutePath="/home/entry/Editorial" />
-                  <Dropdown name="CTP" Token={token} Username ={username} RoutePath="/home/entry/CTP" />
-                  <Dropdown name="Prepress" Token={token} Username ={username} RoutePath="/home/entry/Prepress" />
-                  <Dropdown name="Machine stop" Token={token} Username ={username} RoutePath="/home/entry/Machinestop" />
-                  <Dropdown name="Production" Token={token} Username ={username} RoutePath="/home/entry/Production" />
-                </div>
-              )}
-            </div>
-            <div className="inner">
-              <button onClick={handleReportDropdownToggle}>Report</button>
-              {reportShowDropdown && (
-                <div className="dropdowns">
-                  <Dropdown name="Scheduling" Token={token} Username ={username} RoutePath="/home/report/Scheduling" />
-                  <Dropdown name="Editorial" Token={token} Username ={username} RoutePath="/home/report/Editorial" />
-                  <Dropdown name="CTP" Token={token} Username ={username} RoutePath="/home/report/CTP" />
-                  <Dropdown name="Prepress" Token={token} Username ={username} RoutePath="/home/report/Prepress" />
-                  <Dropdown name="Machine stop" Token={token} Username ={username} RoutePath="/home/report/Machinestop" />
-                  <Dropdown name="Production" Token={token} Username ={username} RoutePath="/home/report/Production" />
-                </div>
-              )}
-            </div>
-          </div>
+      <NewNav username={username} token={token}/>
+      <div className="main">
           <div className="below">
             <div className="content">
               <h2>Production Entry</h2>

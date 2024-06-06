@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-function Dropdown({name,Token,Username,RoutePath}) {
+function Dropdowns({name,Token,Username,RoutePath}) {
   const navigate = useNavigate();
 
   const navigateTo = () => {
@@ -12,4 +12,4 @@ function Dropdown({name,Token,Username,RoutePath}) {
   );
 }
 
-export default Dropdown;
+export default Dropdowns;

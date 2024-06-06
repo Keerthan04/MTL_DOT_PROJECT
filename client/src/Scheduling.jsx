@@ -7,6 +7,7 @@ import Dropdown from "./components/dropdownbutton";
 import { useAuth } from "./components/AuthContext";
 import LogoutButton from "./components/LogoutButoon";
 import Navbar from "./components/Navbar";
+import NewNav from "./components/newNav";
 function Scheduling() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -152,7 +153,7 @@ function Scheduling() {
 
   return (
     <div className="body">
-      <Navbar username={username} token={token} />
+      {/* <Navbar username={username} token={token} /> */}
 {/* --      <header>
         <div className="head-left">
           <img src={Logo} alt="Logo" />
@@ -163,8 +164,9 @@ function Scheduling() {
           <LogoutButton />
         </div>
       </header> */}
+      <NewNav username={username} token={token}/>
       <div className="main">
-        <div className="above">
+        {/* <div className="above">
           <div className="inner">
             <button onClick={handleEntryDropdownToggle}>Entry</button>
             {entryShowDropdown && (
@@ -191,7 +193,7 @@ function Scheduling() {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
         <div className="below">
           <div className="content">
             <h2>Scheduling Entry</h2>

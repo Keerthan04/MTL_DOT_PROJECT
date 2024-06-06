@@ -58,7 +58,8 @@ app.listen(PORT, () => {
 //the final report and excel conversion and all ctp ka plates actual and all to be done also and order of dropdown and navbar
 //main click to go to home also 
 
-
+//tom morning see
 //plates done 
-//the db change and dropdown pending
+//the db change and dropdown pending,new nav ka when mob the color and align and some changes in code of all the nav change wala??
+//the home page ka navbar shd be made,the home instead of button div ko hi click shd go,the report mai username ka see
 module.exports = app;

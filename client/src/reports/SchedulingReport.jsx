@@ -9,6 +9,7 @@ import Dropdown from "../components/dropdownbutton";
 import { useAuth } from "../components/AuthContext";
 import LogoutButton from "../components/LogoutButoon";
 import ModalComponent from "./ModalComponent";
+import NewNav from "../components/newNav";
 function SchedulingReport() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -123,7 +124,8 @@ function SchedulingReport() {
   return (
     <>
       <div className="body">
-        <header>
+        <NewNav username={username} token={token}/>
+        {/* <header>
           <div className="head-left">
             <img src={Logo} alt="Logo" />
             <h2>
@@ -136,11 +138,11 @@ function SchedulingReport() {
               Hello <span className="user">{username}</span>
             </h4>
             <LogoutButton/>
-            {/* <button>logout</button> */}
+             <button>logout</button> 
           </div>
-        </header>
+        </header> */}
         <div className="main">
-          <div className="above">
+          {/* <div className="above">
             <div className="inner">
               <button onClick={handleEntryDropdownToggle}>Entry</button>
               {entryShowDropdown && (
@@ -167,7 +169,7 @@ function SchedulingReport() {
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
           <div className="below">
             <div className="content">
               <h2>Scheduling Report</h2>

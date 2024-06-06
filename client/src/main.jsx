@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {NextUIProvider} from '@nextui-org/react'
 import './index.css';
 import Login from './App.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -22,6 +23,7 @@ import { AuthProvider } from './components/AuthContext.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <NextUIProvider>
     <BrowserRouter>
     <AuthProvider>
       <Routes>
@@ -44,5 +46,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </Routes>
     </AuthProvider>
     </BrowserRouter>
+    </NextUIProvider>
   </React.StrictMode>
 );
