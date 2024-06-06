@@ -185,26 +185,27 @@ async function ctp_entry(req,res){
     try{
         const pool = await sql.connect(config);
         const user_id = req.user_id;//got directly from the req object
-        const {pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,total_no_of_pages,black_and_white_pages,color_pages,no_of_plates} = req.body;
+        const {pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,total_no_of_pages,black_and_white_pages,color_pages,calculated_no_of_plates,actual_no_of_plates,reason_for_difference} = req.body;
         console.log(difference_time);
         console.log(reason_for_delay);
-        if(!pub_date || !ed_name || !schedule_time || !actual_time || !difference_time || !reason_for_delay || !unit || !pub || !total_no_of_pages || !black_and_white_pages || !color_pages || !no_of_plates){
+        if(!pub_date || !ed_name || !schedule_time || !actual_time || !difference_time || !reason_for_delay || !unit || !pub || !total_no_of_pages || !black_and_white_pages || !color_pages || !calculated_no_of_plates || !actual_no_of_plates || !reason_for_difference){
             return res.status(400).json({message:"Please fill all the fields"});
         }
         //sending reason for delay as " "(empty) if no reason for delay(as time diff is "0")
         //if no diff time both the reason as "" and diff time 0 has to be sent and make if delay required of the reason of delay so that not empty it is
         //and the frontend checking for the no of pages entry check is equal to color+black and also no of plates calci
-        const delay_required = difference_time != "00:00:00" ? true : false; //if delay then as "0" else a string so 
+        const delay_required = difference_time != "00:00:00" ? true : false;   //if delay then as "0" else a string so 
         //if there is a delay then
         //diff_time is "0" in req obj and reason is " " VVIP
-        //the pages and all is number
+        //IMP
+        //the calculated is only number others are not
         if(delay_required){
-            const result = await pool.request().query(`insert into ctp (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,total_no_of_pages,black_and_white_pages,color_pages,no_of_plates) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}',${total_no_of_pages},${black_and_white_pages},${color_pages},${no_of_plates});`);
+            const result = await pool.request().query(`insert into ctp (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,publication,total_no_of_pages,black_and_white_pages,color_pages,calculated_no_of_plates,actual_no_of_plates,reason_for_difference) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}','${total_no_of_pages}','${black_and_white_pages}','${color_pages}',${calculated_no_of_plates},'${actual_no_of_plates}','${reason_for_difference}');`);
             console.log(result);
             res.status(200).send({message: "CTP entry saved"});
         }
         else{
-            const result = await pool.request().query(`insert into ctp (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,total_no_of_pages,black_and_white_pages,color_pages,no_of_plates) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}',${total_no_of_pages},${black_and_white_pages},${color_pages},${no_of_plates});`);
+            const result = await pool.request().query(`insert into ctp (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,publication,total_no_of_pages,black_and_white_pages,color_pages,calculated_no_of_plates,actual_no_of_plates,reason_for_difference) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}','${total_no_of_pages}','${black_and_white_pages}','${color_pages}',${calculated_no_of_plates},'${actual_no_of_plates}','${reason_for_difference}');`);
             console.log(result);
             res.status(200).send({message: "CTP entry saved"});
         }

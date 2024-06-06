@@ -76,6 +76,15 @@ const ModalComponent = ({ isOpen, onRequestClose, data, reportName, headers }) =
           case "Towers Used":
             formattedRecord[header] = record.Towers || 'N/A';
             break;
+          case "calculated_no_of_plates":
+            formattedRecord[header] = record.calculated_no_of_plates || 'N/A';
+            break;
+          case "actual_no_of_plates":
+            formattedRecord[header] = record.actual_no_of_plates || 'N/A';
+            break;
+          case "reason_for_difference":
+            formattedRecord[header] = record.reason_for_difference || 'N/A';
+            break;
           default:
             formattedRecord[header] = 'N/A';
         }

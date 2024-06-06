@@ -57,4 +57,8 @@ app.listen(PORT, () => {
 //the new tables added and making dropdown for it to be done
 //the final report and excel conversion and all ctp ka plates actual and all to be done also and order of dropdown and navbar
 //main click to go to home also 
+
+
+//plates done 
+//the db change and dropdown pending
 module.exports = app;

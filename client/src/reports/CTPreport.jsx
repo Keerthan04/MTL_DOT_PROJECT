@@ -119,7 +119,9 @@ function CTPReport() {
     "Total no of Pages",
     "B&W pages",
     "Color pages",
-    "No. of plates",
+    "calculated_no_of_plates",
+    "actual_no_of_plates",
+    "reason_for_difference"
   ];
   const handleReset = () => {
     setFormValues(initialFormValues);
