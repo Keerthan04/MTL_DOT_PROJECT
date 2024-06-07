@@ -6,7 +6,7 @@ import './editorial.css';
 import Dropdown from "./components/dropdownbutton";
 import { useAuth } from "./components/AuthContext";
 import LogoutButton from "./components/LogoutButoon";
-import Navbar from "./components/Navbar";
+
 import NewNav from "./components/newNav";
 function Scheduling() {
   const [data, setData] = useState(null);

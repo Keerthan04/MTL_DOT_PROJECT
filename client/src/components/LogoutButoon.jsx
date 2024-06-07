@@ -3,7 +3,7 @@ import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
-const LogoutButton = () => {
+const LogoutButton = ({islarge}) => {
   const navigate = useNavigate();
   const { logout } = useAuth(); // Use the logout function from context
 
@@ -13,9 +13,12 @@ const LogoutButton = () => {
   };
 
   return (
-    <Button onClick={handleLogout} size="lg" color="danger" href="#" variant="solid">
+    <Button onClick={handleLogout} size={islarge ? "lg" : "md"} color="danger" href="#" variant="solid">
       Log out
     </Button>
+    // <Button onClick={handleLogout} size="lg" color="danger" href="#" variant="solid">
+    //   Log out
+    
   );
 };
 

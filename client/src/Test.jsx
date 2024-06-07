@@ -1,4 +1,4 @@
-import Navbar from "./components/Navbar";
+
 import NewNav from "./components/newNav";
 
 

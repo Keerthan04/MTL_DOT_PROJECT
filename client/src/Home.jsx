@@ -7,6 +7,8 @@ import CardOne from "./components/card";
 import ErrorOne from "./components/Error";
 import LogoutButton from "./components/LogoutButoon";
 import { useAuth } from "./components/AuthContext";
+import NewNav from "./components/newNav";
+import HomeNav from "./components/HomeNav";
 function Home() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -48,7 +50,7 @@ function Home() {
 
   return (
       <div className="body">
-      <header>
+      {/* <header>
         <div className="head-left">
           <img src={logo} alt="Logo" />
           <h2>
@@ -60,7 +62,8 @@ function Home() {
           <h4>Hello <span className="user">{username}</span></h4>
           <LogoutButton/>
         </div>
-      </header>
+      </header> */}
+      <HomeNav token={token} username={username}/>
       <div className="main">
         <div className="below">
           <div className="contents">

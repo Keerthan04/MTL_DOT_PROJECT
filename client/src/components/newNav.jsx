@@ -22,8 +22,6 @@ import Logo from '../images/tmg-logo.jpg';
 function NewNav({ token, username }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  //const menuItems = ["Home", "Entry", "Report"];
-
   return (
     <div className="w-full">
       <Navbar
@@ -46,7 +44,7 @@ function NewNav({ token, username }) {
               </h2>
             </div>
             <div className="mx-4 border-l border-black h-8"></div>
-            <div>
+            <div className="hidden sm:block">
               <h4>Hello, <span className="user">{username}</span></h4>
             </div>
           </NavbarBrand>
@@ -116,12 +114,23 @@ function NewNav({ token, username }) {
             </Dropdown>
           </NavbarItem>
         </NavbarContent>
-        <NavbarContent justify="end">
-          <NavbarItem>
-            <LogoutButton/>
-          </NavbarItem>
-        </NavbarContent>
+        {!isMenuOpen && (
+          <NavbarContent className="hidden sm:flex" justify="end">
+            <NavbarItem>
+              <LogoutButton islarge={true}/>
+            </NavbarItem>
+          </NavbarContent>
+        )}
         <NavbarMenu>
+          <NavbarMenuItem>
+            <Button
+              variant="light"
+              color="primary"
+              className="text-black text-lg"
+            >
+              Hello, <span className="user">{username}</span>
+            </Button>
+          </NavbarMenuItem>
           <NavbarMenuItem>
             <Dropdown>
               <NavbarMenuItem>
@@ -202,6 +211,9 @@ function NewNav({ token, username }) {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
+          </NavbarMenuItem>
+          <NavbarMenuItem>
+            <LogoutButton islarge={false}/>
           </NavbarMenuItem>
         </NavbarMenu>
       </Navbar>
