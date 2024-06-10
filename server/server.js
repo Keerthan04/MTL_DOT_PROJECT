@@ -62,4 +62,21 @@ app.listen(PORT, () => {
 //plates done 
 //the db change and dropdown pending,new nav ka when mob the color and align and some changes in code of all the nav change wala??
 //the home page ka navbar shd be made,the home instead of button div ko hi click shd go,the report mai username ka see
+
+
+
+//shd do a global error handling and not throwing errors and also dropdown shd be made to be proper for editions and all
+//checking the working of all once u do and the final report do once
+//add isvalid check in login and make login page properly
+//when refreshed the username and all lost? so how to make it proper or see to that
+
+//before logout and submit or reset ask again 
+//if once error then again wont change or go and all
+//proper reason for delay and other things to be checked
+//when reset the unit and pub ka reset shd be checked why not happening
+//the unit and all in the report also do
+
+//some table col name changes shd be done properly in query like pub as publication date mainly in report also and alos sending and all shd check->mainly the machine stop table and some changes also
+
+//the machines part is done
 module.exports = app;

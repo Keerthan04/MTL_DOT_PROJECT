@@ -258,6 +258,19 @@ th {
   justify-content: center;
   align-items: end;
 }
+.input-field {
+  width: 100%;
+  padding: 8px;
+  margin: 4px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  color:black;
+}
+
+.detail p {
+  margin: 8px 0 4px 0;
+}
 
 /* Responsive styles */
 @media (max-width: 768px) {

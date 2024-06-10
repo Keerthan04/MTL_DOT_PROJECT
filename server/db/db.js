@@ -66,7 +66,40 @@ async function check_password(user_id){
         throw error;
     }
 }
-
+async function send_unit_pub_edition(req,res){
+    try{
+        //shd get unit then shd get publication and then for each pair get edition name if not there send empty array  for edition else send editions finally shd send unit and array then publication then array and edition and then its
+        const pool = await sql.connect(config);
+        const units = await pool.request().query(`select Unit from Unit`);
+        const unit_names = units.recordset.map((unit)=>unit.Unit);
+        console.log(unit_names);
+        const Publications= await pool.request().query(`select Publication from Publication`);
+        const Publication_names = Publications.recordset.map((pub)=>pub.Publication);
+        console.log(Publication_names);
+        let editions = [];
+        for(let i =0;i< unit_names.length ;i++){
+            const currentUnit = unit_names[i];
+            for(let i = 0 ;i <Publication_names.length;i++){
+                const currentPublication = Publication_names[i];
+                const Editions = await pool.request().query(`select Ed_name from Edition where Unit = '${currentUnit}' and Publication = '${currentPublication}'`);
+                const Edition_names = Editions.recordset.map((edition)=>edition.Ed_name);
+                if(Edition_names.length === 0){
+                    editions.push({unit:currentUnit , publication : currentPublication ,edition : ["No edition available"]})
+                }
+                else{
+                    editions.push({unit:currentUnit , publication : currentPublication ,edition : Edition_names})
+                    
+                }
+            }
+        }
+        console.log({unit:unit_names,publication:Publication_names,edition:editions});
+        res.status(200).json({unit:unit_names,publication:Publication_names,edition:editions});
+    }
+    catch(error){
+        console.log(error);
+        throw error;
+    }
+}
 //make the time diff calculation at the frontend only as based on that the reason_of_delay has to be poped up so 
 async function scheduling_entry(req,res){
     try{
@@ -84,12 +117,12 @@ async function scheduling_entry(req,res){
         //if there is a delay then
         //diff_time is "0" in req obj and reason is " " VVIP
         if(delay_required){
-            const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,pub) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}',${no_of_pages},'${reason_for_delay}','${unit}','${pub}');`);
+            const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}',${no_of_pages},'${reason_for_delay}','${unit}','${pub}');`);
             console.log(result);
             res.status(200).send({message: "Scheduling entry saved"});
         }
         else{
-            const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,pub) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00',${no_of_pages},null,'${unit}','${pub}');`);
+            const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00',${no_of_pages},null,'${unit}','${pub}');`);
             console.log(result);
             res.status(200).send({message: "Scheduling entry saved"});
         }
@@ -115,12 +148,12 @@ async function editorial_entry(req,res){
         //if there is a delay then
         //diff_time is "0" in req obj and reason is " " VVIP
         if(delay_required){
-            const result = await pool.request().query(`insert into editorial (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}');`);
+            const result = await pool.request().query(`insert into editorial (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}');`);
             console.log(result);
             res.status(200).send({message: "Editorial entry saved"});
         }
         else{
-            const result = await pool.request().query(`insert into editorial (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}');`);
+            const result = await pool.request().query(`insert into editorial (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}');`);
             console.log(result);
             res.status(200).send({message: "Editorial entry saved"});
         }
@@ -147,12 +180,12 @@ async function prepress_entry(req,res){
         //if there is a delay then
         //diff_time is "0" in req obj and reason is " " VVIP
         if(delay_required){
-            const result = await pool.request().query(`insert into prepress (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}');`);
+            const result = await pool.request().query(`insert into prepress (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}');`);
             console.log(result);
             res.status(200).send({message: "Prepress entry saved"});
         }
         else{
-            const result = await pool.request().query(`insert into prepress (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}');`);
+            const result = await pool.request().query(`insert into prepress (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}');`);
             console.log(result);
             res.status(200).send({message: "Prepress entry saved"});
         }
@@ -171,10 +204,9 @@ async function machinestops_entry(req,res){
             return res.status(400).json({message:"Please fill all the fields"});
         }
         //this is only when the machine stop so req to backend only when the entry done so that all fields is send
-        const result = await pool.request().query(`insert into machine_stops (pub_date,ed_name,unit,pub,reason_for_stoppage,stop_from_time,stop_end_time) values('${pub_date}','${ed_name}','${unit}','${pub}','${reason_for_stoppage}','${stop_from_time}','${stop_end_time}');`);
+        const result = await pool.request().query(`insert into machine_stops (pub_date,ed_name,unit,publication,reason_for_stoppage,printer_stop_time,printer_restart_time) values('${pub_date}','${ed_name}','${unit}','${pub}','${reason_for_stoppage}','${stop_from_time}','${stop_end_time}');`);
         console.log(result);
         res.status(200).send({message: "Machine_Stops entry saved"});
-       
     }catch(error){
         console.log(error);
         throw error;
@@ -234,15 +266,41 @@ async function production_entry(req,res){
         //the pages and all is number,page size is varchar
         //print order and gross copies is number
         if(delay_required){
-            const result = await pool.request().query(`insert into Production (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies,Towers) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}','${machine_used}',${print_order},'${page_size}','${print_start_time}','${print_stop_time}',${gross_copies},'${Towers}');`);
+            const result = await pool.request().query(`insert into Production (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,publication,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies,towers) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}','${reason_for_delay}','${unit}','${pub}','${machine_used}',${print_order},'${page_size}','${print_start_time}','${print_stop_time}',${gross_copies},'${Towers}');`);
             console.log(result);
             res.status(200).send({message: "Production entry saved"});
         }
         else{
-            const result = await pool.request().query(`insert into Production (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,pub,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies,Towers) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}','${machine_used}',${print_order},'${page_size}','${print_start_time}','${print_stop_time}',${gross_copies},'${Towers}');`);
+            const result = await pool.request().query(`insert into Production (pub_date,ed_name,schedule_time,actual_time,difference_time,reason_for_delay,unit,publication,machine_used,print_order,page_size,print_start_time,print_stop_time,gross_copies,towers) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00','NA','${unit}','${pub}','${machine_used}',${print_order},'${page_size}','${print_start_time}','${print_stop_time}',${gross_copies},'${Towers}');`);
             console.log(result);
             res.status(200).send({message: "Production entry saved"});
         }
+    }catch(error){
+        console.log(error);
+        throw error;
+    }
+}
+async function get_machines(req,res){
+    try{
+        const pool = await sql.connect(config);
+        const machines = await pool.request().query(`select name from machine_name`);
+        console.log(machines.recordset);
+        //is of array of objects with name: ""
+        const machine_names = machines.recordset.map((machine)=>machine.name);//gets as array of machine_names
+        console.log(machine_names);
+        let result = [];
+        for(let i=0; i< machine_names.length; i++){
+            const towers = await pool.request().query(`select tower from machines where machine_used = '${machine_names[i]}'`);
+            //array of objects with tower and name as key and value
+            const tower_name = towers.recordset.map((tower)=>tower.tower);
+            console.log(tower_name);
+            result.push({name:machine_names[i],towers:tower_name});
+        }
+        console.log(result);
+        // console.log(result);
+        // res.status(200).send({machines:result.recordset});
+        res.status(200).send(result);
+        //want result as array of object with each obj being having name and tower as key and name and set of towers inarray and values
     }catch(error){
         console.log(error);
         throw error;
@@ -573,4 +631,4 @@ async function production_report(req, res) {
         res.status(500).send({ message: "Internal Server Error" });
     }
 }
-module.exports = {check_userid,check_password,scheduling_entry,editorial_entry,prepress_entry,machinestops_entry,ctp_entry,production_entry,scheduling_report,editorial_report,ctp_report,prepress_report,machine_stop_report,production_report};
+module.exports = {check_userid,check_password,scheduling_entry,editorial_entry,prepress_entry,machinestops_entry,ctp_entry,production_entry,scheduling_report,editorial_report,ctp_report,prepress_report,machine_stop_report,production_report,get_machines,send_unit_pub_edition};

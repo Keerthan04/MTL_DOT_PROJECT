@@ -1,48 +1,38 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import Logo from '../src/images/tmg-logo.jpg';
 import './editorial.css';
-import Dropdown from "./components/dropdownbutton";
 import { useAuth } from "./components/AuthContext";
-import LogoutButton from "./components/LogoutButoon";
-
 import NewNav from "./components/newNav";
+
 function Scheduling() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [submit, setSubmit] = useState("");
-  const [entryShowDropdown, setEntryShowDropdown] = useState(false);
-  const [reportShowDropdown, setReportShowDropdown] = useState(false);
   const [scheduledTime, setScheduledTime] = useState('');
   const [actualTime, setActualTime] = useState('');
   const [differenceTime, setDifferenceTime] = useState('');
   const [showReasonForDelay, setShowReasonForDelay] = useState(false);
+  const [unitList, setUnitList] = useState([]);
+  const [publicationList, setPublicationList] = useState([]);
+  const [editionList, setEditionList] = useState([]);
   const location = useLocation();
   const username = location.state?.Username;
   const { token } = useAuth();
 
   const initialFormValues = {
     pub_date: '',
+    unit: '',
+    pub: '',
     ed_name: '',
+    no_of_pages: 0,
     schedule_time: '',
     actual_time: '',
     difference_time: '0',
-    reason_for_delay: ' ',
-    unit: '',
-    pub: '',
-    no_of_pages: 0
+    reason_for_delay: ' '
   };
 
   const [formValues, setFormValues] = useState(initialFormValues);
-
-  const handleEntryDropdownToggle = () => {
-    setEntryShowDropdown(!entryShowDropdown);
-  };
-
-  const handleReportDropdownToggle = () => {
-    setReportShowDropdown(!reportShowDropdown);
-  };
 
   const handleScheduledTimeChange = (e) => {
     setScheduledTime(e.target.value);
@@ -114,9 +104,56 @@ function Scheduling() {
       [name]: value
     });
   };
+  
+  useEffect(() => {
+    axios.get("http://localhost:3000/home/entry/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setUnitList(res.data.unit);
+        setPublicationList(res.data.publication);
+        setEditionList(res.data.edition);
+      })
+      .catch((err) => {
+        if (err.response) {
+          setError(err.response.data.message);
+        } else {
+          setError("An error occurred. Please try again.");
+        }
+      });
+  }, [token]);
+
+  
+
+  const handleUnitChange = (event) => {
+    const selectedUnit = event.target.value;
+    setFormValues({ ...formValues, unit: selectedUnit, pub: '', ed_name: '' });
+  };
+
+  const handlePublicationChange = (event) => {
+    const selectedPub = event.target.value;
+    setFormValues({ ...formValues, pub: selectedPub, ed_name: '' });
+  };
+
+  const getFilteredEditions = () => {
+    const { unit, pub } = formValues;
+    if (!unit || !pub) return [];
+    const editionData = editionList.find(
+      (item) => item.unit === unit && item.publication === pub
+    );
+    console.log(editionData);
+    return !(editionData.edition.includes('No edition available')) ? editionData.edition : [];
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const filteredEditions = getFilteredEditions();
+    if (filteredEditions.length === 0 || filteredEditions.includes('No edition available')) {
+      setError("No editions available for the selected unit and publication.");
+      return;
+    }
     const dataToSend = {
       ...formValues,
       schedule_time: scheduledTime,
@@ -153,47 +190,8 @@ function Scheduling() {
 
   return (
     <div className="body">
-      {/* <Navbar username={username} token={token} /> */}
-{/* --      <header>
-        <div className="head-left">
-          <img src={Logo} alt="Logo" />
-          <h2><span id="dot">DOT</span><span id='mmnl'>-MTL</span></h2>
-        </div>
-        <div className="head-right">
-          <h4>Hello <span className="user">{username}</span></h4>
-          <LogoutButton />
-        </div>
-      </header> */}
       <NewNav username={username} token={token}/>
       <div className="main">
-        {/* <div className="above">
-          <div className="inner">
-            <button onClick={handleEntryDropdownToggle}>Entry</button>
-            {entryShowDropdown && (
-              <div className="dropdowns">
-                <Dropdown name="Scheduling" Token={token} Username={username} RoutePath="/home/entry/Scheduling" />
-                <Dropdown name="Editorial" Token={token} Username={username} RoutePath="/home/entry/Editorial" />
-                <Dropdown name="CTP" Token={token} Username={username} RoutePath="/home/entry/CTP" />
-                <Dropdown name="Prepress" Token={token} Username={username} RoutePath="/home/entry/Prepress" />
-                <Dropdown name="Machine stop" Token={token} Username={username} RoutePath="/home/entry/Machinestop" />
-                <Dropdown name="Production" Token={token} Username={username} RoutePath="/home/entry/Production" />
-              </div>
-            )}
-          </div>
-          <div className="inner">
-            <button onClick={handleReportDropdownToggle}>Report</button>
-            {reportShowDropdown && (
-              <div className="dropdowns">
-                <Dropdown name="Scheduling" Token={token} Username={username} RoutePath="/home/report/Scheduling" />
-                <Dropdown name="Editorial" Token={token} Username={username} RoutePath="/home/report/Editorial" />
-                <Dropdown name="CTP" Token={token} Username={username} RoutePath="/home/report/CTP" />
-                <Dropdown name="Prepress" Token={token} Username={username} RoutePath="/home/report/Prepress" />
-                <Dropdown name="Machine stop" Token={token} Username={username} RoutePath="/home/report/Machinestop" />
-                <Dropdown name="Production" Token={token} Username={username} RoutePath="/home/report/Production" />
-              </div>
-            )}
-          </div>
-        </div> */}
         <div className="below">
           <div className="content">
             <h2>Scheduling Entry</h2>
@@ -202,62 +200,152 @@ function Scheduling() {
                 <div className='detail'>
                   <p>Publication Date:</p>
                   <label>
-                    <input type="date" name="pub_date" value={formValues.pub_date} onChange={handleInputChange} required />
+                    <input 
+                      type="date" 
+                      name="pub_date" 
+                      value={formValues.pub_date} 
+                      onChange={handleInputChange} 
+                      required 
+                      className="input-field" 
+                    />
                   </label>
                 </div>
                 <div className='detail'>
                   <p>Unit:</p>
                   <label>
-                    <input type="text" name="unit" value={formValues.unit} onChange={handleInputChange} required />
+                    <select 
+                      name="unit" 
+                      value={formValues.unit} 
+                      onChange={handleUnitChange} 
+                      required 
+                      className="input-field"
+                    >
+                      <option value="" disabled>Select Unit</option>
+                      {unitList.map((unit, index) => (
+                        <option key={index} value={unit}>{unit}</option>
+                      ))}
+                    </select>
                   </label>
                 </div>
                 <div className='detail'>
                   <p>Publication:</p>
                   <label>
-                    <input type="text" name="pub" value={formValues.pub} onChange={handleInputChange} required />
+                    <select 
+                      name="pub" 
+                      value={formValues.pub} 
+                      onChange={handlePublicationChange} 
+                      required 
+                      className="input-field"
+                    >
+                      <option value="" disabled>Select Publication</option>
+                      {publicationList.map((pub, index) => (
+                        <option key={index} value={pub}>{pub}</option>
+                      ))}
+                    </select>
                   </label>
                 </div>
                 <div className='detail'>
                   <p>Edition Name:</p>
                   <label>
-                    <input type="text" name="ed_name" value={formValues.ed_name} onChange={handleInputChange} required />
+                    <select 
+                      name="ed_name" 
+                      value={formValues.ed_name} 
+                      onChange={handleInputChange} 
+                      required 
+                      className="input-field"
+                    >
+                      <option value="" disabled>Select Edition</option>
+                      {getFilteredEditions().length === 0 && (
+                        <option value="No edition available" disabled>No editions available</option>
+                      )}
+                      {getFilteredEditions().map((edition, index) => (
+                        <option key={index} value={edition}>{edition}</option>
+                      ))}
+                    </select>
                   </label>
                 </div>
                 <div className='detail'>
                   <p>Number of Pages:</p>
                   <label>
-                    <input type="number" name="no_of_pages" value={formValues.no_of_pages} min="1" onChange={handleInputChange} required />
+                    <input 
+                      type="number" 
+                      name="no_of_pages" 
+                      value={formValues.no_of_pages} 
+                      min="1" 
+                      onChange={handleInputChange} 
+                      required 
+                      className="input-field"
+                    />
                   </label>
                 </div>
                 <div className='detail'>
                   <p>Schedule Time:</p>
                   <label>
-                    <input type="datetime-local" step="1" value={scheduledTime} onChange={handleScheduledTimeChange} required />
+                    <input 
+                      type="datetime-local" 
+                      step="1" 
+                      value={scheduledTime} 
+                      onChange={handleScheduledTimeChange} 
+                      required 
+                      className="input-field"
+                    />
                   </label>
                 </div>
                 <div className='detail'>
                   <p>Actual Time:</p>
                   <label>
-                    <input type="datetime-local" step="1" value={actualTime} onChange={handleActualTimeChange} required />
+                    <input 
+                      type="datetime-local" 
+                      step="1" 
+                      value={actualTime} 
+                      onChange={handleActualTimeChange} 
+                      required 
+                      className="input-field"
+                    />
                   </label>
                 </div>
                 <div className='detail'>
                   <p>Difference Time:</p>
                   <label>
-                    <input type="text" name="difference_time" value={differenceTime} readOnly />
+                    <input 
+                      type="text" 
+                      name="difference_time" 
+                      value={differenceTime} 
+                      readOnly 
+                      className="input-field"
+                    />
                   </label>
                 </div>
                 {showReasonForDelay && (
                   <div className='detail'>
                     <p>Reason for Delay:</p>
                     <label>
-                      <input type="text" name="reason_for_delay" value={formValues.reason_for_delay} onChange={handleInputChange} required />
+                      <input 
+                        type="text" 
+                        name="reason_for_delay" 
+                        value={formValues.reason_for_delay} 
+                        onChange={handleInputChange} 
+                        required 
+                        className="input-field"
+                      />
                     </label>
                   </div>
                 )}
                 <div className="submit-reset">
-                  <button type="submit">Submit</button>
-                  <button type="reset" onClick={handleReset}>Reset</button>
+                  <button 
+                    type="submit" 
+                    disabled={getFilteredEditions().length === 0}
+                    className="submit-button"
+                  >
+                    Submit
+                  </button>
+                  <button 
+                    type="reset" 
+                    onClick={handleReset}
+                    className="reset-button"
+                  >
+                    Reset
+                  </button>
                 </div>
                 {error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>}
                 {submit && <div className="text-green-500 text-sm mt-2 text-center">{submit}</div>}
@@ -274,6 +362,10 @@ function Scheduling() {
 }
 
 export default Scheduling;
+
+
+
+
 
 
 
