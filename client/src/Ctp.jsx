@@ -19,7 +19,9 @@ function Ctp() {
   const [differenceTime, setDifferenceTime] = useState("");
   const [showReasonForDelay, setShowReasonForDelay] = useState(false);
   const [showReasonForDifference, setShowReasonForDifference] = useState(false);
-
+  const [unitList, setUnitList] = useState([]);
+  const [publicationList, setPublicationList] = useState([]);
+  const [editionList, setEditionList] = useState([]);
   // Initial form values
   const initialFormValues = {
     pub_date: "",
@@ -238,14 +240,15 @@ function Ctp() {
   };
 
   const handleReset = () => {
-    setFormValues(initialFormValues);
-    setScheduledTime("");
-    setActualTime("");
-    setDifferenceTime("");
-    setShowReasonForDelay(false);
-    setShowReasonForDifference(false);
-    setSubmit("");
-    setError("");
+    // setFormValues(initialFormValues);
+    // setScheduledTime("");
+    // setActualTime("");
+    // setDifferenceTime("");
+    // setShowReasonForDelay(false);
+    // setShowReasonForDifference(false);
+    // setSubmit("");
+    // setError("");
+    window.location.reload();
   };
 
   return (

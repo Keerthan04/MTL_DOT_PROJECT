@@ -4,44 +4,46 @@ import { useLocation } from "react-router-dom";
 import "../home.css";
 import Logo from "../images/tmg-logo.jpg";
 import "./report.css";
-import Dropdown from "../components/dropdownbutton";
+//import Dropdown from "../components/dropdownbutton";
 //import ErrorOne from "../components/Error";
 import ModalComponent from "./ModalComponent";
 import { useAuth } from "../components/AuthContext";
-import LogoutButton from "../components/LogoutButoon";
+//import LogoutButton from "../components/LogoutButoon";
 import NewNav from "../components/newNav";
-
 
 function MachineStopReport() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [submit, setSubmit] = useState("");
-  const [entryShowDropdown, setEntryShowDropdown] = useState(false);
-  const [reportShowDropdown, setReportShowDropdown] = useState(false);
+  // const [entryShowDropdown, setEntryShowDropdown] = useState(false);
+  // const [reportShowDropdown, setReportShowDropdown] = useState(false);
+  const [unitList, setUnitList] = useState([]);
+  const [publicationList, setPublicationList] = useState([]);
+  const [editionList, setEditionList] = useState([]);
   //const [login, setLogin] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Form state
-  const initialFormValues ={
+  const initialFormValues = {
     unit: "",
     publication: "",
     edition: "",
     Publish_from_date: "",
     Publish_to_date: "",
-  }
+  };
   const [formValues, setFormValues] = useState(initialFormValues);
 
   const location = useLocation();
   const username = location.state?.Username;
   //const token = location.state?.Token;
   const { token } = useAuth();
-  const handleEntryDropdownToggle = () => {
-    setEntryShowDropdown(!entryShowDropdown);
-  };
+  // const handleEntryDropdownToggle = () => {
+  //   setEntryShowDropdown(!entryShowDropdown);
+  // };
 
-  const handleReportDropdownToggle = () => {
-    setReportShowDropdown(!reportShowDropdown);
-  };
+  // const handleReportDropdownToggle = () => {
+  //   setReportShowDropdown(!reportShowDropdown);
+  // };
 
   useEffect(() => {
     if (!token) {
@@ -79,7 +81,47 @@ function MachineStopReport() {
       [name]: value,
     });
   };
+  useEffect(() => {
+    axios.get("http://localhost:3000/home/entry/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setUnitList(res.data.unit);
+        setPublicationList(res.data.publication);
+        setEditionList(res.data.edition);
+      })
+      .catch((err) => {
+        if (err.response) {
+          setError(err.response.data.message);
+        } else {
+          setError("An error occurred. Please try again.");
+        }
+      });
+  }, [token]);
 
+  
+
+  const handleUnitChange = (event) => {
+    const selectedUnit = event.target.value;
+    setFormValues({ ...formValues, unit: selectedUnit, pub: '', ed_name: '' });
+  };
+
+  const handlePublicationChange = (event) => {
+    const selectedPub = event.target.value;
+    setFormValues({ ...formValues, pub: selectedPub, ed_name: '' });
+  };
+
+  const getFilteredEditions = () => {
+    const { unit, pub } = formValues;
+    if (!unit || !pub) return [];
+    const editionData = editionList.find(
+      (item) => item.unit === unit && item.publication === pub
+    );
+    console.log(editionData);
+    return !(editionData.edition.includes('No edition available')) ? editionData.edition : [];
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const dataToSend = {
@@ -116,57 +158,90 @@ function MachineStopReport() {
     "Publication",
     "Reason for stoppage",
     "Stop from time",
-    "Stop end time"
+    "Stop end time",
   ];
   const handleReset = () => {
-    setFormValues(initialFormValues);
-    setSubmit('');
-    setError('');
+    // setFormValues(initialFormValues);
+    // setSubmit("");
+    // setError("");
+    window.location.reload();
   };
   return (
     <>
       <div className="body">
-        <NewNav username={username} token={token}/>
+        <NewNav username={username} token={token} />
         <div className="main">
           <div className="below">
             <div className="content">
               <h2>Machine Stop Report</h2>
               <div className="form">
                 <form onSubmit={handleSubmit}>
-                <div className="detail">
+                  <div className="detail">
                     <p>Unit:</p>
                     <label>
-                      <input
-                        type="text"
+                      <select
                         name="unit"
                         value={formValues.unit}
-                        onChange={handleInputChange}
+                        onChange={handleUnitChange}
                         required
-                      />
+                        className="input-field"
+                      >
+                        <option value="" disabled>
+                          Select Unit
+                        </option>
+                        {unitList.map((unit, index) => (
+                          <option key={index} value={unit}>
+                            {unit}
+                          </option>
+                        ))}
+                      </select>
                     </label>
                   </div>
                   <div className="detail">
                     <p>Publication:</p>
                     <label>
-                      <input
-                        type="text"
-                        name="publication"
-                        value={formValues.publication}
-                        onChange={handleInputChange}
+                      <select
+                        name="pub"
+                        value={formValues.pub}
+                        onChange={handlePublicationChange}
                         required
-                      />
+                        className="input-field"
+                      >
+                        <option value="" disabled>
+                          Select Publication
+                        </option>
+                        {publicationList.map((pub, index) => (
+                          <option key={index} value={pub}>
+                            {pub}
+                          </option>
+                        ))}
+                      </select>
                     </label>
                   </div>
                   <div className="detail">
                     <p>Edition Name:</p>
                     <label>
-                      <input
-                        type="text"
-                        name="edition"
-                        value={formValues.edition}
+                      <select
+                        name="ed_name"
+                        value={formValues.ed_name}
                         onChange={handleInputChange}
                         required
-                      />
+                        className="input-field"
+                      >
+                        <option value="" disabled>
+                          Select Edition
+                        </option>
+                        {getFilteredEditions().length === 0 && (
+                          <option value="No edition available" disabled>
+                            No editions available
+                          </option>
+                        )}
+                        {getFilteredEditions().map((edition, index) => (
+                          <option key={index} value={edition}>
+                            {edition}
+                          </option>
+                        ))}
+                      </select>
                     </label>
                   </div>
                   <div className="detail">
@@ -195,7 +270,9 @@ function MachineStopReport() {
                   </div>
                   <div className="submit-reset">
                     <button type="submit">Submit</button>
-                    <button type="reset" onClick={handleReset}>Reset</button>
+                    <button type="reset" onClick={handleReset}>
+                      Reset
+                    </button>
                   </div>
                   {(error && (
                     <div className="text-red-500 text-sm mt-2 text-center">
@@ -219,6 +296,9 @@ function MachineStopReport() {
             />
           </div>
         </div>
+        <footer>
+          <p>Copyright 2024 © All Rights Reserved. The Manipal Group</p>
+        </footer>
       </div>
     </>
   );

@@ -67,16 +67,22 @@ app.listen(PORT, () => {
 
 //shd do a global error handling and not throwing errors and also dropdown shd be made to be proper for editions and all
 //checking the working of all once u do and the final report do once
-//add isvalid check in login and make login page properly
+//add isvalid check in login and make login page properly----------DONE!!
 //when refreshed the username and all lost? so how to make it proper or see to that
 
 //before logout and submit or reset ask again 
 //if once error then again wont change or go and all
 //proper reason for delay and other things to be checked
 //when reset the unit and pub ka reset shd be checked why not happening
-//the unit and all in the report also do
+//the unit and all in the report also do---DONE!!
 
-//some table col name changes shd be done properly in query like pub as publication date mainly in report also and alos sending and all shd check->mainly the machine stop table and some changes also
+//some table col name changes shd be done properly in query like pub as publication date mainly in report also and alos sending and all shd check->mainly the machine stop table and some changes also---DONE!!
 
+//relod done so no reset prob-check like machine stop and all
+//all ka working of entry and report seeing done
+
+//the dropdown of unit and pub have for each unit the pub only then the edi based on that only like that
+//only the submit and logout and all pop up check
 //the machines part is done
+//the final report wala do and check
 module.exports = app;

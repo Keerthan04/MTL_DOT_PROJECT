@@ -76,36 +76,34 @@ function Production() {
   const selectedMachineTowers =
     machines.find((machine) => machine.name === selectedMachine)?.towers || [];
 
-  const calculateDifferenceTime = (scheduled, actual) => {
-    if (scheduled && actual) {
-      const scheduledDate = new Date(scheduled);
-      const actualDate = new Date(actual);
-      const diffMs = actualDate - scheduledDate;
-
-      if (diffMs < 0) {
-        setDifferenceTime("00:00:00");
-        setShowReasonForDelay(false);
-        setFormValues({ ...formValues, difference_time: "00:00:00" });
-        return;
+    const calculateDifferenceTime = (scheduled, actual) => {
+      if (scheduled && actual) {
+        const scheduledDate = new Date(scheduled);
+        const actualDate = new Date(actual);
+        const diffMs = actualDate - scheduledDate;
+  
+        if (diffMs < 0) {
+          setDifferenceTime("00:00:00");
+          setShowReasonForDelay(false);
+          setFormValues({ ...formValues, difference_time: "00:00:00" });
+          return;
+        }
+  
+        const diffHrs = Math.floor(diffMs / 3600000);
+        const diffMins = Math.floor((diffMs % 3600000) / 60000);
+        const diffSecs = Math.floor((diffMs % 60000) / 1000);
+  
+        const diffTime = `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}:${String(diffSecs).padStart(2, '0')}`;
+        setDifferenceTime(diffTime);
+        setFormValues({ ...formValues, difference_time: diffTime });
+  
+        if (diffMs > 0) {
+          setShowReasonForDelay(true);
+        } else {
+          setShowReasonForDelay(false);
+        }
       }
-
-      const diffHrs = Math.floor(diffMs / 3600000);
-      const diffMins = Math.floor((diffMs % 3600000) / 60000);
-      const diffSecs = Math.floor((diffMs % 60000) / 1000);
-
-      const diffTime = `${String(diffHrs).padStart(2, "0")}:${String(
-        diffMins
-      ).padStart(2, "0")}:${String(diffSecs).padStart(2, "0")}`;
-      setDifferenceTime(diffTime);
-      setFormValues({ ...formValues, difference_time: diffTime });
-
-      if (diffMs > 0) {
-        setShowReasonForDelay(true);
-      } else {
-        setShowReasonForDelay(false);
-      }
-    }
-  };
+    };
 
   useEffect(() => {
     if (!token) {
@@ -229,13 +227,14 @@ function Production() {
   };
 
   const handleReset = () => {
-    setFormValues(initialFormValues);
-    setScheduledTime("");
-    setActualTime("");
-    setDifferenceTime("");
-    setShowReasonForDelay(false);
-    setSubmit("");
-    setError("");
+    // setFormValues(initialFormValues);
+    // setScheduledTime("");
+    // setActualTime("");
+    // setDifferenceTime("");
+    // setShowReasonForDelay(false);
+    // setSubmit("");
+    // setError("");
+    window.location.reload();
   };
 
   return (
@@ -443,7 +442,7 @@ function Production() {
                     <p>Print Start Time:</p>
                     <label>
                       <input
-                        type="time"
+                        type="datetime-local"
                         step="1"
                         name="print_start_time"
                         value={formValues.print_start_time}
@@ -457,7 +456,7 @@ function Production() {
                     <p>Print Stop Time:</p>
                     <label>
                       <input
-                        type="time"
+                        type="datetime-local"
                         step="1"
                         name="print_stop_time"
                         value={formValues.print_stop_time}

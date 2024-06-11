@@ -27,8 +27,8 @@ function MachineStops() {
     unit: "",
     pub: "",
     reason_for_stoppage: "",
-    stop_from_time: "",
-    stop_end_time: "",
+    printer_stop_time: "",
+    printer_restart_time: "",
   };
   const [formValues, setFormValues] = useState(initialFormValues);
 
@@ -147,13 +147,14 @@ function MachineStops() {
       });
   };
   const handleReset = () => {
-    setFormValues(initialFormValues);
-    // setScheduledTime("");
-    // setActualTime("");
-    // setDifferenceTime("");
-    // setShowReasonForDelay(false);
-    setsubmit("");
-    setError("");
+    // setFormValues(initialFormValues);
+    // // setScheduledTime("");
+    // // setActualTime("");
+    // // setDifferenceTime("");
+    // // setShowReasonForDelay(false);
+    // setsubmit("");
+    // setError("");
+    window.location.reload();
   };
   return (
     <>
@@ -259,29 +260,29 @@ function MachineStops() {
                     </label>
                   </div>
                   <div className="detail">
-                    <p>Stop From Time:</p>
+                    <p>Printer Stop Time</p>
                     <label>
                       <input
-                        type="time"
+                        type="datetime-local"
                         step="1"
-                        name="stop_from_time"
-                        value={formValues.stop_from_time}
+                        name="printer_stop_time"
+                        value={formValues.printer_stop_time}
                         onChange={handleInputChange}
-                        placeholder="Stop from time"
+                        placeholder="printer_stop_time"
                         required
                       />
                     </label>
                   </div>
                   <div className="detail">
-                    <p>Stop End Time:</p>
+                    <p>Printer Restart time</p>
                     <label>
                       <input
-                        type="time"
+                        type="datetime-local"
                         step="1"
-                        name="stop_end_time"
-                        value={formValues.stop_end_time}
+                        name="printer_restart_time"
+                        value={formValues.printer_restart_time}
                         onChange={handleInputChange}
-                        placeholder="Stop end time"
+                        placeholder="printer_restart_time"
                         required
                       />
                     </label>

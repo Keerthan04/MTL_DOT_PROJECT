@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -18,9 +18,33 @@ import {
 } from "@nextui-org/react";
 import LogoutButton from "./LogoutButoon";
 import Logo from '../images/tmg-logo.jpg'; 
+import Popup from './Popup';
 
 function NewNav({ token, username }) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleLogout = () => {
+    setShowLogoutPopup(true);
+  };
+
+  const confirmLogout = () => {
+    // Your logout logic here
+    setPopupMessage("You have been logged out successfully.");
+    setShowPopup(true);
+    setShowLogoutPopup(false);
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutPopup(false);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setPopupMessage(null);
+  };
 
   return (
     <div className="w-full">
@@ -117,7 +141,7 @@ function NewNav({ token, username }) {
         {!isMenuOpen && (
           <NavbarContent className="hidden sm:flex" justify="end">
             <NavbarItem>
-              <LogoutButton islarge={true}/>
+              <LogoutButton islarge={true} onClick={handleLogout}/>
             </NavbarItem>
           </NavbarContent>
         )}
@@ -213,10 +237,27 @@ function NewNav({ token, username }) {
             </Dropdown>
           </NavbarMenuItem>
           <NavbarMenuItem>
-            <LogoutButton islarge={false}/>
+            <LogoutButton islarge={false} onClick={handleLogout}/>
           </NavbarMenuItem>
         </NavbarMenu>
       </Navbar>
+      {showLogoutPopup && (
+        <Popup 
+          message={
+            <>
+              Are you sure you want to logout?
+              <div className="popup-buttons">
+                <Button onClick={confirmLogout}>Yes</Button>
+                <Button onClick={cancelLogout}>No</Button>
+              </div>
+            </>
+          } 
+          onClose={cancelLogout} 
+        />
+      )}
+      {showPopup && (
+        <Popup message={popupMessage} onClose={closePopup} duration={3000} />
+      )}
     </div>
   );
 }

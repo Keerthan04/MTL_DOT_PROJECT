@@ -191,13 +191,14 @@ function Editorial() {
       });
   };
   const handleReset = () => {
-    setFormValues(initialFormValues);
-    setScheduledTime("");
-    setActualTime("");
-    setDifferenceTime("");
-    setShowReasonForDelay(false);
-    setsubmit("");
-    setError("");
+    // setFormValues(initialFormValues);
+    // setScheduledTime("");
+    // setActualTime("");
+    // setDifferenceTime("");
+    // setShowReasonForDelay(false);
+    // setsubmit("");
+    // setError("");
+    window.location.reload();
   };
   return (
     <>

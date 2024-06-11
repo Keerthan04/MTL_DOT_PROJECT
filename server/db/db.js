@@ -66,6 +66,23 @@ async function check_password(user_id){
         throw error;
     }
 }
+
+async function getActive(user_id){
+    try{
+        const pool = await sql.connect(config);
+        const result = await pool.request().query(`select isActive from Login where user_id = '${user_id}'`);
+        if(result.recordsets.length === 0){
+            return null;
+        }
+        else{
+            return result.recordsets[0][0].isActive;
+        }
+    }
+    catch(error){
+        console.log(error);
+        throw error;
+    }
+}
 async function send_unit_pub_edition(req,res){
     try{
         //shd get unit then shd get publication and then for each pair get edition name if not there send empty array  for edition else send editions finally shd send unit and array then publication then array and edition and then its
@@ -198,13 +215,13 @@ async function machinestops_entry(req,res){
     try{
         const pool = await sql.connect(config);
         const user_id = req.user_id;//got directly from the req object
-        const {pub_date,ed_name,unit,pub,reason_for_stoppage,stop_from_time,stop_end_time} = req.body;
+        const {pub_date,ed_name,unit,pub,reason_for_stoppage,printer_stop_time,printer_restart_time} = req.body;
         
-        if(!pub_date || !ed_name || !unit || !pub || !reason_for_stoppage || !stop_from_time || !stop_end_time){
+        if(!pub_date || !ed_name || !unit || !pub || !reason_for_stoppage || !printer_stop_time || !printer_restart_time){
             return res.status(400).json({message:"Please fill all the fields"});
         }
         //this is only when the machine stop so req to backend only when the entry done so that all fields is send
-        const result = await pool.request().query(`insert into machine_stops (pub_date,ed_name,unit,publication,reason_for_stoppage,printer_stop_time,printer_restart_time) values('${pub_date}','${ed_name}','${unit}','${pub}','${reason_for_stoppage}','${stop_from_time}','${stop_end_time}');`);
+        const result = await pool.request().query(`insert into machine_stops (pub_date,ed_name,unit,publication,reason_for_stoppage,printer_stop_time,printer_restart_time) values('${pub_date}','${ed_name}','${unit}','${pub}','${reason_for_stoppage}','${printer_stop_time}','${printer_restart_time}');`);
         console.log(result);
         res.status(200).send({message: "Machine_Stops entry saved"});
     }catch(error){
@@ -326,14 +343,15 @@ async function get_machines(req,res){
 //so the format of the date shd be changed so that only yyyy-mm-dd shd come
  // Make sure to configure your database connection
 
- //so the object array it comes
+
+
 async function scheduling_report(req, res) {
     try {
         const pool = await sql.connect(config);
         const user_id = req.user_id; // Got directly from the req object
-        const { unit, publication, edition, Publish_from_date, Publish_to_date } = req.body;
+        const { unit, pub, ed_name, Publish_from_date, Publish_to_date } = req.body;
 
-        if (!unit || !publication || !edition || !Publish_from_date || !Publish_to_date) {
+        if (!unit || !pub || !ed_name || !Publish_from_date || !Publish_to_date) {
             return res.status(400).json({ message: "Please fill all the fields" });
         }
 
@@ -342,24 +360,24 @@ async function scheduling_report(req, res) {
             SELECT 
                 CONVERT(varchar, pub_date, 23) AS pub_date,
                 ed_name,
-                CONVERT(varchar, schedule_time,120) AS schedule_time,
+                CONVERT(varchar, schedule_time, 120) AS schedule_time,
                 CONVERT(varchar, actual_time, 120) AS actual_time,
                 CONVERT(varchar, difference_time, 8) AS difference_time,
                 no_of_pages,
                 reason_for_delay,
                 unit,
-                pub
+                publication
             FROM Scheduling
             WHERE unit = @unit
-                AND pub = @publication
-                AND ed_name = @edition
+                AND publication = @pub
+                AND ed_name = @ed_name
                 AND pub_date BETWEEN @Publish_from_date AND @Publish_to_date
         `;
 
         const request = pool.request();
         request.input('unit', sql.VarChar, unit);
-        request.input('publication', sql.VarChar, publication);
-        request.input('edition', sql.VarChar, edition);
+        request.input('pub', sql.VarChar, pub);
+        request.input('ed_name', sql.VarChar, ed_name);
         request.input('Publish_from_date', sql.Date, Publish_from_date);
         request.input('Publish_to_date', sql.Date, Publish_to_date);
 
@@ -367,23 +385,25 @@ async function scheduling_report(req, res) {
         console.log(result.recordset);
 
         if (result.recordset.length > 0) {
-            res.status(200).send({ message: "Scheduling report fetched", records: result.recordset });
+            return res.status(200).send({ message: "Scheduling report fetched", records: result.recordset });
         } else {
-            res.status(200).send({ message: "No records found" });
+            return res.status(404).send({ message: "No records found" });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: "Internal Server Error" });
+        console.error("Error fetching scheduling report:", error);
+        return res.status(500).send({ message: "Internal Server Error" });
     }
 }
+
+
 
 async function editorial_report(req, res) {
     try {
         const pool = await sql.connect(config);
         const user_id = req.user_id; // Got directly from the req object
-        const { unit, publication, edition, Publish_from_date, Publish_to_date } = req.body;
+        const { unit, pub, ed_name, Publish_from_date, Publish_to_date } = req.body;
 
-        if (!unit || !publication || !edition || !Publish_from_date || !Publish_to_date) {
+        if (!unit || !pub || !ed_name || !Publish_from_date || !Publish_to_date) {
             return res.status(400).json({ message: "Please fill all the fields" });
         }
 
@@ -397,18 +417,18 @@ async function editorial_report(req, res) {
                 CONVERT(varchar, difference_time, 8) AS difference_time,
                 reason_for_delay,
                 unit,
-                pub
+                publication
             FROM Editorial
             WHERE unit = @unit
-                AND pub = @publication
-                AND ed_name = @edition
+                AND publication = @pub
+                AND ed_name = @ed_name
                 AND pub_date BETWEEN @Publish_from_date AND @Publish_to_date
         `;
 
         const request = pool.request();
         request.input('unit', sql.VarChar, unit);
-        request.input('publication', sql.VarChar, publication);
-        request.input('edition', sql.VarChar, edition);
+        request.input('pub', sql.VarChar, pub);
+        request.input('ed_name', sql.VarChar, ed_name);
         request.input('Publish_from_date', sql.Date, Publish_from_date);
         request.input('Publish_to_date', sql.Date, Publish_to_date);
 
@@ -430,9 +450,9 @@ async function ctp_report(req, res) {
     try {
         const pool = await sql.connect(config);
         const user_id = req.user_id; // Got directly from the req object
-        const { unit, publication, edition, Publish_from_date, Publish_to_date } = req.body;
+        const { unit, pub, ed_name, Publish_from_date, Publish_to_date } = req.body;
 
-        if (!unit || !publication || !edition || !Publish_from_date || !Publish_to_date) {
+        if (!unit || !pub || !ed_name || !Publish_from_date || !Publish_to_date) {
             return res.status(400).json({ message: "Please fill all the fields" });
         }
 
@@ -446,22 +466,24 @@ async function ctp_report(req, res) {
                 CONVERT(varchar, difference_time, 8) AS difference_time,
                 reason_for_delay,
                 unit,
-                pub,
+                publication,
                 total_no_of_pages,
                 black_and_white_pages,
                 color_pages,
-                no_of_plates
+                calculated_no_of_plates,
+                actual_no_of_plates,
+                reason_for_difference
             FROM ctp
             WHERE unit = @unit
-                AND pub = @publication
-                AND ed_name = @edition
+                AND publication = @pub
+                AND ed_name = @ed_name
                 AND pub_date BETWEEN @Publish_from_date AND @Publish_to_date
         `;
 
         const request = pool.request();
         request.input('unit', sql.VarChar, unit);
-        request.input('publication', sql.VarChar, publication);
-        request.input('edition', sql.VarChar, edition);
+        request.input('pub', sql.VarChar, pub);
+        request.input('ed_name', sql.VarChar, ed_name);
         request.input('Publish_from_date', sql.Date, Publish_from_date);
         request.input('Publish_to_date', sql.Date, Publish_to_date);
 
@@ -483,9 +505,9 @@ async function prepress_report(req, res) {
     try {
         const pool = await sql.connect(config);
         const user_id = req.user_id; // Got directly from the req object
-        const { unit, publication, edition, Publish_from_date, Publish_to_date } = req.body;
+        const { unit, pub, ed_name, Publish_from_date, Publish_to_date } = req.body;
 
-        if (!unit || !publication || !edition || !Publish_from_date || !Publish_to_date) {
+        if (!unit || !pub || !ed_name || !Publish_from_date || !Publish_to_date) {
             return res.status(400).json({ message: "Please fill all the fields" });
         }
 
@@ -499,18 +521,18 @@ async function prepress_report(req, res) {
                 CONVERT(varchar, difference_time, 8) AS difference_time,
                 reason_for_delay,
                 unit,
-                pub
+                publication
             FROM Prepress
             WHERE unit = @unit
-                AND pub = @publication
-                AND ed_name = @edition
+                AND publication = @pub
+                AND ed_name = @ed_name
                 AND pub_date BETWEEN @Publish_from_date AND @Publish_to_date
         `;
 
         const request = pool.request();
         request.input('unit', sql.VarChar, unit);
-        request.input('publication', sql.VarChar, publication);
-        request.input('edition', sql.VarChar, edition);
+        request.input('pub', sql.VarChar, pub);
+        request.input('ed_name', sql.VarChar, ed_name);
         request.input('Publish_from_date', sql.Date, Publish_from_date);
         request.input('Publish_to_date', sql.Date, Publish_to_date);
 
@@ -532,9 +554,9 @@ async function machine_stop_report(req, res) {
     try {
         const pool = await sql.connect(config);
         const user_id = req.user_id; // Got directly from the req object
-        const { unit, publication, edition, Publish_from_date, Publish_to_date } = req.body;
+        const { unit, pub, ed_name, Publish_from_date, Publish_to_date } = req.body;
 
-        if (!unit || !publication || !edition || !Publish_from_date || !Publish_to_date) {
+        if (!unit || !pub || !ed_name || !Publish_from_date || !Publish_to_date) {
             return res.status(400).json({ message: "Please fill all the fields" });
         }
 
@@ -544,21 +566,21 @@ async function machine_stop_report(req, res) {
                 CONVERT(varchar, pub_date, 23) AS pub_date,
                 ed_name,
                 unit,
-                pub,
+                publication,
                 reason_for_stoppage,
-                CONVERT(varchar, stop_from_time, 8) AS stop_from_time,
-                CONVERT(varchar, stop_end_time, 8) AS stop_end_time
+                CONVERT(varchar, printer_stop_time, 8) AS printer_stop_time,
+                CONVERT(varchar, printer_restart_time, 8) AS printer_restart_time
             FROM machine_stops
             WHERE unit = @unit
-                AND pub = @publication
-                AND ed_name = @edition
+                AND publication = @pub
+                AND ed_name = @ed_name
                 AND pub_date BETWEEN @Publish_from_date AND @Publish_to_date
         `;
 
         const request = pool.request();
         request.input('unit', sql.VarChar, unit);
-        request.input('publication', sql.VarChar, publication);
-        request.input('edition', sql.VarChar, edition);
+        request.input('pub', sql.VarChar, pub);
+        request.input('ed_name', sql.VarChar, ed_name);
         request.input('Publish_from_date', sql.Date, Publish_from_date);
         request.input('Publish_to_date', sql.Date, Publish_to_date);
 
@@ -580,9 +602,9 @@ async function production_report(req, res) {
     try {
         const pool = await sql.connect(config);
         const user_id = req.user_id; // Got directly from the req object
-        const { unit, publication, edition, Publish_from_date, Publish_to_date } = req.body;
+        const { unit, pub, ed_name, Publish_from_date, Publish_to_date } = req.body;
 
-        if (!unit || !publication || !edition || !Publish_from_date || !Publish_to_date) {
+        if (!unit || !pub || !ed_name || !Publish_from_date || !Publish_to_date) {
             return res.status(400).json({ message: "Please fill all the fields" });
         }
 
@@ -592,7 +614,7 @@ async function production_report(req, res) {
                 CONVERT(varchar, pub_date, 23) AS pub_date,
                 ed_name,
                 unit,
-                pub,
+                publication,
                 CONVERT(varchar, schedule_time, 120) AS schedule_time,
                 CONVERT(varchar, actual_time, 120) AS actual_time,
                 CONVERT(varchar, difference_time, 8) AS difference_time,
@@ -606,15 +628,15 @@ async function production_report(req, res) {
                 Towers
             FROM Production
             WHERE unit = @unit
-                AND pub = @publication
-                AND ed_name = @edition
+                AND publication = @pub
+                AND ed_name = @ed_name
                 AND pub_date BETWEEN @Publish_from_date AND @Publish_to_date
         `;
 
         const request = pool.request();
         request.input('unit', sql.VarChar, unit);
-        request.input('publication', sql.VarChar, publication);
-        request.input('edition', sql.VarChar, edition);
+        request.input('pub', sql.VarChar, pub);
+        request.input('ed_name', sql.VarChar, ed_name);
         request.input('Publish_from_date', sql.Date, Publish_from_date);
         request.input('Publish_to_date', sql.Date, Publish_to_date);
 
@@ -631,4 +653,4 @@ async function production_report(req, res) {
         res.status(500).send({ message: "Internal Server Error" });
     }
 }
-module.exports = {check_userid,check_password,scheduling_entry,editorial_entry,prepress_entry,machinestops_entry,ctp_entry,production_entry,scheduling_report,editorial_report,ctp_report,prepress_report,machine_stop_report,production_report,get_machines,send_unit_pub_edition};
+module.exports = {check_userid,getActive,check_password,scheduling_entry,editorial_entry,prepress_entry,machinestops_entry,ctp_entry,production_entry,scheduling_report,editorial_report,ctp_report,prepress_report,machine_stop_report,production_report,get_machines,send_unit_pub_edition};

@@ -179,13 +179,15 @@ function Scheduling() {
   };
 
   const handleReset = () => {
-    setFormValues(initialFormValues);
-    setScheduledTime('');
-    setActualTime('');
-    setDifferenceTime('');
-    setShowReasonForDelay(false);
-    setSubmit('');
-    setError('');
+    // setFormValues(initialFormValues);
+    // setScheduledTime('');
+    // setActualTime('');
+    // setDifferenceTime('');
+    // setShowReasonForDelay(false);
+    // setSubmit('');
+    // setError('');
+    //all these not req ig
+    window.location.reload();
   };
 
   return (

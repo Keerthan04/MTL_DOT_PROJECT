@@ -193,13 +193,14 @@ function Prepress() {
       });
   };
   const handleReset = () => {
-    setFormValues(initialFormValues);
-    setScheduledTime("");
-    setActualTime("");
-    setDifferenceTime("");
-    setShowReasonForDelay(false);
-    setSubmit("");
-    setError("");
+    // setFormValues(initialFormValues);
+    // setScheduledTime("");
+    // setActualTime("");
+    // setDifferenceTime("");
+    // setShowReasonForDelay(false);
+    // setSubmit("");
+    // setError("");
+    window.location.reload();
   };
   return (
     <div className="body">

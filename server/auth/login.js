@@ -22,6 +22,10 @@ async function login(req,res){
                 res.status(401).send({message: "Wrong password"});
             }
             else{
+                const active = await db.getActive(user_id);
+                if(!active || (active === "inactive")){
+                    res.status(401).send({message: "User is not activated to access the site"});
+                }
                 const login = 'true';
                 res.status(200).send({message:"Login Successful",token:create_jwt(user_id,password,login)});
             }
