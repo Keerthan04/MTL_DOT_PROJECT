@@ -1,12 +1,12 @@
 const config = {
     user: 'sa',
-    password: '123',
+    password: 'password',
     server: '127.0.0.1',
     database: 'MTL_Project',
     options: {
         trustedconnection: true,
         enableArithAbort: true,
-        instancename: 'SQLEXPRESS',
+        instancename: 'MSSQLSERVER',
         trustServerCertificate: true
     },
     port : 1433

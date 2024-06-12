@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import './editorial.css';
+import "./editorial.css";
 import { useAuth } from "./components/AuthContext";
 import NewNav from "./components/newNav";
 
@@ -9,9 +9,9 @@ function Scheduling() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [submit, setSubmit] = useState("");
-  const [scheduledTime, setScheduledTime] = useState('');
-  const [actualTime, setActualTime] = useState('');
-  const [differenceTime, setDifferenceTime] = useState('');
+  const [scheduledTime, setScheduledTime] = useState("");
+  const [actualTime, setActualTime] = useState("");
+  const [differenceTime, setDifferenceTime] = useState("");
   const [showReasonForDelay, setShowReasonForDelay] = useState(false);
   const [unitList, setUnitList] = useState([]);
   const [publicationList, setPublicationList] = useState([]);
@@ -21,15 +21,15 @@ function Scheduling() {
   const { token } = useAuth();
 
   const initialFormValues = {
-    pub_date: '',
-    unit: '',
-    pub: '',
-    ed_name: '',
+    pub_date: "",
+    unit: "",
+    pub: "",
+    ed_name: "",
     no_of_pages: 0,
-    schedule_time: '',
-    actual_time: '',
-    difference_time: '0',
-    reason_for_delay: ' '
+    schedule_time: "",
+    actual_time: "",
+    difference_time: "0",
+    reason_for_delay: " ",
   };
 
   const [formValues, setFormValues] = useState(initialFormValues);
@@ -61,7 +61,9 @@ function Scheduling() {
       const diffMins = Math.floor((diffMs % 3600000) / 60000);
       const diffSecs = Math.floor((diffMs % 60000) / 1000);
 
-      const diffTime = `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}:${String(diffSecs).padStart(2, '0')}`;
+      const diffTime = `${String(diffHrs).padStart(2, "0")}:${String(
+        diffMins
+      ).padStart(2, "0")}:${String(diffSecs).padStart(2, "0")}`;
       setDifferenceTime(diffTime);
       setFormValues({ ...formValues, difference_time: diffTime });
 
@@ -75,7 +77,7 @@ function Scheduling() {
 
   useEffect(() => {
     if (!token) {
-      setError("404 not logged in"); 
+      setError("404 not logged in");
       return;
     }
 
@@ -101,16 +103,17 @@ function Scheduling() {
     const { name, value } = event.target;
     setFormValues({
       ...formValues,
-      [name]: value
+      [name]: value,
     });
   };
-  
+
   useEffect(() => {
-    axios.get("http://localhost:3000/home/entry/", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    axios
+      .get("http://localhost:3000/home/entry/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setUnitList(res.data.unit);
         setPublicationList(res.data.publication);
@@ -125,16 +128,14 @@ function Scheduling() {
       });
   }, [token]);
 
-  
-
   const handleUnitChange = (event) => {
     const selectedUnit = event.target.value;
-    setFormValues({ ...formValues, unit: selectedUnit, pub: '', ed_name: '' });
+    setFormValues({ ...formValues, unit: selectedUnit, pub: "", ed_name: "" });
   };
 
   const handlePublicationChange = (event) => {
     const selectedPub = event.target.value;
-    setFormValues({ ...formValues, pub: selectedPub, ed_name: '' });
+    setFormValues({ ...formValues, pub: selectedPub, ed_name: "" });
   };
 
   const getFilteredEditions = () => {
@@ -144,27 +145,33 @@ function Scheduling() {
       (item) => item.unit === unit && item.publication === pub
     );
     console.log(editionData);
-    return !(editionData.edition.includes('No edition available')) ? editionData.edition : [];
+    return !editionData.edition.includes("No edition available")
+      ? editionData.edition
+      : [];
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const filteredEditions = getFilteredEditions();
-    if (filteredEditions.length === 0 || filteredEditions.includes('No edition available')) {
+    if (
+      filteredEditions.length === 0 ||
+      filteredEditions.includes("No edition available")
+    ) {
       setError("No editions available for the selected unit and publication.");
       return;
     }
     const dataToSend = {
       ...formValues,
       schedule_time: scheduledTime,
-      actual_time: actualTime
+      actual_time: actualTime,
     };
     console.log(dataToSend);
-    axios.post('http://localhost:3000/home/entry/scheduling', dataToSend, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    axios
+      .post("http://localhost:3000/home/entry/scheduling", dataToSend, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setSubmit(res.data.message);
         setData(res.data);
@@ -192,165 +199,194 @@ function Scheduling() {
 
   return (
     <div className="body">
-      <NewNav username={username} token={token}/>
+      <NewNav username={username} token={token} />
       <div className="main">
         <div className="below">
           <div className="content">
             <h2>Scheduling Entry</h2>
             <div className="form">
               <form onSubmit={handleSubmit} onReset={handleReset}>
-                <div className='detail'>
+                <div className="detail">
                   <p>Publication Date:</p>
                   <label>
-                    <input 
-                      type="date" 
-                      name="pub_date" 
-                      value={formValues.pub_date} 
-                      onChange={handleInputChange} 
-                      required 
-                      className="input-field" 
+                    <input
+                      type="date"
+                      name="pub_date"
+                      value={formValues.pub_date}
+                      onChange={handleInputChange}
+                      required
+                      className="input-field"
                     />
                   </label>
                 </div>
-                <div className='detail'>
+                <div className="detail">
                   <p>Unit:</p>
                   <label>
-                    <select 
-                      name="unit" 
-                      value={formValues.unit} 
-                      onChange={handleUnitChange} 
-                      required 
+                    <select
+                      name="unit"
+                      value={formValues.unit}
+                      onChange={handleUnitChange}
+                      required
                       className="input-field"
                     >
-                      <option value="" disabled>Select Unit</option>
+                      <option value="" disabled>
+                        Select Unit
+                      </option>
                       {unitList.map((unit, index) => (
-                        <option key={index} value={unit}>{unit}</option>
+                        <option key={index} value={unit}>
+                          {unit}
+                        </option>
                       ))}
                     </select>
                   </label>
                 </div>
-                <div className='detail'>
+                <div className="detail">
                   <p>Publication:</p>
                   <label>
-                    <select 
-                      name="pub" 
-                      value={formValues.pub} 
-                      onChange={handlePublicationChange} 
-                      required 
+                    <select
+                      name="pub"
+                      value={formValues.pub}
+                      onChange={handlePublicationChange}
+                      required
                       className="input-field"
                     >
-                      <option value="" disabled>Select Publication</option>
+                      <option value="" disabled>
+                        Select Publication
+                      </option>
                       {publicationList.map((pub, index) => (
-                        <option key={index} value={pub}>{pub}</option>
+                        <option key={index} value={pub}>
+                          {pub}
+                        </option>
                       ))}
                     </select>
                   </label>
                 </div>
-                <div className='detail'>
+                <div className="detail">
                   <p>Edition Name:</p>
                   <label>
-                    <select 
-                      name="ed_name" 
-                      value={formValues.ed_name} 
-                      onChange={handleInputChange} 
-                      required 
+                    <select
+                      name="ed_name"
+                      value={formValues.ed_name}
+                      onChange={handleInputChange}
+                      required
                       className="input-field"
                     >
-                      <option value="" disabled>Select Edition</option>
+                      <option value="" disabled>
+                        Select Edition
+                      </option>
                       {getFilteredEditions().length === 0 && (
-                        <option value="No edition available" disabled>No editions available</option>
+                        <option value="No edition available" disabled>
+                          No editions available
+                        </option>
                       )}
                       {getFilteredEditions().map((edition, index) => (
-                        <option key={index} value={edition}>{edition}</option>
+                        <option key={index} value={edition}>
+                          {edition}
+                        </option>
                       ))}
                     </select>
                   </label>
                 </div>
-                <div className='detail'>
+                <div className="detail">
                   <p>Number of Pages:</p>
                   <label>
-                    <input 
-                      type="number" 
-                      name="no_of_pages" 
-                      value={formValues.no_of_pages} 
-                      min="1" 
-                      onChange={handleInputChange} 
-                      required 
+                    <input
+                      type="number"
+                      name="no_of_pages"
+                      value={formValues.no_of_pages}
+                      min="1"
+                      onChange={handleInputChange}
+                      required
                       className="input-field"
                     />
                   </label>
                 </div>
-                <div className='detail'>
+                <div className="detail">
                   <p>Schedule Time:</p>
                   <label>
-                    <input 
-                      type="datetime-local" 
-                      step="1" 
-                      value={scheduledTime} 
-                      onChange={handleScheduledTimeChange} 
-                      required 
+                    <input
+                      type="datetime-local"
+                      step="1"
+                      value={scheduledTime}
+                      onChange={handleScheduledTimeChange}
+                      required
                       className="input-field"
                     />
                   </label>
                 </div>
-                <div className='detail'>
+                <div className="detail">
                   <p>Actual Time:</p>
                   <label>
-                    <input 
-                      type="datetime-local" 
-                      step="1" 
-                      value={actualTime} 
-                      onChange={handleActualTimeChange} 
-                      required 
+                    <input
+                      type="datetime-local"
+                      step="1"
+                      value={actualTime}
+                      onChange={handleActualTimeChange}
+                      required
                       className="input-field"
                     />
                   </label>
                 </div>
-                <div className='detail'>
+                <div className="detail">
                   <p>Difference Time:</p>
                   <label>
-                    <input 
-                      type="text" 
-                      name="difference_time" 
-                      value={differenceTime} 
-                      readOnly 
+                    <input
+                      type="text"
+                      name="difference_time"
+                      value={differenceTime}
+                      readOnly
                       className="input-field"
                     />
                   </label>
                 </div>
                 {showReasonForDelay && (
-                  <div className='detail'>
+                  <div className="detail">
                     <p>Reason for Delay:</p>
                     <label>
-                      <input 
-                        type="text" 
-                        name="reason_for_delay" 
-                        value={formValues.reason_for_delay} 
-                        onChange={handleInputChange} 
-                        required 
+                      <input
+                        type="text"
+                        name="reason_for_delay"
+                        value={formValues.reason_for_delay}
+                        onChange={handleInputChange}
+                        required
                         className="input-field"
                       />
                     </label>
                   </div>
                 )}
                 <div className="submit-reset">
-                  <button 
-                    type="submit" 
-                    disabled={getFilteredEditions().length === 0}
+                  <button
+                    type="submit"
                     className="submit-button"
+                    onClick={(e) => {
+                      const isConfirmed = window.confirm(
+                        "Are you sure you want to submit the form?"
+                      );
+                      if (!isConfirmed) {
+                        e.preventDefault();
+                      }
+                    }}
                   >
                     Submit
                   </button>
-                  <button 
-                    type="reset" 
+                  <button
+                    type="reset"
                     onClick={handleReset}
                     className="reset-button"
                   >
                     Reset
                   </button>
                 </div>
-                {error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>}
-                {submit && <div className="text-green-500 text-sm mt-2 text-center">{submit}</div>}
+                {/* {error && (
+                  <div className="text-red-500 text-sm mt-2 text-center">
+                    {error}
+                  </div>
+                )}
+                {submit && (
+                  <div className="text-green-500 text-sm mt-2 text-center">
+                    {submit}
+                  </div>
+                )} */}
               </form>
             </div>
           </div>
@@ -364,40 +400,6 @@ function Scheduling() {
 }
 
 export default Scheduling;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //how to do for reports the table part can be seen from here
 // function Scheduling() {

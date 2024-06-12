@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import LogoutButton from "./LogoutButoon";
 import Logo from '../images/tmg-logo.jpg'; 
 import Popup from './Popup';
+import "./newNav.css";
 
 function NewNav({ token, username }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -110,7 +111,7 @@ function NewNav({ token, username }) {
             </Dropdown>
           </NavbarItem>
           <NavbarItem isActive>
-            <Link color="foreground" onClick={() => handleNavigation("/home")}>
+            <Link className="HOME" color="foreground" onClick={() => handleNavigation("/home")}>
               HOME
             </Link>
           </NavbarItem>
