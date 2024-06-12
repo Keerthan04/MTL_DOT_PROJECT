@@ -17,7 +17,7 @@ function Scheduling() {
   const [publicationList, setPublicationList] = useState([]);
   const [editionList, setEditionList] = useState([]);
   const location = useLocation();
-  const username = location.state?.Username;
+  const username = location.state?.username;
   const { token } = useAuth();
 
   const initialFormValues = {

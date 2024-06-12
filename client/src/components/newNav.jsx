@@ -16,6 +16,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from "@nextui-org/react";
+import { useNavigate } from 'react-router-dom';
 import LogoutButton from "./LogoutButoon";
 import Logo from '../images/tmg-logo.jpg'; 
 import Popup from './Popup';
@@ -25,6 +26,7 @@ function NewNav({ token, username }) {
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     setShowLogoutPopup(true);
@@ -44,6 +46,10 @@ function NewNav({ token, username }) {
   const closePopup = () => {
     setShowPopup(false);
     setPopupMessage(null);
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path, { state: { username, token } });
   };
 
   return (
@@ -82,29 +88,29 @@ function NewNav({ token, username }) {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Link Actions">
-                <DropdownItem key="scheduling" href="/home/entry/Scheduling">
+                <DropdownItem key="scheduling" onClick={() => handleNavigation("/home/entry/Scheduling")}>
                   Scheduling
                 </DropdownItem>
-                <DropdownItem key="ctp" href="/home/entry/CTP">
+                <DropdownItem key="ctp" onClick={() => handleNavigation("/home/entry/CTP")}>
                   CTP
                 </DropdownItem>
-                <DropdownItem key="editorial" href="/home/entry/Editorial">
+                <DropdownItem key="editorial" onClick={() => handleNavigation("/home/entry/Editorial")}>
                   Editorial
                 </DropdownItem>
-                <DropdownItem key="prepress" href="/home/entry/Prepress">
+                <DropdownItem key="prepress" onClick={() => handleNavigation("/home/entry/Prepress")}>
                   Prepress
                 </DropdownItem>
-                <DropdownItem key="machinestop" href="/home/entry/Machinestop">
+                <DropdownItem key="machinestop" onClick={() => handleNavigation("/home/entry/Machinestop")}>
                   Machine stop
                 </DropdownItem>
-                <DropdownItem key="production" href="/home/entry/Production">
+                <DropdownItem key="production" onClick={() => handleNavigation("/home/entry/Production")}>
                   Production
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </NavbarItem>
           <NavbarItem isActive>
-            <Link color="foreground" href="/home">
+            <Link color="foreground" onClick={() => handleNavigation("/home")}>
               HOME
             </Link>
           </NavbarItem>
@@ -116,22 +122,22 @@ function NewNav({ token, username }) {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Link Actions">
-                <DropdownItem key="scheduling" href="/home/report/Scheduling">
+                <DropdownItem key="scheduling" onClick={() => handleNavigation("/home/report/Scheduling")}>
                   Scheduling
                 </DropdownItem>
-                <DropdownItem key="ctp" href="/home/report/CTP">
+                <DropdownItem key="ctp" onClick={() => handleNavigation("/home/report/CTP")}>
                   CTP
                 </DropdownItem>
-                <DropdownItem key="editorial" href="/home/report/Editorial">
+                <DropdownItem key="editorial" onClick={() => handleNavigation("/home/report/Editorial")}>
                   Editorial
                 </DropdownItem>
-                <DropdownItem key="prepress" href="/home/report/Prepress">
+                <DropdownItem key="prepress" onClick={() => handleNavigation("/home/report/Prepress")}>
                   Prepress
                 </DropdownItem>
-                <DropdownItem key="machinestop" href="/home/report/Machinestop">
+                <DropdownItem key="machinestop" onClick={() => handleNavigation("/home/report/Machinestop")}>
                   Machine stop
                 </DropdownItem>
-                <DropdownItem key="production" href="/home/report/Production">
+                <DropdownItem key="production" onClick={() => handleNavigation("/home/report/Production")}>
                   Production
                 </DropdownItem>
               </DropdownMenu>
@@ -169,22 +175,22 @@ function NewNav({ token, username }) {
                 </DropdownTrigger>
               </NavbarMenuItem>
               <DropdownMenu aria-label="Link Actions">
-                <DropdownItem key="scheduling" href="/home/entry/Scheduling">
+                <DropdownItem key="scheduling" onClick={() => handleNavigation("/home/entry/Scheduling")}>
                   Scheduling
                 </DropdownItem>
-                <DropdownItem key="ctp" href="/home/entry/CTP">
+                <DropdownItem key="ctp" onClick={() => handleNavigation("/home/entry/CTP")}>
                   CTP
                 </DropdownItem>
-                <DropdownItem key="editorial" href="/home/entry/Editorial">
+                <DropdownItem key="editorial" onClick={() => handleNavigation("/home/entry/Editorial")}>
                   Editorial
                 </DropdownItem>
-                <DropdownItem key="prepress" href="/home/entry/Prepress">
+                <DropdownItem key="prepress" onClick={() => handleNavigation("/home/entry/Prepress")}>
                   Prepress
                 </DropdownItem>
-                <DropdownItem key="machinestop" href="/home/entry/Machinestop">
+                <DropdownItem key="machinestop" onClick={() => handleNavigation("/home/entry/Machinestop")}>
                   Machine stop
                 </DropdownItem>
-                <DropdownItem key="production" href="/home/entry/Production">
+                <DropdownItem key="production" onClick={() => handleNavigation("/home/entry/Production")}>
                   Production
                 </DropdownItem>
               </DropdownMenu>
@@ -194,7 +200,7 @@ function NewNav({ token, username }) {
             <Button color="primary" variant="light">
               <Link
                 color="foreground"
-                href="/home"
+                onClick={() => handleNavigation("/home")}
                 className="w-full text-center"
               >
                 HOME
@@ -215,22 +221,22 @@ function NewNav({ token, username }) {
                 </DropdownTrigger>
               </NavbarMenuItem>
               <DropdownMenu aria-label="Link Actions">
-                <DropdownItem key="scheduling" href="/home/report/Scheduling">
+                <DropdownItem key="scheduling" onClick={() => handleNavigation("/home/report/Scheduling")}>
                   Scheduling
                 </DropdownItem>
-                <DropdownItem key="ctp" href="/home/report/CTP">
+                <DropdownItem key="ctp" onClick={() => handleNavigation("/home/report/CTP")}>
                   CTP
                 </DropdownItem>
-                <DropdownItem key="editorial" href="/home/report/Editorial">
+                <DropdownItem key="editorial" onClick={() => handleNavigation("/home/report/Editorial")}>
                   Editorial
                 </DropdownItem>
-                <DropdownItem key="prepress" href="/home/report/Prepress">
+                <DropdownItem key="prepress" onClick={() => handleNavigation("/home/report/Prepress")}>
                   Prepress
                 </DropdownItem>
-                <DropdownItem key="machinestop" href="/home/report/Machinestop">
+                <DropdownItem key="machinestop" onClick={() => handleNavigation("/home/report/Machinestop")}>
                   Machine stop
                 </DropdownItem>
-                <DropdownItem key="production" href="/home/report/Production">
+                <DropdownItem key="production" onClick={() => handleNavigation("/home/report/Production")}>
                   Production
                 </DropdownItem>
               </DropdownMenu>
@@ -242,21 +248,23 @@ function NewNav({ token, username }) {
         </NavbarMenu>
       </Navbar>
       {showLogoutPopup && (
-        <Popup 
-          message={
-            <>
-              Are you sure you want to logout?
-              <div className="popup-buttons">
-                <Button onClick={confirmLogout}>Yes</Button>
-                <Button onClick={cancelLogout}>No</Button>
-              </div>
-            </>
-          } 
-          onClose={cancelLogout} 
-        />
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Confirm Logout</h2>
+            <p className="mb-4">Are you sure you want to logout?</p>
+            <div className="flex justify-end space-x-4">
+              <Button auto flat color="error" onClick={confirmLogout}>
+                Logout
+              </Button>
+              <Button auto onClick={cancelLogout}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
       {showPopup && (
-        <Popup message={popupMessage} onClose={closePopup} duration={3000} />
+        <Popup message={popupMessage} onClose={closePopup} />
       )}
     </div>
   );

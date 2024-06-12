@@ -33,7 +33,7 @@ function MachineStops() {
   const [formValues, setFormValues] = useState(initialFormValues);
 
   const location = useLocation();
-  const username = location.state?.Username;
+  const username = location.state?.username;
   //const token = location.state?.Token;
   const { token } = useAuth();
   // const handleEntryDropdownToggle = () => {

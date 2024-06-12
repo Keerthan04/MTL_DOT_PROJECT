@@ -72,12 +72,12 @@ function Home() {
                 <h4>ENTRY</h4>
               </div>
               <div className="entrycontent">
-                <CardOne name="Scheduling" Token={token} Username ={username} RoutePath="/home/entry/Scheduling"/>
-                <CardOne name="Editorial" Token={token} Username ={username} RoutePath="/home/entry/Editorial"/>{/*since for each route we need the token is sent as props only */}
-                <CardOne name="Prepress" Token={token} Username ={username} RoutePath="/home/entry/Prepress"/>
-                <CardOne name="CTP" Token={token} Username ={username} RoutePath="/home/entry/CTP"/>
-                <CardOne name="Machinestop" Token={token} Username ={username} RoutePath="/home/entry/Machinestop"/>
-                <CardOne name="Production" Token={token} Username ={username} RoutePath="/home/entry/Production"/>
+                <CardOne name="Scheduling" Token={token} username ={username} RoutePath="/home/entry/Scheduling"/>
+                <CardOne name="Editorial" Token={token} username ={username} RoutePath="/home/entry/Editorial"/>{/*since for each route we need the token is sent as props only */}
+                <CardOne name="Prepress" Token={token} username ={username} RoutePath="/home/entry/Prepress"/>
+                <CardOne name="CTP" Token={token} username ={username} RoutePath="/home/entry/CTP"/>
+                <CardOne name="Machinestop" Token={token} username ={username} RoutePath="/home/entry/Machinestop"/>
+                <CardOne name="Production" Token={token} username ={username} RoutePath="/home/entry/Production"/>
               </div>
             </div>
             <div className="report">
@@ -85,12 +85,12 @@ function Home() {
                 <h4>REPORT</h4>
               </div>
               <div className="reportcontent">
-                <CardOne name="Scheduling" Token={token} Username ={username} RoutePath="/home/report/Scheduling" />
-                <CardOne name="Editorial" Token={token} Username ={username} RoutePath="/home/report/Editorial" />
-                <CardOne name="Prepress" Token={token} Username ={username} RoutePath="/home/report/Prepress"/>
-                <CardOne name="CTP" Token={token} Username ={username} RoutePath="/home/report/CTP"/>
-                <CardOne name="Machinestop" Token={token} Username ={username} RoutePath="/home/report/Machinestop"/>
-                <CardOne name="Production" Token={token} Username ={username} RoutePath="/home/report/Production"/>
+                <CardOne name="Scheduling" Token={token} username ={username} RoutePath="/home/report/Scheduling" />
+                <CardOne name="Editorial" Token={token} username ={username} RoutePath="/home/report/Editorial" />
+                <CardOne name="Prepress" Token={token} username ={username} RoutePath="/home/report/Prepress"/>
+                <CardOne name="CTP" Token={token} username ={username} RoutePath="/home/report/CTP"/>
+                <CardOne name="Machinestop" Token={token} username ={username} RoutePath="/home/report/Machinestop"/>
+                <CardOne name="Production" Token={token} username ={username} RoutePath="/home/report/Production"/>
               </div>
             </div>
           </div>

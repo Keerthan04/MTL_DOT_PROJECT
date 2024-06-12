@@ -25,7 +25,7 @@ function Prepress() {
   //const [login,setlogin] = useState(true);
 
   const location = useLocation();
-  const username = location.state?.Username;
+  const username = location.state?.username;
   //const token = location.state?.Token;
   const { token } = useAuth();
   //shd be same of the backend requirement
