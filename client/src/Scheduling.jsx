@@ -336,7 +336,6 @@ function Scheduling() {
                 <div className="submit-reset">
                   <button 
                     type="submit" 
-                    disabled={getFilteredEditions().length === 0}
                     className="submit-button"
                   >
                     Submit

@@ -32,11 +32,11 @@ function Ctp() {
     reason_for_delay: "NA",
     unit: "",
     pub: "",
-    total_no_of_pages: 0,
-    black_and_white_pages: 0,
-    color_pages: 0,
-    calculated_no_of_plates: 0,
-    actual_no_of_plates: 0,
+    total_no_of_pages: "",
+    black_and_white_pages: "",
+    color_pages: "",
+    calculated_no_of_plates: "",
+    actual_no_of_plates: "",
     reason_for_difference: "NA",
   };
 
