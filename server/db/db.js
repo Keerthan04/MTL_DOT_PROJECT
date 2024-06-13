@@ -46,7 +46,7 @@ async function check_userid(user_id){
     }
     catch(error){
         console.log(error);
-        throw error;
+        //no error expected(yet to do properly)
     }
 }
 
@@ -63,7 +63,7 @@ async function check_password(user_id){
     }
     catch(error){
         console.log(error);
-        throw error;
+        //no error expected
     }
 }
 
@@ -80,9 +80,11 @@ async function getActive(user_id){
     }
     catch(error){
         console.log(error);
-        throw error;
+        //no error expected
     }
 }
+
+//changes to be made where for each unit only pub it has and then only those editions to show 
 async function send_unit_pub_edition(req,res){
     try{
         //shd get unit then shd get publication and then for each pair get edition name if not there send empty array  for edition else send editions finally shd send unit and array then publication then array and edition and then its
@@ -114,7 +116,7 @@ async function send_unit_pub_edition(req,res){
     }
     catch(error){
         console.log(error);
-        throw error;
+        //no error expected
     }
 }
 //make the time diff calculation at the frontend only as based on that the reason_of_delay has to be poped up so 
@@ -215,7 +217,11 @@ async function editorial_entry(req,res){
         }
     }catch(error){
         console.log(error);
-        throw error;
+        if (error.code === 'EREQUEST' && error.originalError.info.number === 2627) { // 2627 is the error number for primary key violation in MS SQL
+            res.status(400).send({ message: "An entry for this edition on this date already exists." });
+        } else {
+            res.status(500).send({ message: "An error occurred while saving the Editorial entry" });
+        }
     }
 }
 
@@ -247,7 +253,11 @@ async function prepress_entry(req,res){
         }
     }catch(error){
         console.log(error);
-        throw error;
+        if (error.code === 'EREQUEST' && error.originalError.info.number === 2627) { // 2627 is the error number for primary key violation in MS SQL
+            res.status(400).send({ message: "An entry for this edition on this date already exists." });
+        } else {
+            res.status(500).send({ message: "An error occurred while saving the Prepress entry" });
+        }
     }
 }
 async function machinestops_entry(req,res){
@@ -265,7 +275,11 @@ async function machinestops_entry(req,res){
         res.status(200).send({message: "Machine_Stops entry saved"});
     }catch(error){
         console.log(error);
-        throw error;
+        if (error.code === 'EREQUEST' && error.originalError.info.number === 2627) { // 2627 is the error number for primary key violation in MS SQL
+            res.status(400).send({ message: "An entry for this edition on this date already exists." });
+        } else {
+            res.status(500).send({ message: "An error occurred while saving the Machine stops entry" });
+        }
     }
 }
 
@@ -299,7 +313,11 @@ async function ctp_entry(req,res){
         }
     }catch(error){
         console.log(error);
-        throw error;
+        if (error.code === 'EREQUEST' && error.originalError.info.number === 2627) { // 2627 is the error number for primary key violation in MS SQL
+            res.status(400).send({ message: "An entry for this edition on this date already exists." });
+        } else {
+            res.status(500).send({ message: "An error occurred while saving the CTP entry" });
+        }
     }
 }
 
@@ -333,7 +351,11 @@ async function production_entry(req,res){
         }
     }catch(error){
         console.log(error);
-        throw error;
+        if (error.code === 'EREQUEST' && error.originalError.info.number === 2627) { // 2627 is the error number for primary key violation in MS SQL
+            res.status(400).send({ message: "An entry for this edition on this date already exists." });
+        } else {
+            res.status(500).send({ message: "An error occurred while saving the Production entry" });
+        }
     }
 }
 async function get_machines(req,res){
@@ -359,7 +381,7 @@ async function get_machines(req,res){
         //want result as array of object with each obj being having name and tower as key and name and set of towers inarray and values
     }catch(error){
         console.log(error);
-        throw error;
+        //no error expected
     }
 }
 

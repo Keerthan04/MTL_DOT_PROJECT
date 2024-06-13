@@ -80,7 +80,7 @@ function NewNav({ token, username }) {
             </div>
           </NavbarBrand>
         </NavbarContent>
-        <NavbarContent className="hidden sm:flex gap-20" justify="center">
+        <NavbarContent className="hidden md:flex gap-20" justify="center">
           <NavbarItem>
             <Dropdown>
               <DropdownTrigger>

@@ -23,6 +23,7 @@ function Production() {
   const [unitList, setUnitList] = useState([]);
   const [publicationList, setPublicationList] = useState([]);
   const [editionList, setEditionList] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const initialFormValues = {
     pub_date: "",
@@ -197,8 +198,18 @@ function Production() {
     console.log(editionData);
     return !(editionData.edition.includes('No edition available')) ? editionData.edition : [];
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    const filteredEditions = getFilteredEditions();
+    if (filteredEditions.length === 0 || filteredEditions.includes('No edition available')) {
+      setError("No editions available for the selected unit and publication.");
+      return;
+    }
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmSubmit = () => {
     const dataToSend = {
       ...formValues,
       schedule_time: scheduledTime,
@@ -206,26 +217,44 @@ function Production() {
       machine_used: selectedMachine,
       Towers: selectedTowers.join(","),
     };
-
-    axios
-      .post("http://localhost:3000/home/entry/production", dataToSend, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    console.log(dataToSend);
+    axios.post('http://localhost:3000/home/entry/production', dataToSend, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => {
-        setSubmit(res.data.message);
-        setData(res.data);
+        if (res.status === 200) {
+          setSubmit(res.data.message);
+          setData(res.data);
+          setShowConfirmation(false);
+          
+          setTimeout(() => {
+            setSubmit("");
+          }, 5000);
+        }
       })
       .catch((err) => {
         if (err.response) {
-          setError(err.response.data.message);
+          if (err.response.status === 400) {
+            setError(err.response.data.message);
+          } else if (err.response.status === 500) {
+            setError("An error occurred while saving the scheduling entry");
+          } else {
+            setError("An unexpected error occurred");
+          }
+          setTimeout(() => {
+            setError("");
+          }, 5000);
         } else {
           setError("An error occurred. Please try again.");
+          setTimeout(() => {
+            setError("");
+          }, 5000);
         }
+        setShowConfirmation(false);
       });
   };
-
   const handleReset = () => {
     // setFormValues(initialFormValues);
     // setScheduledTime("");
@@ -501,9 +530,18 @@ function Production() {
             </div>
           </div>
         </div>
-        <footer>
+        <footer className="bg-gray-800 text-white text-center p-4">
           <p>Copyright 2024 © All Rights Reserved. The Manipal Group</p>
         </footer>
+        {showConfirmation && (
+        <div className="popup">
+          <div className="popup-inner">
+            <h3>Are you sure you want to submit?</h3>
+            <button className="confirm-button" onClick={handleConfirmSubmit}>Yes</button>
+            <button className="confirm-button" onClick={() => setShowConfirmation(false)}>No</button>
+          </div>
+        </div>
+      )}
       </div>
     </>
   );

@@ -6,40 +6,41 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import logo from '../images/tmg-logo.jpg';
 import photo from '../images/mtl_logo.jpg';
 import { useAuth } from './AuthContext';
+
 function SignInOne() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  // const [token, setToken] = useState(null);
   const navigate = useNavigate();
   const { login } = useAuth();
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
-    axios.post('http://localhost:3000/auth/login', {
-      user_id: username,
-      password: password
-    })
-    .then((res) => {
-      if (res.status === 200) {
-        const token = res.data.token;
-        // setToken(token);
+
+    try {
+      const response = await axios.post('http://localhost:3000/auth/login', {
+        user_id: username,
+        password: password
+      });
+
+      if (response.status === 200) {
+        const token = response.data.token;
         login(token);
-        navigate('/home', { state: { token, username }});
+        navigate('/home', { state: { token, username } });
       }
-    })
-    .catch((err) => {
+    } catch (err) {
       if (err.response) {
         setError(err.response.data.message);
       } else {
         setError('An error occurred. Please try again.');
       }
-    });
+    }
   };
 
   return (
-    <section className='w-full h-full'>
+    <section className='w-screen min-h-screen flex items-center justify-center'>
       <div className="grid grid-cols-1 lg:grid-cols-2 bg-white w-full h-full">
         <div className="flex w-full h-full items-center justify-center">
           <div className="mx-auto w-full max-w-sm lg:max-w-md border-2 border-gray-300 rounded-lg shadow-lg p-8 lg:max-w-lg xl:max-w-xl">
@@ -65,7 +66,7 @@ function SignInOne() {
                       id="userId"
                       className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                       type="text"
-                      placeholder="Enter your userId"
+                      placeholder="Enter your user ID"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       required
@@ -86,7 +87,7 @@ function SignInOne() {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                     />
-                    <div 
+                    <div
                       className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                       onClick={() => setShowPassword(!showPassword)}
                     >
