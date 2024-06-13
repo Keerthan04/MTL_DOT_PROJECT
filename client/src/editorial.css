@@ -303,3 +303,43 @@ th {
       width: 100%;
   }
 }
+
+/* editorial.css */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-inner {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.success-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4caf50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+.error-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: red;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+

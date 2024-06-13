@@ -118,36 +118,75 @@ async function send_unit_pub_edition(req,res){
     }
 }
 //make the time diff calculation at the frontend only as based on that the reason_of_delay has to be poped up so 
-async function scheduling_entry(req,res){
-    try{
+// async function scheduling_entry(req,res){
+//     try{
+//         const pool = await sql.connect(config);
+//         const user_id = req.user_id;//got directly from the req object
+//         const {pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,pub} = req.body;
+//         console.log(difference_time);
+//         console.log(reason_for_delay);
+//         if(!pub_date || !ed_name || !schedule_time || !actual_time || !difference_time || !no_of_pages || !reason_for_delay || !unit || !pub){
+//             return res.status(400).json({message:"Please fill all the fields"});
+//         }
+//         //sending reason for delay as " "(empty) if no reason for delay(as time diff is "0")
+//         //if no diff time both the reason as "" and diff time 0 has to be sent and make if delay required of the reason of delay so that not empty it is
+//         const delay_required = difference_time != "00:00:00" ? true : false; //if delay then as "0" else a string so 
+//         //if there is a delay then
+//         //diff_time is "0" in req obj and reason is " " VVIP
+//         if(delay_required){
+//             const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}',${no_of_pages},'${reason_for_delay}','${unit}','${pub}');`);
+//             console.log(result);
+//             res.status(200).send({message: "Scheduling entry saved"});
+//         }
+//         else{
+//             const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00',${no_of_pages},null,'${unit}','${pub}');`);
+//             console.log(result);
+//             res.status(200).send({message: "Scheduling entry saved"});
+//         }
+//     }catch(error){
+//         console.log(error);
+//         throw error;
+//     }
+// } wait 
+async function scheduling_entry(req, res) {
+    try {
         const pool = await sql.connect(config);
-        const user_id = req.user_id;//got directly from the req object
-        const {pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,pub} = req.body;
+        const user_id = req.user_id; // got directly from the req object
+        const { pub_date, ed_name, schedule_time, actual_time, difference_time, no_of_pages, reason_for_delay, unit, pub } = req.body;
         console.log(difference_time);
         console.log(reason_for_delay);
-        if(!pub_date || !ed_name || !schedule_time || !actual_time || !difference_time || !no_of_pages || !reason_for_delay || !unit || !pub){
-            return res.status(400).json({message:"Please fill all the fields"});
+        
+        if (!pub_date || !ed_name || !schedule_time || !actual_time || !difference_time || !no_of_pages || !reason_for_delay || !unit || !pub) {
+            return res.status(400).json({ message: "Please fill all the fields" });
         }
-        //sending reason for delay as " "(empty) if no reason for delay(as time diff is "0")
-        //if no diff time both the reason as "" and diff time 0 has to be sent and make if delay required of the reason of delay so that not empty it is
-        const delay_required = difference_time != "00:00:00" ? true : false; //if delay then as "0" else a string so 
-        //if there is a delay then
-        //diff_time is "0" in req obj and reason is " " VVIP
-        if(delay_required){
-            const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','${difference_time}',${no_of_pages},'${reason_for_delay}','${unit}','${pub}');`);
-            console.log(result);
-            res.status(200).send({message: "Scheduling entry saved"});
+
+        // Determine if a delay is required
+        const delay_required = difference_time !== "00:00:00"; // if delay then true, else false
+
+        let query;
+        if (delay_required) {
+            query = `INSERT INTO scheduling (pub_date, ed_name, schedule_time, actual_time, difference_time, no_of_pages, reason_for_delay, unit, publication) 
+                     VALUES ('${pub_date}', '${ed_name}', '${schedule_time}', '${actual_time}', '${difference_time}', ${no_of_pages}, '${reason_for_delay}', '${unit}', '${pub}');`;
+        } else {
+            query = `INSERT INTO scheduling (pub_date, ed_name, schedule_time, actual_time, difference_time, no_of_pages, reason_for_delay, unit, publication) 
+                     VALUES ('${pub_date}', '${ed_name}', '${schedule_time}', '${actual_time}', '00:00:00', ${no_of_pages}, NULL, '${unit}', '${pub}');`;
         }
-        else{
-            const result = await pool.request().query(`insert into scheduling (pub_date,ed_name,schedule_time,actual_time,difference_time,no_of_pages,reason_for_delay,unit,publication) values('${pub_date}','${ed_name}','${schedule_time}','${actual_time}','00:00:00',${no_of_pages},null,'${unit}','${pub}');`);
-            console.log(result);
-            res.status(200).send({message: "Scheduling entry saved"});
+
+        const result = await pool.request().query(query);
+        console.log(result);
+        res.status(200).send({ message: "Scheduling entry saved" });
+    } catch (error) {
+        console.error(error);
+
+        // Check for specific error code (e.g., primary key violation)
+        if (error.code === 'EREQUEST' && error.originalError.info.number === 2627) { // 2627 is the error number for primary key violation in MS SQL
+            res.status(400).send({ message: "An entry for this edition on this date already exists." });
+        } else {
+            res.status(500).send({ message: "An error occurred while saving the scheduling entry" });
         }
-    }catch(error){
-        console.log(error);
-        throw error;
     }
 }
+
 
 async function editorial_entry(req,res){
     try{
