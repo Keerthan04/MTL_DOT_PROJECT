@@ -85,4 +85,22 @@ app.listen(PORT, () => {
 //only the submit and logout and all pop up check
 //the machines part is done
 //the final report wala do and check
+
+//MAIN NOW
+//to do
+//diff errors to be checked and done for each in backend and status code and a error handler to be done
+//logout also a pop up type thing is to be done
+//confirm and handling of reports see
+//a git branch other one is being used so see that
+//logo problem
+//login page also if error in popup thingy like
+//the error display if scroll cant see that also check
+//the home page and login page size issue
+//the refresh in reset add and check also in scheduling mainly
+//the excel file it wont come or name changes and all shd be done see to that
+//if difference is of 1day and all working or not?
+//the responsive ness shd be added it is not proper now
+//the navbar when close ka behave in responsive shd be seen
+
+//responsiveness of navbar and also when tablet view the responsiveness make proper IMP!!!
 module.exports = app;

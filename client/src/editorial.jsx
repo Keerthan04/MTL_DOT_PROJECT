@@ -14,7 +14,7 @@ import NewNav from "./components/newNav";
 function Editorial() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
-  const [submit, setsubmit] = useState("");
+  const [submit, setSubmit] = useState("");
   // const [entryShowDropdown, setEntryShowDropdown] = useState(false);
   // const [reportShowDropdown, setReportShowDropdown] = useState(false);
   const [scheduledTime, setScheduledTime] = useState("");
@@ -24,6 +24,7 @@ function Editorial() {
   const [unitList, setUnitList] = useState([]);
   const [publicationList, setPublicationList] = useState([]);
   const [editionList, setEditionList] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   //const [login,setlogin] = useState(true);
   // Form state
   const initialFormValues = {
@@ -166,28 +167,51 @@ function Editorial() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const dataToSend = {
-      ...formValues,
-      schedule_time: scheduledTime,
-      actual_time: actualTime,
-    };
+    const filteredEditions = getFilteredEditions();
+    if (filteredEditions.length === 0 || filteredEditions.includes('No edition available')) {
+      setError("No editions available for the selected unit and publication.");
+      return;
+    }
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmSubmit = () => {
+    const dataToSend = { ...formValues };
     console.log(dataToSend);
-    axios
-      .post("http://localhost:3000/home/entry/editorial", dataToSend, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    axios.post('http://localhost:3000/home/entry/editorial', dataToSend, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => {
-        setsubmit(res.data.message);
-        setData(res.data);
+        if (res.status === 200) {
+          setSubmit(res.data.message);
+          setData(res.data);
+          setShowConfirmation(false);
+          setTimeout(() => {
+            setSubmit("");
+          }, 5000);
+        }
       })
       .catch((err) => {
         if (err.response) {
-          setError(err.response.data.message);
+          if (err.response.status === 400) {
+            setError(err.response.data.message);
+          } else if (err.response.status === 500) {
+            setError("An error occurred while saving the scheduling entry");
+          } else {
+            setError("An unexpected error occurred");
+          }
+          setTimeout(() => {
+            setError("");
+          }, 5000);
         } else {
           setError("An error occurred. Please try again.");
+          setTimeout(() => {
+            setError("");
+          }, 5000);
         }
+        setShowConfirmation(false);
       });
   };
   const handleReset = () => {
@@ -360,9 +384,18 @@ function Editorial() {
             </div>
           </div>
         </div>
-        <footer>
+        <footer className="bg-gray-800 text-white text-center p-4">
           <p>Copyright 2019 © All Rights Reserved. The Manipal Group</p>
         </footer>
+        {showConfirmation && (
+        <div className="popup">
+          <div className="popup-inner">
+            <h3>Are you sure you want to submit?</h3>
+            <button className="confirm-button" onClick={handleConfirmSubmit}>Yes</button>
+            <button className="confirm-button" onClick={() => setShowConfirmation(false)}>No</button>
+          </div>
+        </div>
+      )}
       </div>
     </>
   );

@@ -14,7 +14,7 @@ function Scheduling() {
   const [publicationList, setPublicationList] = useState([]);
   const [editionList, setEditionList] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  //const [showSuccess, setShowSuccess] = useState(false);
   const location = useLocation();
   const username = location.state?.username;
   const { token } = useAuth();
@@ -175,9 +175,8 @@ function Scheduling() {
           setSubmit(res.data.message);
           setData(res.data);
           setShowConfirmation(false);
-          setShowSuccess(true);
           setTimeout(() => {
-            setShowSuccess(false);
+            setSubmit("");
           }, 5000);
         }
       })
@@ -377,15 +376,17 @@ function Scheduling() {
           </div>
         </div>
       </div>
-      <footer>
+      <footer className="bg-gray-800 text-white text-center p-4">
         <p>Copyright 2024 © All Rights Reserved. The Manipal Group</p>
       </footer>
       {showConfirmation && (
         <div className="popup">
           <div className="popup-inner">
             <h3>Are you sure you want to submit?</h3>
-            <button onClick={handleConfirmSubmit}>Yes</button>
-            <button onClick={() => setShowConfirmation(false)}>No</button>
+            <div className="popup-buttons">
+              <button className="confirm-button" onClick={handleConfirmSubmit}>Yes</button>
+              <button className="confirm-button" onClick={() => setShowConfirmation(false)}>No</button>
+            </div>
           </div>
         </div>
       )}
