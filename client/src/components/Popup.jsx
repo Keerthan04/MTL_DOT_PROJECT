@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import './Popup.css'; // Add some basic styling for the popup
 
-const Popup = ({ message, onClose, duration }) => {
+const Popup = ({ message, onClose, duration, buttonDisp }) => {
   useEffect(() => {
     if (duration) {
       const timer = setTimeout(onClose, duration);
@@ -14,7 +14,10 @@ const Popup = ({ message, onClose, duration }) => {
     <div className="popup">
       <div className="popup-content">
         <p>{message}</p>
-        <button onClick={onClose}>Close</button>
+        {buttonDisp ? 
+          <button onClick={onClose}>Close</button> : null
+        }
+        
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import logo from '../images/tmg-logo.jpg';
 import photo from '../images/mtl_logo.jpg';
 import { useAuth } from './AuthContext';
+import '../editorial.css';
 
 function SignInOne() {
   const [username, setUsername] = useState('');

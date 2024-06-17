@@ -1,6 +1,6 @@
 const config = {
     user: 'sa',
-    password: '123',
+    password: 'password',
     server: '127.0.0.1',
     database: 'MTL_Project',
     options: {
