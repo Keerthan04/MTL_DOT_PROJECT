@@ -5,7 +5,7 @@ import "./home.css";
 import logo from '../src/images/tmg-logo.jpg';
 import CardOne from "./components/card";
 import ErrorOne from "./components/Error";
-import LogoutButton from "./components/LogoutButoon";
+// import LogoutButton from "./components/LogoutButoon";
 import { useAuth } from "./components/AuthContext";
 import NewNav from "./components/newNav";
 import HomeNav from "./components/HomeNav";

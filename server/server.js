@@ -95,7 +95,7 @@ app.listen(PORT, () => {
 //logo problem
 //login page also if error in popup thingy like
 //the error display if scroll cant see that also check
-//the home page and login page size issue
+//the home page and login page size issue--done
 //the refresh in reset add and check also in scheduling mainly
 //the excel file it wont come or name changes and all shd be done see to that
 //if difference is of 1day and all working or not?
