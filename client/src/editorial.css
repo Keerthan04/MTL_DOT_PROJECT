@@ -363,6 +363,7 @@ th {
 }
 
 .success-message {
+  z-index: 90;
   position: fixed;
   top: 20px;
   right: 20px;
@@ -373,6 +374,7 @@ th {
 }
 
 .error-message {
+  z-index: 90;
   position: fixed;
   top: 20px;
   right: 20px;

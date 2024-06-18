@@ -178,7 +178,10 @@ function Prepress() {
   };
 
   const handleConfirmSubmit = () => {
-    const dataToSend = { ...formValues };
+    const dataToSend = { ...formValues, 
+      schedule_time: scheduledTime,
+      actual_time: actualTime,
+    };
     console.log(dataToSend);
     axios.post('http://localhost:3000/home/entry/prepress', dataToSend, {
       headers: {
@@ -370,16 +373,8 @@ function Prepress() {
                     Reset
                   </button>
                 </div>
-                {error && (
-                  <div className="text-red-500 text-sm mt-2 text-center">
-                    {error}
-                  </div>
-                )}
-                {submit && (
-                  <div className="text-green-500 text-sm mt-2 text-center">
-                    {submit}
-                  </div>
-                )}
+                {error && <div className="error-message">{error}</div>}
+                {submit && <div className="success-message">{submit}</div>}
               </form>
             </div>
           </div>
@@ -392,8 +387,10 @@ function Prepress() {
         <div className="popup">
           <div className="popup-inner">
             <h3>Are you sure you want to submit?</h3>
-            <button className="confirm-button" onClick={handleConfirmSubmit}>Yes</button>
-            <button className="confirm-button" onClick={() => setShowConfirmation(false)}>No</button>
+            <div className="popup-buttons">
+              <button className="confirm-button" onClick={handleConfirmSubmit}>Yes</button>
+              <button className="confirm-button" onClick={() => setShowConfirmation(false)}>No</button>
+            </div>
           </div>
         </div>
       )}
