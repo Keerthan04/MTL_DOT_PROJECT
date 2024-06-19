@@ -24,9 +24,13 @@ app.use('/auth',authRouter);
 // app.use('/doctors',verify_doctor, doctorRouter);
 app.use('/home',verify_login,homerouter);
 
+app.use((err,req,res,next)=>{
+    res.status(500).json({error:err.message || "Internal Server Error"});
+});
 app.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
 });
+
 
 //to do
 //1.error to check and same error to be put to frontend
@@ -103,4 +107,6 @@ app.listen(PORT, () => {
 //the navbar when close ka behave in responsive shd be seen
 
 //responsiveness of navbar and also when tablet view the responsiveness make proper IMP!!!
-module.exports = app;
+
+//new is
+//responsivenss for tab and all and nav proper do,the animation for popup,report popup shd be introduced,excel ka and all check once,docker ka image or something like that we can do check,cors ka made proper,controllers introduced

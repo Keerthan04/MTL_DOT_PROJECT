@@ -34,6 +34,7 @@ const config = require('./dbconfig');
 // }
 async function check_userid(user_id){
     try{
+        console.log(config);
         const pool = await sql.connect(config);
         const result = await pool.request().query(`select user_id from Login where user_id = '${user_id}'`);
         console.log(result);
@@ -45,7 +46,8 @@ async function check_userid(user_id){
         }
     }
     catch(error){
-        console.log(error);
+        console.error("Database Error", err);
+        throw new Error("Database Error");//gets thrwon back where called so there caught and done
         //no error expected(yet to do properly)
     }
 }
@@ -62,7 +64,8 @@ async function check_password(user_id){
         }
     }
     catch(error){
-        console.log(error);
+        console.error("Database Error", err);
+        throw new Error("Database Error");
         //no error expected
     }
 }
@@ -79,7 +82,8 @@ async function getActive(user_id){
         }
     }
     catch(error){
-        console.log(error);
+        console.error("Database Error", err);
+        throw new Error("Database Error");
         //no error expected
     }
 }
@@ -115,7 +119,8 @@ async function send_unit_pub_edition(req,res){
         res.status(200).json({unit:unit_names,publication:Publication_names,edition:editions});
     }
     catch(error){
-        console.log(error);
+        console.error("Database Error", err);
+        throw new Error("Database Error");
         //no error expected
     }
 }
@@ -629,8 +634,8 @@ async function machine_stop_report(req, res) {
                 unit,
                 publication,
                 reason_for_stoppage,
-                CONVERT(varchar, printer_stop_time, 8) AS printer_stop_time,
-                CONVERT(varchar, printer_restart_time, 8) AS printer_restart_time
+                CONVERT(varchar, printer_stop_time, 120) AS printer_stop_time,
+                CONVERT(varchar, printer_restart_time, 120) AS printer_restart_time
             FROM machine_stops
             WHERE unit = @unit
                 AND publication = @pub
@@ -683,8 +688,8 @@ async function production_report(req, res) {
                 machine_used,
                 print_order,
                 page_size,
-                CONVERT(varchar, print_start_time, 8) AS print_start_time,
-                CONVERT(varchar, print_stop_time, 8) AS print_stop_time,
+                CONVERT(varchar, print_start_time, 120) AS print_start_time,
+                CONVERT(varchar, print_stop_time, 120) AS print_stop_time,
                 gross_copies,
                 Towers
             FROM Production

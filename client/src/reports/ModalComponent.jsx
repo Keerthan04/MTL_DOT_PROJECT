@@ -32,10 +32,13 @@ const ModalComponent = ({ isOpen, onRequestClose, data, reportName, headers }) =
             formattedRecord[header] = record.unit || 'N/A';
             break;
           case "Publication":
-            formattedRecord[header] = record.pub || 'N/A';
+            formattedRecord[header] = record.publication || 'N/A';
             break;
           case "Total no of Pages":
             formattedRecord[header] = record.total_no_of_pages || 'N/A';
+            break;
+          case "no of Pages":
+            formattedRecord[header] = record.no_of_pages || 'N/A';
             break;
           case "B&W pages":
             formattedRecord[header] = record.black_and_white_pages || 'N/A';
@@ -49,11 +52,11 @@ const ModalComponent = ({ isOpen, onRequestClose, data, reportName, headers }) =
           case "Reason for stoppage":
             formattedRecord[header] = record.reason_for_stoppage || 'N/A';
             break;
-          case "Stop from time":
-            formattedRecord[header] = record.stop_from_time || 'N/A';
+          case "Printer Stop Time":
+            formattedRecord[header] = record.printer_stop_time || 'N/A';
             break;
-          case "Stop end time":
-            formattedRecord[header] = record.stop_end_time || 'N/A';
+          case "Printer Restart Time":
+            formattedRecord[header] = record.printer_restart_time || 'N/A';
             break;
           case "Machine used":
             formattedRecord[header] = record.machine_used || 'N/A';

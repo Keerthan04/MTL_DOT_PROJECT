@@ -157,8 +157,8 @@ function MachineStopReport() {
     "Unit",
     "Publication",
     "Reason for stoppage",
-    "Stop from time",
-    "Stop end time",
+    "Printer Stop Time",
+    "Printer Restart Time",
   ];
   const handleReset = () => {
     // setFormValues(initialFormValues);

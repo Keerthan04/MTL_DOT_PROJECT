@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./server
+    container_name: node_app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=sa
+      - DB_PASSWORD=Kumarc@2004  # Use your local SA password
+      - DB_NAME=MTL_Project
+    
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql_db
+    ports:
+      - "1434:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Kumarc@2004
+      - MSSQL_PID=Express
+    volumes:
+    - C:\\Users\\User\\OneDrive\\Desktop\\db_files:/var/opt/mssql/data
+
+volumes:
+  mssql-data:
