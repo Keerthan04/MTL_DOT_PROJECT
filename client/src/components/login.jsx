@@ -46,7 +46,7 @@ function SignInOne() {
         <div className="flex w-full h-full items-center justify-center">
           <div className="mx-auto w-full max-w-sm lg:max-w-md border-2 border-gray-300 rounded-lg shadow-lg p-8 lg:max-w-lg xl:max-w-xl">
             <div className="flex flex-col items-center">
-              <img src={logo} alt="school" className="mb-4 w-32 h-32" />
+              <img src={logo} alt="school" className="bg-img-inherit" />
               <h2 className="text-3xl font-bold leading-tight text-center">
                 <span className="text-blue-500">MTL</span>
                 <span className="text-black">-DOT</span>

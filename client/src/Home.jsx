@@ -53,7 +53,7 @@ function Home() {
           <div className="contents grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="entry bg-white shadow-md rounded-lg p-4">
               <div className="headername">
-                <h4>ENTRY</h4>
+                <h4 className="font-bold text-black sm:text-medium ">ENTRY</h4>
               </div>
               <div className="entrycontent grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <CardOne name="Scheduling" Token={token} username={username} RoutePath="/home/entry/Scheduling" />
@@ -66,7 +66,7 @@ function Home() {
             </div>
             <div className="report bg-white shadow-md rounded-lg p-4">
               <div className="headername">
-                <h4>REPORT</h4>
+                <h4 className="font-bold text-black sm:text-medium ">REPORT</h4>
               </div>
               <div className="reportcontent grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <CardOne name="Scheduling" Token={token} username={username} RoutePath="/home/report/Scheduling" />

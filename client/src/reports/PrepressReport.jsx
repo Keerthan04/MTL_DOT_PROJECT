@@ -297,7 +297,7 @@ function PrepressReport() {
             />
           </div>
         </div>
-        <footer>
+        <footer className="bg-gray-800 text-white text-center p-4">
           <p>Copyright 2024 © All Rights Reserved. The Manipal Group</p>
         </footer>
       </div>

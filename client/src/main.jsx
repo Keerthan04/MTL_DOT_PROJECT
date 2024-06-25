@@ -77,7 +77,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               path="/home/report/Production"
               element={<PrivateRoute element={ProductionReport} />}
             />
-            <Route path="/test" element={<Test />} />
             <Route path="*" element={<ErrorOne />} />{" "}
             {/*shd make here the error one as page has been moved and to login or back thing */}
           </Routes>

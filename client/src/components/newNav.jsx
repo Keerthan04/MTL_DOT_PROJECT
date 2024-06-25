@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -184,7 +184,7 @@ function NewNav({ token, username }) {
                   <Button
                     variant="light"
                     color="primary"
-                    className="text-black text-lg"
+                    className="text-black text-md"
                   >
                     Entry
                   </Button>
@@ -213,15 +213,15 @@ function NewNav({ token, username }) {
             </Dropdown>
           </NavbarMenuItem>
           <NavbarMenuItem>
-            <Button color="primary" variant="light">
+            {/* <Button color="primary" variant="light"> */}
               <Link
                 color="foreground"
                 onClick={() => handleNavigation("/home")}
-                className="w-full text-center"
+                className="w-full flex text-center justify-center text-md"
               >
                 HOME
               </Link>
-            </Button>
+            {/* </Button> */}
           </NavbarMenuItem>
           <NavbarMenuItem>
             <Dropdown>
@@ -230,7 +230,7 @@ function NewNav({ token, username }) {
                   <Button
                     variant="light"
                     color="primary"
-                    className="text-black"
+                    className="text-black text-md"
                   >
                     Report
                   </Button>
