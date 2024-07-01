@@ -12,7 +12,6 @@ import Ctp from "./Ctp.jsx";
 import Production from "./Production.jsx";
 import MachineStops from "./MachineStops.jsx";
 import SchedulingReport from "./reports/SchedulingReport.jsx";
-import Test from "./Test.jsx";
 import EditorialReport from "./reports/EditorialReport.jsx";
 import CTPreport from "./reports/CTPreport.jsx";
 import PrepressReport from "./reports/PrepressReport.jsx";
