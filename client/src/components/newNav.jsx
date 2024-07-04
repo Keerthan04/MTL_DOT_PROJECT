@@ -14,12 +14,12 @@ import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from "@nextui-org/react";
-import { useNavigate } from 'react-router-dom';
-// import LogoutButton from "./LogoutButoon"; 
-import Logo from '../images/tmg-logo.jpg'; 
-import Popup from './Popup';
+import { useNavigate } from "react-router-dom";
+// import LogoutButton from "./LogoutButoon";
+import Logo from "../images/tmg-logo.jpg";
+import Popup from "./Popup";
 import "./newNav.css";
 import { useAuth } from "./AuthContext";
 
@@ -28,28 +28,25 @@ function NewNav({ token, username }) {
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-  const { logout } = useAuth(); 
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const handleLogout = () => {
     setShowLogoutPopup(true);
   };
 
   const confirmLogout = () => {
-    
-    
     setShowLogoutPopup(false);
-    
+
     // Use the logout function from context
-    
-    
+
     setPopupMessage("You have been logged out successfully.");
     setShowPopup(true);
-    setTimeout(()=>{
+    setTimeout(() => {
       logout(); // Clear the token from context
       navigate("/"); // Redirect to the login page
       setShowPopup(false);
-    },1000);
-    
+    }, 1000);
+
     // Add your actual logout logic here, e.g., removing token, calling logout function from context
   };
 
@@ -83,13 +80,17 @@ function NewNav({ token, username }) {
             <div className="flex items-center gap-2">
               <img src={Logo} alt="Logo" className="w-8 h-8" />
               <h2 className="flex items-center text-lg font-bold">
-                <span id="dot" className="text-primary">DOT</span>
+                <span id="dot" className="text-primary">
+                  DOT
+                </span>
                 <span id="mmnl">-MTL</span>
               </h2>
             </div>
             <div className="mx-4 border-l border-black h-8"></div>
             <div className="hidden sm:block">
-              <h4>Hello, <span className="user">{username}</span></h4>
+              <h4>
+                Hello, <span className="user">{username}</span>
+              </h4>
             </div>
           </NavbarBrand>
         </NavbarContent>
@@ -97,61 +98,111 @@ function NewNav({ token, username }) {
           <NavbarItem>
             <Dropdown>
               <DropdownTrigger>
-                <Button variant="light" color="primary" size="lg" className="text-black">
+                <Button
+                  variant="light"
+                  color="primary"
+                  size="lg"
+                  className="text-black"
+                >
                   Entry
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Link Actions">
-                <DropdownItem key="scheduling" onClick={() => handleNavigation("/home/entry/Scheduling")}>
+                <DropdownItem
+                  key="scheduling"
+                  onClick={() => handleNavigation("/home/entry/Scheduling")}
+                >
                   Scheduling
                 </DropdownItem>
-                <DropdownItem key="ctp" onClick={() => handleNavigation("/home/entry/CTP")}>
+                <DropdownItem
+                  key="ctp"
+                  onClick={() => handleNavigation("/home/entry/CTP")}
+                >
                   CTP
                 </DropdownItem>
-                <DropdownItem key="editorial" onClick={() => handleNavigation("/home/entry/Editorial")}>
+                <DropdownItem
+                  key="editorial"
+                  onClick={() => handleNavigation("/home/entry/Editorial")}
+                >
                   Editorial
                 </DropdownItem>
-                <DropdownItem key="prepress" onClick={() => handleNavigation("/home/entry/Prepress")}>
+                <DropdownItem
+                  key="prepress"
+                  onClick={() => handleNavigation("/home/entry/Prepress")}
+                >
                   Prepress
                 </DropdownItem>
-                <DropdownItem key="machinestop" onClick={() => handleNavigation("/home/entry/Machinestop")}>
+                <DropdownItem
+                  key="machinestop"
+                  onClick={() => handleNavigation("/home/entry/Machinestop")}
+                >
                   Machine stop
                 </DropdownItem>
-                <DropdownItem key="production" onClick={() => handleNavigation("/home/entry/Production")}>
+                <DropdownItem
+                  key="production"
+                  onClick={() => handleNavigation("/home/entry/Production")}
+                >
                   Production
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </NavbarItem>
           <NavbarItem isActive>
-            <Link className="HOME" color="foreground" onClick={() => handleNavigation("/home")}>
+            <Link
+              className="HOME"
+              color="foreground"
+              onClick={() => handleNavigation("/home")}
+            >
               HOME
             </Link>
           </NavbarItem>
           <NavbarItem>
             <Dropdown>
               <DropdownTrigger>
-                <Button variant="light" color="primary" size="lg" className="text-black">
+                <Button
+                  variant="light"
+                  color="primary"
+                  size="lg"
+                  className="text-black"
+                >
                   Report
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Link Actions">
-                <DropdownItem key="scheduling" onClick={() => handleNavigation("/home/report/Scheduling")}>
+                <DropdownItem
+                  key="scheduling"
+                  onClick={() => handleNavigation("/home/report/Scheduling")}
+                >
                   Scheduling
                 </DropdownItem>
-                <DropdownItem key="ctp" onClick={() => handleNavigation("/home/report/CTP")}>
+                <DropdownItem
+                  key="ctp"
+                  onClick={() => handleNavigation("/home/report/CTP")}
+                >
                   CTP
                 </DropdownItem>
-                <DropdownItem key="editorial" onClick={() => handleNavigation("/home/report/Editorial")}>
+                <DropdownItem
+                  key="editorial"
+                  onClick={() => handleNavigation("/home/report/Editorial")}
+                >
                   Editorial
                 </DropdownItem>
-                <DropdownItem key="prepress" onClick={() => handleNavigation("/home/report/Prepress")}>
+                <DropdownItem
+                  key="prepress"
+                  onClick={() => handleNavigation("/home/report/Prepress")}
+                >
                   Prepress
                 </DropdownItem>
-                <DropdownItem key="machinestop" onClick={() => handleNavigation("/home/report/Machinestop")}>
+                <DropdownItem
+                  key="machinestop"
+                  onClick={() => handleNavigation("/home/report/Machinestop")}
+                >
                   Machine stop
                 </DropdownItem>
-                <DropdownItem key="production" onClick={() => handleNavigation("/home/report/Production")}>
+                <DropdownItem
+                  key="production"
+                  onClick={() => handleNavigation("/home/report/Production")}
+                >
                   Production
                 </DropdownItem>
               </DropdownMenu>
@@ -161,9 +212,24 @@ function NewNav({ token, username }) {
         {!isMenuOpen && (
           <NavbarContent className="hidden sm:flex" justify="end">
             <NavbarItem>
-            <Button onClick={handleLogout} size={ "lg"} color="danger" href="#" variant="solid">
-              Log out
-            </Button>
+              <Link
+                className="DOT"
+                color="foreground"
+                onClick={() => handleNavigation("/home/DOT")}
+              >
+                DOT
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                onClick={handleLogout}
+                size={"lg"}
+                color="danger"
+                href="#"
+                variant="solid"
+              >
+                Log out
+              </Button>
             </NavbarItem>
           </NavbarContent>
         )}
@@ -191,22 +257,40 @@ function NewNav({ token, username }) {
                 </DropdownTrigger>
               </NavbarMenuItem>
               <DropdownMenu aria-label="Link Actions">
-                <DropdownItem key="scheduling" onClick={() => handleNavigation("/home/entry/Scheduling")}>
+                <DropdownItem
+                  key="scheduling"
+                  onClick={() => handleNavigation("/home/entry/Scheduling")}
+                >
                   Scheduling
                 </DropdownItem>
-                <DropdownItem key="ctp" onClick={() => handleNavigation("/home/entry/CTP")}>
+                <DropdownItem
+                  key="ctp"
+                  onClick={() => handleNavigation("/home/entry/CTP")}
+                >
                   CTP
                 </DropdownItem>
-                <DropdownItem key="editorial" onClick={() => handleNavigation("/home/entry/Editorial")}>
+                <DropdownItem
+                  key="editorial"
+                  onClick={() => handleNavigation("/home/entry/Editorial")}
+                >
                   Editorial
                 </DropdownItem>
-                <DropdownItem key="prepress" onClick={() => handleNavigation("/home/entry/Prepress")}>
+                <DropdownItem
+                  key="prepress"
+                  onClick={() => handleNavigation("/home/entry/Prepress")}
+                >
                   Prepress
                 </DropdownItem>
-                <DropdownItem key="machinestop" onClick={() => handleNavigation("/home/entry/Machinestop")}>
+                <DropdownItem
+                  key="machinestop"
+                  onClick={() => handleNavigation("/home/entry/Machinestop")}
+                >
                   Machine stop
                 </DropdownItem>
-                <DropdownItem key="production" onClick={() => handleNavigation("/home/entry/Production")}>
+                <DropdownItem
+                  key="production"
+                  onClick={() => handleNavigation("/home/entry/Production")}
+                >
                   Production
                 </DropdownItem>
               </DropdownMenu>
@@ -214,13 +298,13 @@ function NewNav({ token, username }) {
           </NavbarMenuItem>
           <NavbarMenuItem>
             {/* <Button color="primary" variant="light"> */}
-              <Link
-                color="foreground"
-                onClick={() => handleNavigation("/home")}
-                className="w-full flex text-center justify-center text-md"
-              >
-                HOME
-              </Link>
+            <Link
+              color="foreground"
+              onClick={() => handleNavigation("/home")}
+              className="w-full flex text-center justify-center text-md"
+            >
+              HOME
+            </Link>
             {/* </Button> */}
           </NavbarMenuItem>
           <NavbarMenuItem>
@@ -237,30 +321,61 @@ function NewNav({ token, username }) {
                 </DropdownTrigger>
               </NavbarMenuItem>
               <DropdownMenu aria-label="Link Actions">
-                <DropdownItem key="scheduling" onClick={() => handleNavigation("/home/report/Scheduling")}>
+                <DropdownItem
+                  key="scheduling"
+                  onClick={() => handleNavigation("/home/report/Scheduling")}
+                >
                   Scheduling
                 </DropdownItem>
-                <DropdownItem key="ctp" onClick={() => handleNavigation("/home/report/CTP")}>
+                <DropdownItem
+                  key="ctp"
+                  onClick={() => handleNavigation("/home/report/CTP")}
+                >
                   CTP
                 </DropdownItem>
-                <DropdownItem key="editorial" onClick={() => handleNavigation("/home/report/Editorial")}>
+                <DropdownItem
+                  key="editorial"
+                  onClick={() => handleNavigation("/home/report/Editorial")}
+                >
                   Editorial
                 </DropdownItem>
-                <DropdownItem key="prepress" onClick={() => handleNavigation("/home/report/Prepress")}>
+                <DropdownItem
+                  key="prepress"
+                  onClick={() => handleNavigation("/home/report/Prepress")}
+                >
                   Prepress
                 </DropdownItem>
-                <DropdownItem key="machinestop" onClick={() => handleNavigation("/home/report/Machinestop")}>
+                <DropdownItem
+                  key="machinestop"
+                  onClick={() => handleNavigation("/home/report/Machinestop")}
+                >
                   Machine stop
                 </DropdownItem>
-                <DropdownItem key="production" onClick={() => handleNavigation("/home/report/Production")}>
+                <DropdownItem
+                  key="production"
+                  onClick={() => handleNavigation("/home/report/Production")}
+                >
                   Production
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </NavbarMenuItem>
           <NavbarMenuItem>
+            <Link
+              className="w-full flex text-center justify-center text-md"
+              color="foreground"
+              onClick={() => handleNavigation("/home/DOT")}
+            >
+              DOT
+            </Link>
             {/* <LogoutButton islarge={false} onClick={handleLogout}/> */}
-            <Button onClick={handleLogout} size={ "md"} color="danger" href="#" variant="solid">
+            <Button
+              onClick={handleLogout}
+              size={"md"}
+              color="danger"
+              href="#"
+              variant="solid"
+            >
               Log out
             </Button>
           </NavbarMenuItem>

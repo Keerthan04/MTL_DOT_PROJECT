@@ -10,7 +10,21 @@
     border-radius: 10px;
     transition: 0.5s;
 }
-
+.DOT{
+    cursor: pointer;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+.DOT:hover{
+    background-color: lightblue;
+}
 .HOME:hover{
     background-color: lightblue;
 }

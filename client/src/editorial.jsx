@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "./home.css";
-import Logo from "../src/images/tmg-logo.jpg";
 import "./editorial.css";
 //import Dropdown from "./components/dropdownbutton";
 //import ErrorOne from "./components/Error";
@@ -17,9 +16,6 @@ function Editorial() {
   const [submit, setSubmit] = useState("");
   // const [entryShowDropdown, setEntryShowDropdown] = useState(false);
   // const [reportShowDropdown, setReportShowDropdown] = useState(false);
-  const [scheduledTime, setScheduledTime] = useState("");
-  const [actualTime, setActualTime] = useState("");
-  const [differenceTime, setDifferenceTime] = useState("");
   const [showReasonForDelay, setShowReasonForDelay] = useState(false);
   const [unitList, setUnitList] = useState([]);
   const [publicationList, setPublicationList] = useState([]);
@@ -51,13 +47,21 @@ function Editorial() {
   //   setReportShowDropdown(!reportShowDropdown);
   // };
   const handleScheduledTimeChange = (e) => {
-    setScheduledTime(e.target.value);
-    calculateDifferenceTime(e.target.value, actualTime);
+    const value = e.target.value;
+    setFormValues(prevValues => ({
+      ...prevValues,
+      schedule_time: value
+    }));
+    calculateDifferenceTime(value, formValues.actual_time);
   };
 
   const handleActualTimeChange = (e) => {
-    setActualTime(e.target.value);
-    calculateDifferenceTime(scheduledTime, e.target.value);
+    const value = e.target.value;
+    setFormValues(prevValues => ({
+      ...prevValues,
+      actual_time: value
+    }));
+    calculateDifferenceTime(formValues.schedule_time, value);
   };
 
   const calculateDifferenceTime = (scheduled, actual) => {
@@ -67,9 +71,11 @@ function Editorial() {
       const diffMs = actualDate - scheduledDate;
 
       if (diffMs < 0) {
-        setDifferenceTime("00:00:00");
+        setFormValues(prevValues => ({
+          ...prevValues,
+          difference_time: "00:00:00"
+        }));
         setShowReasonForDelay(false);
-        setFormValues({ ...formValues, difference_time: "00:00:00" });
         return;
       }
 
@@ -77,17 +83,13 @@ function Editorial() {
       const diffMins = Math.floor((diffMs % 3600000) / 60000);
       const diffSecs = Math.floor((diffMs % 60000) / 1000);
 
-      const diffTime = `${String(diffHrs).padStart(2, "0")}:${String(
-        diffMins
-      ).padStart(2, "0")}:${String(diffSecs).padStart(2, "0")}`;
-      setDifferenceTime(diffTime);
-      setFormValues({ ...formValues, difference_time: diffTime });
+      const diffTime = `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}:${String(diffSecs).padStart(2, '0')}`;
+      setFormValues(prevValues => ({
+        ...prevValues,
+        difference_time: diffTime
+      }));
 
-      if (diffMs > 0) {
-        setShowReasonForDelay(true);
-      } else {
-        setShowReasonForDelay(false);
-      }
+      setShowReasonForDelay(diffMs > 0);
     }
   };
   useEffect(() => {
@@ -176,10 +178,7 @@ function Editorial() {
   };
 
   const handleConfirmSubmit = () => {
-    const dataToSend = { ...formValues,
-      schedule_time: scheduledTime,
-      actual_time: actualTime
-     };
+    const dataToSend = { ...formValues};
     console.log(dataToSend);
     axios.post('http://localhost:3000/home/entry/editorial', dataToSend, {
       headers: {
@@ -225,7 +224,10 @@ function Editorial() {
     // setShowReasonForDelay(false);
     // setsubmit("");
     // setError("");
-    window.location.reload();
+    setFormValues(initialFormValues);
+    setShowReasonForDelay(false);
+    setError("");
+    setSubmit("");
   };
   return (
     <>
@@ -317,41 +319,45 @@ function Editorial() {
                       </select>
                     </label>
                   </div>
-                  <div className="detail">
-                    <p>Schedule Time:</p>
-                    <label>
-                      <input
-                        type="datetime-local"
-                        step="1"
-                        value={scheduledTime}
-                        onChange={handleScheduledTimeChange}
-                        required
-                      />
-                    </label>
-                  </div>
-                  <div className="detail">
-                    <p>Actual Time:</p>
-                    <label>
-                      <input
-                        type="datetime-local"
-                        step="1"
-                        value={actualTime}
-                        onChange={handleActualTimeChange}
-                        required
-                      />
-                    </label>
-                  </div>
-                  <div className="detail">
-                    <p>Difference Time:</p>
-                    <label>
-                      <input
-                        type="text"
-                        name="difference_time"
-                        value={differenceTime}
-                        readOnly
-                      />
-                    </label>
-                  </div>
+                  <div className='detail'>
+                  <p>Schedule Time:</p>
+                  <label>
+                    <input 
+                      type="datetime-local" 
+                      step="1" 
+                      value={formValues.schedule_time} 
+                      onChange={handleScheduledTimeChange} 
+                      required 
+                      className="input-field"
+                    />
+                  </label>
+                </div>
+                <div className='detail'>
+                  <p>Actual Time:</p>
+                  <label>
+                    <input 
+                      type="datetime-local" 
+                      step="1" 
+                      value={formValues.actual_time} 
+                      onChange={handleActualTimeChange} 
+                      required 
+                      className="input-field"
+                    />
+                  </label>
+                </div>
+                <div className='detail'>
+                  <p>Difference Time:</p>
+                  <label>
+                    <input 
+                      type="text" 
+                      name="difference_time" 
+                      value={formValues.difference_time} 
+                      readOnly 
+                      className="input-field"
+                      placeholder="00:00:00"
+                    />
+                  </label>
+                </div>
                   {showReasonForDelay && (
                     <div className="detail">
                       <p>Reason for Delay:</p>

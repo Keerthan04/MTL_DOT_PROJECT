@@ -20,6 +20,7 @@ import MachineStopReport from "./reports/MachineStopReport.jsx";
 import ProductionReport from "./reports/ProductionReport.jsx";
 import { AuthProvider } from "./components/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import Dot from "./reports/DOT.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <NextUIProvider>
@@ -75,6 +76,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route
               path="/home/report/Production"
               element={<PrivateRoute element={ProductionReport} />}
+            />
+            <Route
+              path="/home/DOT"
+              element={<PrivateRoute element={Dot} />}
             />
             <Route path="*" element={<ErrorOne />} />{" "}
             {/*shd make here the error one as page has been moved and to login or back thing */}

@@ -110,3 +110,63 @@ app.listen(PORT, () => {
 
 //new is
 //responsivenss for tab and all and nav proper do,the animation for popup,report popup shd be introduced,excel ka and all check once,docker ka image or something like that we can do check,cors ka made proper,controllers introduced
+
+
+// SELECT 
+//     scheduling.pub_date AS Publication_Date,
+//     scheduling.unit AS Unit,
+//     scheduling.publication AS Publication,
+//     scheduling.ed_name AS Edition,
+//     scheduling.no_of_pages AS Number_of_pages,
+//     scheduling.schedule_time AS Scheduling_Schedule_time,
+//     scheduling.actual_time AS Scheduling_Actual_time,
+//     scheduling.difference_time AS Scheduling_Difference_time,
+//     scheduling.reason_for_delay AS Scheduling_Reason_for_delay,
+//     editorial.schedule_time AS Editorial_Schedule_time,
+//     editorial.actual_time AS Editorial_Actual_time,
+//     editorial.difference_time AS Editorial_Difference_time,
+//     editorial.reason_for_delay AS Editorial_Reason_for_delay,
+//     ctp.schedule_time AS Ctp_Schedule_time,
+//     ctp.actual_time AS Ctp_Actual_time,
+//     ctp.difference_time AS Ctp_Difference_time,
+//     ctp.reason_for_delay AS Ctp_Reason_for_delay,
+//     ctp.color_pages AS No_of_color_pages,
+//     ctp.black_and_white_pages AS No_of_Black_and_White_Pages,
+//     ctp.calculated_no_of_plates AS Calculated_no_of_plates,
+//     ctp.actual_no_of_plates AS Actual_no_of_plates,
+//     ctp.reason_for_difference AS Reason_for_Difference,
+//     prepress.schedule_time AS Prepress_Schedule_time,
+//     prepress.actual_time AS Prepress_Actual_time,
+//     prepress.difference_time AS Prepress_Difference_time,
+//     prepress.reason_for_delay AS Prepress_Reason_for_delay,
+//     machine_stops.reason_for_stoppage AS Reason_for_stopage,
+//     machine_stops.printer_stop_time AS Printer_stop_time,
+//     machine_stops.printer_restart_time AS Printer_restart_time,
+//     production.schedule_time AS Production_Schedule_time,
+//     production.actual_time AS Production_Actual_time,
+//     production.difference_time AS Production_Difference_time,
+//     production.reason_for_delay AS Production_Reason_for_delay,
+//     production.machine_used AS Machine_Used,
+//     production.towers AS Towers_Used,
+//     production.print_start_time AS Production_Start_time,
+//     production.print_stop_time AS Production_Stop_time,
+//     production.page_size AS Page_size,
+//     production.print_order AS Print_Order,
+//     production.gross_copies AS Gross_Copies
+// FROM 
+//     scheduling
+// JOIN 
+//     editorial ON scheduling.unit = editorial.unit AND scheduling.publication = editorial.publication AND scheduling.ed_name = editorial.ed_name
+// JOIN 
+//     ctp ON scheduling.unit = ctp.unit AND scheduling.publication = ctp.publication AND scheduling.ed_name = ctp.ed_name
+// JOIN 
+//     prepress ON scheduling.unit = prepress.unit AND scheduling.publication = prepress.publication AND scheduling.ed_name = prepress.ed_name
+// JOIN 
+//     machine_stops ON scheduling.unit = machine_stops.unit AND scheduling.publication = machine_stops.publication AND scheduling.ed_name = machine_stops.ed_name
+// JOIN 
+//     production ON scheduling.unit = production.unit AND scheduling.publication = production.publication AND scheduling.ed_name = production.ed_name
+// WHERE 
+//     scheduling.unit = 'Manipal' AND 
+//     scheduling.publication = 'Udayavani' AND 
+//     scheduling.ed_name = 'Manipal Main' AND
+// 	Scheduling.pub_date='2024-06-12';

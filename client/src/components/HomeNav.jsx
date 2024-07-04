@@ -17,6 +17,9 @@ import Popup from './Popup';
 import { useNavigate } from 'react-router-dom';
 
 function HomeNav({ token, username }) {
+  const handleNavigation = (path) => {
+    navigate(path, { state: { username, token } });
+  };
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState(null);
@@ -83,6 +86,15 @@ function HomeNav({ token, username }) {
         {!isMenuOpen && (
           <NavbarContent className="hidden sm:flex" justify="end">
             <NavbarItem>
+              <Link
+                className="DOT"
+                color="foreground"
+                onClick={() => handleNavigation("/home/DOT")}
+              >
+                DOT
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
               {/* <LogoutButton islarge={true} /> */}
               <Button onClick={handleLogout} size={ "lg"} color="danger" href="#" variant="solid">
               Log out
@@ -102,6 +114,13 @@ function HomeNav({ token, username }) {
           </NavbarMenuItem>
           <NavbarMenuItem>
             {/* <LogoutButton islarge={false} /> */}
+            <Link
+              className="w-full flex text-center justify-center text-md"
+              color="foreground"
+              onClick={() => handleNavigation("/home/DOT")}
+            >
+              DOT
+            </Link>
             <Button onClick={handleLogout} size={ "sm"} color="danger" href="#" variant="solid">
               Log out
             </Button>
